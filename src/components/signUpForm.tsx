@@ -18,12 +18,13 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
       });
 
   const onSubmit = async (data: FormData) => {
-      console.log("SUCCESS", data);
+      console.log(data)
+      setPage(1)
   }
 
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage(2)}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage(0)}>
                 <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,6 +69,12 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                   type="checkbox"
               />
               <label>Remember me</label>
+            </div>
+
+            <div className="flex flex-row justify-center">
+                <button className="text-blue-500 text-center" onClick={() => setPage(1)}>
+                    Already have an account ?
+                </button>
             </div>
 
             <button type="submit" className="submit-button w-10/12 h-[48px] rounded-3xl bg-slate-900 text-2xl font-semibold text-white fixed bottom-[2%] right-[10%]">

@@ -1,12 +1,17 @@
 import { FieldError, UseFormRegister } from "react-hook-form";
 import { z, ZodType } from "zod";
 
-export type FormData = {
+  export type FormData = {
     username: string;
     email: string;
     password: string;
     confirmPassword: string;
   };
+
+  export type SignInFormData = {
+    email: string;
+    password: string;
+  }
 
   export type FormFieldProps = {
     type: string;
