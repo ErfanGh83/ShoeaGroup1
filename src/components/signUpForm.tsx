@@ -21,6 +21,14 @@ function Form() {
             Zod & React-Hook-Form
           </h1>
           <FormField
+            type="text"
+            placeholder="Username"
+            name="username"
+            register={register}
+            error={errors.username}
+          />
+
+          <FormField
             type="email"
             placeholder="Email"
             name="email"
