@@ -2,6 +2,7 @@ import { useState } from "react";
 import Quality from "../components/Onboarding/quality";
 import SatisFaction from "../components/Onboarding/satisfaction";
 import ShoeaRight from "../components/Onboarding/shoearight"
+import SignUpForm from "../components/signUpForm"
 
 
 const Onboarding = () => {
@@ -12,6 +13,7 @@ const Onboarding = () => {
       {page === 0 && <Quality setPage={setPage} />}
       {page === 1 && <SatisFaction setPage={setPage} />}
       {page === 2 && <ShoeaRight setPage={setPage} />}
+      {page === 3 && <SignUpForm setPage={setPage} />}
 
     </div>
   );
