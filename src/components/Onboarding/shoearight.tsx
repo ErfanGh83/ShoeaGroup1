@@ -1,5 +1,5 @@
 interface ShoeaRight {
-  setPage: (value: number) => void;
+  setPage: (value: string) => void;
 }
 const Page3: React.FC<ShoeaRight> = ({ setPage }) => {
   return (
@@ -18,7 +18,7 @@ const Page3: React.FC<ShoeaRight> = ({ setPage }) => {
             <div className="w-8 h-1 bg-black"></div>
           </div>
           <button
-            onClick={() => setPage(3)}
+            onClick={() => setPage("Authentication")}
             className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-14 left-[5%]"
           >
             Get Started

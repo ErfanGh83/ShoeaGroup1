@@ -1,5 +1,5 @@
 interface Quality {
-  setPage: (value: number) => void;
+  setPage: (value: string) => void;
 }
 const Page1: React.FC<Quality> = ({ setPage }) => {
   return (
@@ -18,7 +18,7 @@ const Page1: React.FC<Quality> = ({ setPage }) => {
             <div className="w-8 h-1 bg-black opacity-50"></div>
           </div>
           <button
-            onClick={() => setPage(1)}
+            onClick={() => setPage("SatisFaction")}
             className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-14 left-[5%]"
           >
             Next

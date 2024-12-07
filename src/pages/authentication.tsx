@@ -6,13 +6,13 @@ import SignInForm from "../components/signInForm";
 
 const Authentication = () => {
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState<string>("SignInForm");
 
   return (
     <div className="relative w-full min-h-screen flex flex-col justify-center items-center">
-      {page === 0 && <Onboarding />}
-      {page === 1 && <SignInForm setPage={setPage} />}
-      {page === 2 && <SignUpForm setPage={setPage} />}
+      {page === "Onboarding" && <Onboarding />}
+      {page === "SignInForm" && <SignInForm setPage={setPage} />}
+      {page === "SignUpForm" && <SignUpForm setPage={setPage} />}
 
     </div>
   );

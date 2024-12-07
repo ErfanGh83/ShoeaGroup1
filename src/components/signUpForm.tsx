@@ -4,7 +4,7 @@ import FormField from "./FormField";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface signUpPage{
-  setPage: (value: number) => void;
+  setPage: (value: string) => void;
 }
 
 const Form: React.FC<signUpPage> = ({ setPage }) => {
@@ -19,12 +19,12 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
 
   const onSubmit = async (data: FormData) => {
       console.log(data)
-      setPage(1)
+      setPage("SignInForm")
   }
 
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage(0)}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
                 <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -72,7 +72,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-blue-500 text-center" onClick={() => setPage(1)}>
+                <button className="text-blue-500 text-center" onClick={() => setPage("SignInForm")}>
                     Already have an account ?
                 </button>
             </div>

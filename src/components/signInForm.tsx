@@ -7,7 +7,7 @@ import { FaEnvelope } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 
 interface signInPage{
-  setPage: (value: number) => void;
+  setPage: (value: string) => void;
 }
 
 const SignInForm: React.FC<signInPage> = ({ setPage }) => {
@@ -27,7 +27,7 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
 
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage(0)}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
             <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +68,7 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-blue-500 text-center" onClick={() => setPage(2)}>
+                <button className="text-blue-500 text-center" onClick={() => setPage("SignUpForm")}>
                     Don't have an account ?
                 </button>
             </div>

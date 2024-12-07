@@ -6,14 +6,14 @@ import Authentication from "./authentication";
 
 
 const Onboarding = () => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState<number | string>("Qulity");
 
   return (
     <div className="relative w-full min-h-screen flex flex-col justify-center items-center">
-      {page === 0 && <Quality setPage={setPage} />}
-      {page === 1 && <SatisFaction setPage={setPage} />}
-      {page === 2 && <ShoeaRight setPage={setPage} />}
-      {page === 3 && <Authentication />}
+      {page === "Qulity" && <Quality setPage={setPage} />}
+      {page === "SatisFaction" && <SatisFaction setPage={setPage} />}
+      {page === "ShoeaRight" && <ShoeaRight setPage={setPage} />}
+      {page === "Authentication" && <Authentication />}
 
     </div>
   );
