@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
-import { FormData } from "./formTypes";
+import { FormData, UserSchema } from "./formTypes";
 import FormField from "./FormField";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function Form() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm<FormData>();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setError,
+      } = useForm<FormData>({
+        resolver: zodResolver(UserSchema),
+      });
 
   const onSubmit = async (data: FormData) => {
       console.log("SUCCESS", data);

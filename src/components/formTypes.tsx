@@ -43,6 +43,6 @@ export type FormData = {
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "پسورد ها یکسان نیستند",
     path: ["confirmPassword"],
   });
