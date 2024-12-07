@@ -1,12 +1,19 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { SignInFormData, UserSchema } from "./formTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaEnvelope } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 
 interface signInPage{
   setPage: (value: number) => void;
 }
 
 const SignInForm: React.FC<signInPage> = ({ setPage }) => {
+
+    const [emailIsFocused, setEmailIsFocused] = useState(false);
+    const [passIsFocused, setPassIsFocused] = useState(false);
   
     const {
         handleSubmit,
@@ -21,24 +28,36 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
   return (
     <div>
         <button className="absolute top-[3%] left-[3%]" onClick={() => setPage(0)}>
-                <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
+            <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
           <img className="mx-auto mt-8" src="/src/assets/logo-black.svg"/>
           <h1 className="text-3xl font-bold text-center m-4 mt-12">Login</h1>
           <div className="grid col-auto gap-4">
 
-            <input
-                className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none focus:border-2"
-                type="email"
-                placeholder="Email"
-            />
+            <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
+                emailIsFocused? "border-2 border-black" : ""}`}>
+                <FaEnvelope size={18} color={emailIsFocused ? "black" : "gray"} />
+                <input
+                    className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
+                    type="email"
+                    placeholder="Email"
+                    onFocus={() => setEmailIsFocused(true)}
+                    onBlur={() => setEmailIsFocused(false)}
+                />
+            </div>
 
-            <input
-                className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none focus:border-2"
-                type="password"
-                placeholder="Password"
-            />  
+            <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
+                passIsFocused? "border-2 border-black" : ""}`}>
+                <FaLock color={passIsFocused ? "black" : "gray"} size={18} />
+                <input
+                    className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
+                    type="password"
+                    placeholder="Password"
+                    onFocus={() => setPassIsFocused(true)}
+                    onBlur={() => setPassIsFocused(false)}
+                />
+            </div>
 
             <div className="flex flex-row mx-auto gap-2">
               <input
