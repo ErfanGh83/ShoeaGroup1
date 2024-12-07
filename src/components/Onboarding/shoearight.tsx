@@ -8,7 +8,7 @@ const Page3: React.FC<ShoeaRight> = ({ setPage }) => {
         <img src="/src/assets/obsp3-img.png" className="w-full h-full" />
       </div>
       <div className="relative w-full h-full flex flex-col items-center gap-16 pt-8 px-6">
-        <p className="text-4xl leading-relaxed font-bold text-center">
+        <p className="text-3xl leading-relaxed font-bold text-center">
           Let’s fulfill your fashion needs with shoearight now!
         </p>
         <div className="felx flex-col">

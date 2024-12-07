@@ -63,7 +63,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
               error={errors.confirmPassword}
             />
 
-            <div className="flex flex-row mx-auto">
+            <div className="flex flex-row mx-auto gap-2">
               <input
                   className="w-[18px] accent-black"
                   type="checkbox"

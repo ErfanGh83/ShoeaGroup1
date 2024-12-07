@@ -8,7 +8,7 @@ const Page1: React.FC<Quality> = ({ setPage }) => {
         <img src="/src/assets/obsp1-img2.png" className="w-full h-full" />
       </div>
       <div className="relative w-full h-full flex flex-col items-center gap-16 pt-8 px-6">
-        <p className="text-4xl leading-relaxed font-bold text-center">
+        <p className="text-3xl leading-relaxed font-bold text-center">
           We provide high quality products just for you
         </p>
         <div className="felx flex-col">

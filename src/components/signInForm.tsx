@@ -40,7 +40,7 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
                 placeholder="Password"
             />  
 
-            <div className="flex flex-row mx-auto">
+            <div className="flex flex-row mx-auto gap-2">
               <input
                   className="w-[18px] accent-black"
                   type="checkbox"
