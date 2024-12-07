@@ -19,10 +19,9 @@ function Form() {
 
   return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid col-auto">
-          <h1 className="text-3xl font-bold mb-4">
-            Zod & React-Hook-Form
-          </h1>
+        <img className="mx-auto mt-16" src="/src/assets/logo-black.svg"/>
+        <h1 className="text-3xl font-bold text-center m-4 mt-12">Sign Up</h1>
+        <div className="grid col-auto gap-4">
           <FormField
             type="text"
             placeholder="Username"
@@ -54,8 +53,17 @@ function Form() {
             register={register}
             error={errors.confirmPassword}
           />
-          <button type="submit" className="submit-button">
-            Submit
+
+          <div className="flex flex-row mx-auto">
+            <input
+                className="w-[18px] accent-black"
+                type="checkbox"
+            />
+            <label>Remember me</label>
+          </div>
+
+          <button type="submit" className="submit-button w-10/12 h-[48px] rounded-3xl bg-slate-900 text-2xl font-semibold text-white fixed bottom-[2%] right-[10%]">
+            Sign up
           </button>
         </div>
       </form>
