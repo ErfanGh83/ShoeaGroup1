@@ -47,6 +47,29 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
               error={errors.email}
             />
 
+            <div className="w-11/12 mx-auto flex flex-row justify-between">
+              <div className="w-full">
+                <FormField
+                  type="firstName"
+                  placeholder="First name"
+                  name="firstName"
+                  register={register}
+                  error={errors.firstName}
+                />
+              </div>
+                
+              <div className="w-full">
+                <FormField
+                type="lastName"
+                placeholder="Last name"
+                name="lastName"
+                register={register}
+                error={errors.lastName}
+              />
+              </div>
+              
+            </div>
+
             <FormField
               type="password"
               placeholder="Password"

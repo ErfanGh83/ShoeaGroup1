@@ -2,6 +2,8 @@ import { FieldError, UseFormRegister } from "react-hook-form";
 import { z, ZodType } from "zod";
 
   export type FormData = {
+    firstName: string;
+    lastName: string;
     username: string;
     email: string;
     password: string;
@@ -24,6 +26,8 @@ import { z, ZodType } from "zod";
 
 
   export type ValidFieldNames =
+  | "firstName"
+  | "lastName"
   | "username"
   | "email"
   | "password"
@@ -31,6 +35,8 @@ import { z, ZodType } from "zod";
 
   export const UserSchema: ZodType<FormData> = z
   .object({
+    firstName: z.string().min(3, "اسم کوچک باید حداقل 3 کارکتر باشد."),
+    lastName: z.string().min(3, "نام خانوادگی باید حداقل 3 کارکتر باشد."),
     username: z.string()
     .min(5, "نام کاربری باید حداقل 5 کارکتر باشد.")
     .regex(
