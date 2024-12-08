@@ -8,6 +8,8 @@ import { z, ZodType } from "zod";
     email: string;
     password: string;
     confirmPassword: string;
+    phoneNumber: string;
+    gender: "male" | "female";
   };
 
   export type SignInFormData = {
@@ -31,6 +33,8 @@ import { z, ZodType } from "zod";
   | "username"
   | "email"
   | "password"
+  | "phoneNumber"
+  | "gender"
   | "confirmPassword";
 
   export const UserSchema: ZodType<FormData> = z
@@ -51,6 +55,13 @@ import { z, ZodType } from "zod";
       /^[a-zA-Z0-9!#$@()]+$/,
       "رمز وارد شده صحیح نمی باشد."
     ),
+    phoneNumber: z
+    .string()
+    .length(11, "شماره تلفن باید 11 رقمی باشد")
+    .startsWith('09', "شماره تلفن باید با 09 شروع شود"),
+    gender: z.union([z.literal("male"), z.literal("female")], {
+      invalid_type_error: "لطفاً جنسیت را انتخاب کنید."
+    }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

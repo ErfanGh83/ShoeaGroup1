@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FormData, UserSchema } from "./formTypes";
+import { useState } from "react";
 import FormField from "./FormField";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -8,6 +9,8 @@ interface signUpPage{
 }
 
 const Form: React.FC<signUpPage> = ({ setPage }) => {
+
+  const [gender, setGender] = useState("");
   
     const {
         register,
@@ -25,12 +28,12 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
   return (
     <div>
         <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
-                <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
+          <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
           <img className="mx-auto mt-8" src="/src/assets/logo-black.svg"/>
           <h1 className="text-3xl font-bold text-center m-4 mt-12">Sign Up</h1>
-          <div className="grid col-auto gap-4">
+          <div className="grid col-auto gap-2">
             <FormField
               type="text"
               placeholder="Username"
@@ -86,12 +89,41 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
               error={errors.confirmPassword}
             />
 
+            <div className="flex flex-row w-11/12 gap-4 mx-auto rounded-md">
+              <div className="w-1/4 bg-slate-100">
+              <select
+                className="w-full h-full bg-transparent"
+                id="gender" 
+                {...register("gender")} 
+                defaultValue=""
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option value="" disabled>
+                  Gender
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              </div>
+
+              <div className="w-3/4">
+                  <FormField
+                  type="phoneNumber"
+                  placeholder="Phone number"
+                  name="phoneNumber"
+                  register={register}
+                  error={errors.phoneNumber}
+                />
+              </div>
+            </div>
+
             <div className="flex flex-row mx-auto gap-2">
               <input
                   className="w-[18px] accent-black"
                   type="checkbox"
               />
-              <label>Remember me</label>
+              <label>I agree to Shoea's terms of services</label>
             </div>
 
             <div className="flex flex-row justify-center">
