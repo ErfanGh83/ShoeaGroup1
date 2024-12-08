@@ -73,6 +73,12 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
                 </button>
             </div>
 
+            <div className="flex flex-row justify-center">
+                <button className="text-center" onClick={() => setPage("ForgotPassForm")}>
+                    Forgot password ?
+                </button>
+            </div>
+
             <button type="submit" className="submit-button w-10/12 h-[48px] rounded-3xl bg-slate-900 text-2xl font-semibold text-white fixed bottom-[2%] right-[10%]">
               Login
             </button>

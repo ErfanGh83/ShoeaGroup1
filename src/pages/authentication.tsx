@@ -2,6 +2,7 @@ import { useState } from "react";
 import Onboarding from "./onboarding";
 import SignUpForm from "../components/signUpForm"
 import SignInForm from "../components/signInForm";
+import ForgotPassForm from "../components/forgotPassForm";
 
 
 const Authentication = () => {
@@ -13,6 +14,7 @@ const Authentication = () => {
       {page === "Onboarding" && <Onboarding />}
       {page === "SignInForm" && <SignInForm setPage={setPage} />}
       {page === "SignUpForm" && <SignUpForm setPage={setPage} />}
+      {page === "ForgotPassForm" && <ForgotPassForm setPage={setPage} />}
 
     </div>
   );
