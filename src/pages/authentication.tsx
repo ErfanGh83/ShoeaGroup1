@@ -8,7 +8,7 @@ import NewPassForm from "../components/newPassForm"
 
 const Authentication = () => {
 
-    const [page, setPage] = useState<string>("NewPassForm");
+    const [page, setPage] = useState<string>("SignInForm");
 
   return (
     <div className="relative w-full min-h-screen flex flex-col justify-center items-center">
