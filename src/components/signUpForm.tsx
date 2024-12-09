@@ -3,6 +3,7 @@ import { FormData, UserSchema } from "./formTypes";
 import { useState } from "react";
 import FormField from "./FormField";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface signUpPage{
   setPage: (value: string) => void;
@@ -28,11 +29,11 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
   return (
     <div>
         <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
-          <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
+            <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <img className="mx-auto mt-8" src="/src/assets/logo-black.svg"/>
-          <h1 className="text-3xl font-bold text-center m-4 mt-12">Sign Up</h1>
+          <img className="mx-auto" src="/src/assets/logo-black.svg"/>
+          <h1 className="text-3xl font-bold text-center m-4 ">Sign Up</h1>
           <div className="grid col-auto gap-2">
             <FormField
               type="text"

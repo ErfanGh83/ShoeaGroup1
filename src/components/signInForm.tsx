@@ -31,8 +31,8 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
             <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <img className="mx-auto mt-8" src="/src/assets/logo-black.svg"/>
-          <h1 className="text-3xl font-bold text-center m-4 mt-12">Login</h1>
+          <img className="mx-auto" src="/src/assets/logo-black.svg"/>
+          <h1 className="text-3xl font-bold text-center m-4">Login</h1>
           <div className="grid col-auto gap-4">
 
             <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
