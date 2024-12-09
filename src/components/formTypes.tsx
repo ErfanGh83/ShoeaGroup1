@@ -12,6 +12,11 @@ import { z, ZodType } from "zod";
     gender: "male" | "female";
   };
 
+  export type newPassData = {
+    password: string;
+    confirmPassword: string;
+  }
+
   export type SignInFormData = {
     email: string;
     password: string;
@@ -63,6 +68,22 @@ import { z, ZodType } from "zod";
       invalid_type_error: "لطفاً جنسیت را انتخاب کنید."
     }),
     confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "پسورد ها یکسان نیستند",
+    path: ["confirmPassword"],
+  });
+
+  export const newPassSchema: ZodType<newPassData> = z
+  .object({
+    password: z.string()
+    .min(8, "رمز عبور باید حداقل 8 کارکتر باشد.")
+    .max(16, "رمز عبور نباید بیشتر از 16 کارکتر باشد.")
+    .regex(
+      /^[a-zA-Z0-9!#$@()]+$/,
+      "رمز وارد شده صحیح نمی باشد."
+    ),
+    confirmPassword: z.string()
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "پسورد ها یکسان نیستند",
