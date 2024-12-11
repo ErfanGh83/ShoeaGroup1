@@ -2,7 +2,7 @@ import { useState } from "react";
 import Quality from "../components/Onboarding/quality";
 import SatisFaction from "../components/Onboarding/satisfaction";
 import ShoeaRight from "../components/Onboarding/shoearight";
-import Authentication from "./authentication";
+import Authentication from "./authentication.page";
 
 
 const Onboarding = () => {

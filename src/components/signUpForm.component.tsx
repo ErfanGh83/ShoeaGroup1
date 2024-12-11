@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { FormData, UserSchema } from "./formTypes";
+import { FormData, UserSchema } from "./formTypes.component";
 import { useState } from "react";
-import FormField from "./FormField";
+import FormField from "./FormField.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface signUpPage{

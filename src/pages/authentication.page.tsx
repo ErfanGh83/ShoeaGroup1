@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Onboarding from "./onboarding";
+import Onboarding from "./onboarding.page";
 import SignUpForm from "../components/signUpForm"
 import SignInForm from "../components/signInForm";
 import ForgotPassForm from "../components/forgotPassForm";

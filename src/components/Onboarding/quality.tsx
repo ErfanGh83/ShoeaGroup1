@@ -11,15 +11,15 @@ const Page1: React.FC<Quality> = ({ setPage }) => {
         <p className="text-3xl leading-relaxed font-bold text-center">
           We provide high quality products just for you
         </p>
-        <div className="felx flex-col">
-          <div className=" flex gap-2 absolute bottom-36 left-[40%]">
+        <div className="felx flex-col w-full">
+          <div className=" flex flex-row gap-2 m-auto">
             <div className="w-8 h-1 bg-black"></div>
             <div className="w-8 h-1 bg-black opacity-50"></div>
             <div className="w-8 h-1 bg-black opacity-50"></div>
           </div>
           <button
             onClick={() => setPage("SatisFaction")}
-            className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-14 left-[5%]"
+            className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3"
           >
             Next
           </button>

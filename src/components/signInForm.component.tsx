@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { SignInFormData, UserSchema } from "./formTypes";
+import { SignInFormData, UserSchema } from "./formTypes.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
