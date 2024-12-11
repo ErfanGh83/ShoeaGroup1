@@ -74,32 +74,52 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
           <h1 className="text-3xl font-bold text-center m-4 mt-12">Login</h1>
           <div className="grid col-auto gap-4">
 
-            <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
-                emailIsFocused? "border-2 border-black" : ""}`}>
-                <FaEnvelope size={18} color={emailIsFocused ? "black" : "gray"} />
-                <input
-                    className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
-                    {...register("email")}
-                    type="email"
-                    placeholder="Email"
-                    onFocus={() => setEmailIsFocused(true)}
-                    onBlur={() => setEmailIsFocused(false)}
-                />
+          <div className="grid col-auto">
+            <div
+              className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
+                emailIsFocused ? "border-2 border-black" : ""
+              }`}
+            >
+              <FaEnvelope size={18} color={emailIsFocused ? "black" : "gray"} />
+              <input
+                className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
+                {...register("email")}
+                type="email"
+                placeholder="Email"
+                onFocus={() => setEmailIsFocused(true)}
+                onBlur={() => setEmailIsFocused(false)}
+              />
             </div>
-
-            <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
-                passIsFocused? "border-2 border-black" : ""}`}>
-                <FaLock color={passIsFocused ? "black" : "gray"} size={18} />
-                <input
-                    className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
-                    {...register("password")}
-                    type="password"
-                    placeholder="Password"
-                    onFocus={() => setPassIsFocused(true)}
-                    onBlur={() => setPassIsFocused(false)}
-                />
-                {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+            <div className="block h-4 mb-2">
+              {errors.email ? (
+                <p className="text-red-500">{errors.email.message}</p>
+              ) : (
+                <p className="invisible">Placeholder</p>
+              )}
             </div>
+            <div
+              className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
+                passIsFocused ? "border-2 border-black" : ""
+              }`}
+            >
+              <FaLock color={passIsFocused ? "black" : "gray"} size={18} />
+              <input
+                className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
+                {...register("password")}
+                type="password"
+                placeholder="Password"
+                onFocus={() => setPassIsFocused(true)}
+                onBlur={() => setPassIsFocused(false)}
+              />
+            </div>
+            <div className="block h-4 mb-2">
+              {errors.password ? (
+                <p className="text-red-500">{errors.password.message}</p>
+              ) : (
+                <p className="invisible">Placeholder</p>
+              )}
+            </div>
+          </div>
 
             <div className="flex flex-row mx-auto gap-2">
               <input
