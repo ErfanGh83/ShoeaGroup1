@@ -34,87 +34,152 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
           <img className="mx-auto mt-8" src="/src/assets/logo-black.svg"/>
           <h1 className="text-3xl font-bold text-center m-4 mt-12">Sign Up</h1>
           <div className="grid col-auto gap-2">
-            <FormField
-              type="text"
-              placeholder="Username"
-              name="username"
-              register={register}
-              error={errors.username}
-            />
-
-            <FormField
-              type="email"
-              placeholder="Email"
-              name="email"
-              register={register}
-              error={errors.email}
-            />
-
-            <div className="w-11/12 mx-auto flex flex-row justify-between">
-              <div className="w-full">
+          <div className="grid col-auto gap-2">
+              <div>
                 <FormField
-                  type="firstName"
-                  placeholder="First name"
-                  name="firstName"
+                  type="text"
+                  placeholder="Username"
+                  name="username"
                   register={register}
-                  error={errors.firstName}
+                  error={errors.username}
                 />
+                <div className="block h-6">
+                  {errors.username ? (
+                    <p className="text-red-500">{errors.username.message}</p>
+                  ) : (
+                    <p className="invisible">Placeholder</p>
+                  )}
+                </div>
               </div>
-                
-              <div className="w-full">
+
+              <div>
                 <FormField
-                type="lastName"
-                placeholder="Last name"
-                name="lastName"
-                register={register}
-                error={errors.lastName}
-              />
-              </div>
-              
-            </div>
-
-            <FormField
-              type="password"
-              placeholder="Password"
-              name="password"
-              register={register}
-              error={errors.password}
-            />
-
-            <FormField
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              register={register}
-              error={errors.confirmPassword}
-            />
-
-            <div className="flex flex-row w-11/12 gap-4 mx-auto rounded-md">
-              <div className="w-1/4 bg-slate-100">
-              <select
-                className="w-full h-full bg-transparent"
-                id="gender" 
-                {...register("gender")} 
-                defaultValue=""
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="" disabled>
-                  Gender
-                </option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  register={register}
+                  error={errors.email}
+                />
+                <div className="block h-6">
+                  {errors.email ? (
+                    <p className="text-red-500">{errors.email.message}</p>
+                  ) : (
+                    <p className="invisible">Placeholder</p>
+                  )}
+                </div>
               </div>
 
-              <div className="w-3/4">
+              <div className="w-11/12 mx-auto flex flex-row justify-between">
+                <div className="w-full">
                   <FormField
-                  type="phoneNumber"
-                  placeholder="Phone number"
-                  name="phoneNumber"
+                    type="text"
+                    placeholder="First name"
+                    name="firstName"
+                    register={register}
+                    error={errors.firstName}
+                  />
+                  <div className="block h-6">
+                    {errors.firstName ? (
+                      <p className="text-red-500">{errors.firstName.message}</p>
+                    ) : (
+                      <p className="invisible">Placeholder</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="w-full">
+                  <FormField
+                    type="text"
+                    placeholder="Last name"
+                    name="lastName"
+                    register={register}
+                    error={errors.lastName}
+                  />
+                  <div className="block h-6">
+                    {errors.lastName ? (
+                      <p className="text-red-500">{errors.lastName.message}</p>
+                    ) : (
+                      <p className="invisible">Placeholder</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <FormField
+                  type="password"
+                  placeholder="Password"
+                  name="password"
                   register={register}
-                  error={errors.phoneNumber}
+                  error={errors.password}
                 />
+                <div className="block h-6">
+                  {errors.password ? (
+                    <p className="text-red-500">{errors.password.message}</p>
+                  ) : (
+                    <p className="invisible">Placeholder</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <FormField
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  register={register}
+                  error={errors.confirmPassword}
+                />
+                <div className="block h-6">
+                  {errors.confirmPassword ? (
+                    <p className="text-red-500">{errors.confirmPassword.message}</p>
+                  ) : (
+                    <p className="invisible">Placeholder</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex flex-row w-11/12 gap-4 mx-auto rounded-md">
+                <div className="w-1/4 bg-slate-100">
+                  <select
+                    className="w-full h-full bg-transparent"
+                    id="gender"
+                    {...register("gender")}
+                    defaultValue=""
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Gender
+                    </option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                  <div className="block h-6">
+                    {errors.gender ? (
+                      <p className="text-red-500">{errors.gender.message}</p>
+                    ) : (
+                      <p className="invisible">Placeholder</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="w-3/4">
+                  <FormField
+                    type="text"
+                    placeholder="Phone number"
+                    name="phoneNumber"
+                    register={register}
+                    error={errors.phoneNumber}
+                  />
+                  <div className="block h-6">
+                    {errors.phoneNumber ? (
+                      <p className="text-red-500">{errors.phoneNumber.message}</p>
+                    ) : (
+                      <p className="invisible">Placeholder</p>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 

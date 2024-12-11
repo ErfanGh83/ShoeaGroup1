@@ -5,7 +5,6 @@ const FormField: React.FC<FormFieldProps> = ({
   placeholder,
   name,
   register,
-  error,
   valueAsNumber,
 }) => (
   <>
@@ -15,7 +14,6 @@ const FormField: React.FC<FormFieldProps> = ({
       placeholder={placeholder}
       {...register(name, { valueAsNumber })}
     />
-    {error && <span className="error-message text-red-500 mx-auto">{error.message}</span>}
   </>
 );
 export default FormField;
