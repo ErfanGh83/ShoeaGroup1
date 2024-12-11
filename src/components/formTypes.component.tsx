@@ -59,8 +59,8 @@ import { z, ZodType } from "zod";
     .string()
     .length(11, "شماره تلفن باید 11 رقمی باشد")
     .startsWith('09', "شماره تلفن باید با 09 شروع شود"),
-    gender: z.union([z.literal("male"), z.literal("female")], {
-      invalid_type_error: "لطفاً جنسیت را انتخاب کنید."
+    gender: z.enum(["male", "female"], {
+      errorMap: () => ({ message: "لطفا جنسیت مشخص کنید" }),
     }),
     confirmPassword: z.string(),
   })
