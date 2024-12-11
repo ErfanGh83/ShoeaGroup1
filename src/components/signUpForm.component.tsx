@@ -30,12 +30,11 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
         <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
           <img className="w-8 h-8 scale-x-[-1] m-auto" src="/src/assets/right-arrow-icon.png"/>
         </button>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-full max-w-[400px] box-border mx-auto" onSubmit={handleSubmit(onSubmit)}>
           <img className="mx-auto mt-8" src="/src/assets/logo-black.svg"/>
           <h1 className="text-3xl font-bold text-center m-4 mt-12">Sign Up</h1>
-          <div className="grid col-auto gap-2">
-          <div className="grid col-auto gap-2">
-              <div>
+          <div className="w-full grid col-auto gap-y-2 box-border">
+              <div className="w-full block mx-auto">
                 <FormField
                   type="text"
                   placeholder="Username"
@@ -43,16 +42,16 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                   register={register}
                   error={errors.username}
                 />
-                <div className="block h-6">
+              </div>
+              <div className="block h-6 mx-auto">
                   {errors.username ? (
                     <p className="text-red-500">{errors.username.message}</p>
                   ) : (
                     <p className="invisible">Placeholder</p>
                   )}
                 </div>
-              </div>
 
-              <div>
+              <div className="w-full mx-auto">
                 <FormField
                   type="email"
                   placeholder="Email"
@@ -69,7 +68,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                 </div>
               </div>
 
-              <div className="w-11/12 mx-auto flex flex-row justify-between">
+              <div className="w-full mx-auto flex flex-row justify-between gap-x-2 text-sm">
                 <div className="w-full">
                   <FormField
                     type="text"
@@ -78,7 +77,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                     register={register}
                     error={errors.firstName}
                   />
-                  <div className="block h-6">
+                  <div className="block h-6 mx-auto">
                     {errors.firstName ? (
                       <p className="text-red-500">{errors.firstName.message}</p>
                     ) : (
@@ -95,7 +94,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                     register={register}
                     error={errors.lastName}
                   />
-                  <div className="block h-6">
+                  <div className="block h-8">
                     {errors.lastName ? (
                       <p className="text-red-500">{errors.lastName.message}</p>
                     ) : (
@@ -105,7 +104,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                 </div>
               </div>
 
-              <div>
+              <div className="w-full mx-auto">
                 <FormField
                   type="password"
                   placeholder="Password"
@@ -122,7 +121,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                 </div>
               </div>
 
-              <div>
+              <div className="w-full mx-auto">
                 <FormField
                   type="password"
                   placeholder="Confirm Password"
@@ -140,7 +139,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
               </div>
 
               <div className="flex flex-row w-11/12 gap-4 mx-auto rounded-md">
-                <div className="w-1/4 bg-slate-100">
+                <div className="w-1/4 h-[40px] bg-slate-100">
                   <select
                     className="w-full h-full bg-transparent"
                     id="gender"
@@ -157,7 +156,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                   </select>
                   <div className="block h-6">
                     {errors.gender ? (
-                      <p className="text-red-500">{errors.gender.message}</p>
+                      <p className="text-red-500 text-xs">{errors.gender.message}</p>
                     ) : (
                       <p className="invisible">Placeholder</p>
                     )}
@@ -181,7 +180,6 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
                   </div>
                 </div>
               </div>
-            </div>
 
             <div className="flex flex-row mx-auto gap-2">
               <input
