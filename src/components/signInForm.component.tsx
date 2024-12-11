@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { SignInFormData, UserSchema } from "./formTypes.component";
+import { SignInFormData, LoginSchema } from "./formTypes.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const MAX_ATTEMPTS = 5;
 const LOCK_TIME = 5 * 60 * 1000;
@@ -20,7 +23,7 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
     const [isLocked, setIsLocked] = useState(false);
   
     const { register, handleSubmit, formState: { errors } } = useForm<SignInFormData>({
-      resolver: zodResolver(UserSchema),
+      resolver: zodResolver(LoginSchema),
     });
 
       useEffect(() => {
@@ -40,8 +43,10 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
       }, []);
 
       const onSubmit = (data: SignInFormData) => {
-        console.log('here')
-        if (isLocked) return;
+        if (isLocked) {
+          toast.warning("ورود برای شما قفل شده است، لطفا بعدا تلاش کنید")
+          return
+        }
     
         const isPasswordCorrect = checkPassword(data);
         if (!isPasswordCorrect) {
@@ -51,11 +56,11 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
             setIsLocked(true);
           }
           localStorage.setItem("loginAttempts", (attempts + 1).toString());
-          alert("رمز عبور اشتباه است!");
+          toast.warning("رمز عبور اشتباه است");
         } else {
           localStorage.removeItem("loginAttempts");
           localStorage.removeItem("lockTime");
-          alert("ورود موفقیت‌آمیز بود!");
+          toast.success("ورود موفقیت‌آمیز بود");
         }
       };
 
@@ -106,17 +111,17 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
 
             <div className="flex flex-row justify-center">
                 <button className="text-blue-500 text-center" onClick={() => setPage("SignUpForm")}>
-                    Don't have an account ?
+                    Don't have an account ? Sign up
                 </button>
             </div>
 
             <div className="flex flex-row justify-center">
                 <button className="text-center" onClick={() => setPage("ForgotPassForm")}>
-                    Forgot password ?
+                    Forgot your password ?
                 </button>
             </div>
 
-            <button type="submit" disabled={isLocked} className={`submit-button w-10/12 h-[48px] rounded-3xl bg-slate-900 text-2xl font-semibold text-white fixed bottom-[2%] right-[10%] 
+            <button type="submit" className={`submit-button w-10/12 h-[48px] rounded-3xl bg-slate-900 text-2xl font-semibold text-white fixed bottom-[2%] right-[10%] 
             ${isLocked?"bg-slate-600": ""}`}>
               Login
             </button>
@@ -127,7 +132,7 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
 }
 
 function checkPassword(data: SignInFormData): boolean {
-  return data.password === "12345";
+  return data.password === "123456789";
 }
 
 export default SignInForm;

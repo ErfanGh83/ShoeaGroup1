@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Onboarding from "./onboarding.page";
-import SignUpForm from "../components/signUpForm"
-import SignInForm from "../components/signInForm";
-import ForgotPassForm from "../components/forgotPassForm";
+import SignUpForm from "../components/signUpForm.component"
+import SignInForm from "../components/signInForm.component";
+import ForgotPassForm from "../components/forgotPassForm.component";
 
 
 const Authentication = () => {

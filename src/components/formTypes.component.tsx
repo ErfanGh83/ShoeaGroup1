@@ -68,3 +68,15 @@ import { z, ZodType } from "zod";
     message: "پسورد ها یکسان نیستند",
     path: ["confirmPassword"],
   });
+
+  export const LoginSchema: ZodType<SignInFormData> = z
+  .object({
+    email: z.string().email(),
+    password: z.string()
+    .min(8, "رمز عبور باید حداقل 8 کارکتر باشد.")
+    .max(16, "رمز عبور نباید بیشتر از 16 کارکتر باشد.")
+    .regex(
+      /^[a-zA-Z0-9!#$@()]+$/,
+      "رمز وارد شده صحیح نمی باشد."
+    ),
+  })

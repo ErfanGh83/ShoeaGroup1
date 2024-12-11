@@ -1,6 +1,6 @@
-import Loading from "../components/loadingLogo";
-import SiteTitle from "../components/siteTitle";
-import SiteLogo from "../components/siteLogo";
+import Loading from "../components/loadingLogo.component";
+import SiteTitle from "../components/siteTitle.component";
+import SiteLogo from "../components/siteLogo.component";
 
 interface LoadingProps {
   setPage: (value: number) => void;

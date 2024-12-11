@@ -1,4 +1,4 @@
-import BackgroundWelcome from "../components/backgroundWelcome";
+import BackgroundWelcome from "../components/backgroundWelcome.component";
 interface WelcomePageProps {
   setPage: (value: number) => void;
 }
