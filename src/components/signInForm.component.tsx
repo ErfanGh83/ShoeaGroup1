@@ -45,6 +45,19 @@ const SignInForm: React.FC<SignInPageProps> = ({ setPage }) => {
       const onSubmit = (data: SignInFormData) => {
         if (isLocked) {
           toast.warning("ورود برای شما قفل شده است، لطفا بعدا تلاش کنید")
+          const savedTime = localStorage.getItem('lockTime');
+
+          if (savedTime) {
+            const timestamp = Number(savedTime);
+
+            const date = new Date(timestamp);
+
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            toast.warning(`${hours}:${minutes}:${seconds}`)
+          }
+
           return
         }
     
