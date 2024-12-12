@@ -1,20 +1,61 @@
+import { SiNike } from "react-icons/si";
+import { CgAdidas } from "react-icons/cg";
+import { SiPuma } from "react-icons/si";
+import { SiReebok } from "react-icons/si";
+import { SiNewbalance } from "react-icons/si";
+import { GiConverseShoe } from "react-icons/gi";
+import { CgMore } from "react-icons/cg";
+
+
+const categories = [
+    {title : 'Nike',
+        src: SiNike
+    },
+    {title : 'Adiddas',
+        src: CgAdidas
+    },
+    {title : 'Puma',
+        src: SiPuma
+    },
+    {title : 'Asics',
+        src: SiNike
+    },
+    {
+        title : 'Reebok',
+        src : SiReebok
+    },
+    {
+        title : 'New Balance',
+        src : SiNewbalance
+    },
+    {
+        title : 'Converse',
+        src : GiConverseShoe
+    },
+    {
+        title : 'More',
+        src : CgMore
+    },
+]
 
 
 const HomeContainerCategories = () => {
 
     return(
-        <div className="w-full h-[250px]">
+        <div className="w-full h-[250px] my-4">
             <ul className="w-full h-full grid grid-cols-4 grid-rows-2">
-                <li className="w-[60px] h-[91px] bg-slate-400 m-auto">
-                    <div className="size-[60px] rounded-full bg-slate-300">
+                {categories.map((brand)=>
+                    <li className="w-[60px] h-[91px] m-auto">
+                        <div className="size-[60px] rounded-full bg-gray-200 flex items-center justify-evenly">
+                            <brand.src className="w-8 h-8" />
+                        </div>
 
-                    </div>
-
-                    <h2 className="text-center font-semibold mt-2">
-                        Nike
-                    </h2>
-                    
-                </li>    
+                        <h2 className="text-center font-semibold mt-2">
+                            {brand.title}
+                        </h2>
+                
+                    </li>   
+                )} 
             </ul>
         </div>
     )

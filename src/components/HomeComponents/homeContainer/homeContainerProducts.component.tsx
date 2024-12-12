@@ -18,7 +18,7 @@ function HomeContainerProducts() {
 
   return (
     <div>
-        <ul className="grid grid-cols-2 w-full max-h-[480px] overflow-y-auto pt-6 pb-36">
+        <ul className="grid grid-cols-2 w-full max-h-[600px] overflow-y-auto pt-6 mb-16">
             {post.map((product)=>
                 <li className='w-[182px] h-[244px] flex flex-col mx-auto'>
                 <div className='size-[182px] rounded-2xl overflow-hidden'>
