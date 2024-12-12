@@ -1,15 +1,16 @@
 import { useState } from "react";
+import Home from "../components/Home.component";
 
-const Authentication = () => {
+const Products = () => {
 
-    const [page, setPage] = useState<string>("SignInForm");
+    const [page, setPage] = useState<string>("Home");
 
   return (
     <div className="relative w-full min-h-screen flex flex-col justify-center items-center">
-      {/* {page === "Onboarding" && <Onboarding />} */}
+      {page === "Home" && <Home />}
 
     </div>
   );
 };
 
-export default Authentication;
+export default Products;
