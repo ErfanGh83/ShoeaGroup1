@@ -1,9 +1,12 @@
+import HomeHeader from "./HomeComponents/homeHeader.component";
+import HomeSearchBar from "./HomeComponents/homeSearchBar.component";
 
 const Home = () => {
     return (
-        <div>
-            <h1>products</h1>
-        </div>
+        <>
+            <HomeHeader />
+            <HomeSearchBar />
+        </>
     )
 }
 
