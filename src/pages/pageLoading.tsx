@@ -6,10 +6,8 @@ interface LoadingProps {
   setPage: (value: number) => void;
 }
 
-const LoadingPage: React.FC<LoadingProps> = ({ setPage }) => {
-  setTimeout(() => {
-    setPage(1);
-  }, 6000);
+const LoadingPage: React.FC<LoadingProps> = () => {
+
 
   return (
     <div className="h-screen flex flex-col justify-center items-center">
