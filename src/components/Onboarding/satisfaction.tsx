@@ -1,7 +1,5 @@
-interface SatisFaction {
-  setPage: (value: string) => void;
-}
-const Page2: React.FC<SatisFaction> = ({ setPage }) => {
+
+const Page2: React.FC = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-centerp">
       <div className="w-full h-[60%]">
@@ -17,12 +15,6 @@ const Page2: React.FC<SatisFaction> = ({ setPage }) => {
             <div className="w-8 h-1 bg-black"></div>
             <div className="w-8 h-1 bg-black opacity-50"></div>
           </div>
-          <button
-            onClick={() => setPage("ShoeaRight")}
-            className="bg-black hover:bg-gray-800 rounded-full text-white w-[90%] py-3 fixed bottom-14 left-[5%]"
-          >
-            Next
-          </button>
         </div>
       </div>
     </div>

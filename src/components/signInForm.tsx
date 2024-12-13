@@ -5,12 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-interface signInPage{
-  setPage: (value: string) => void;
-}
 
-const SignInForm: React.FC<signInPage> = ({ setPage }) => {
+
+const SignInForm: React.FC = () => {
 
     const [emailIsFocused, setEmailIsFocused] = useState(false);
     const [passIsFocused, setPassIsFocused] = useState(false);
@@ -24,10 +23,10 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
   const onSubmit = async (data: SignInFormData) => {
       console.log("SUCCESS", data);
   }
-
+const navigate=useNavigate();
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("Onboarding")}>
             <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,13 +67,13 @@ const SignInForm: React.FC<signInPage> = ({ setPage }) => {
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-blue-500 text-center" onClick={() => setPage("SignUpForm")}>
+                <button className="text-blue-500 text-center" onClick={() => navigate("SignUpForm")}>
                     Don't have an account ?
                 </button>
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-center" onClick={() => setPage("ForgotPassForm")}>
+                <button className="text-center" onClick={() => navigate("ForgotPassForm")}>
                     Forgot password ?
                 </button>
             </div>

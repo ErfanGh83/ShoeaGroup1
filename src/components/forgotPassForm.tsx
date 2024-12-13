@@ -2,13 +2,11 @@ import { useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-interface forgotPass{
-    setPage: (value: string) => void;
-  }
   
 
-const ForgotPassForm: React.FC<forgotPass> = ({ setPage }) => {
+const ForgotPassForm: React.FC = () => {
 
     const [userIsFocused, setUserIsFocused] = useState(false);
     const [inputIsEmpty , setInputIsEmpty] = useState(true);
@@ -31,11 +29,11 @@ const ForgotPassForm: React.FC<forgotPass> = ({ setPage }) => {
         handleSubmit,
     formState: { errors }
   } = useForm();
-
+const navigate=useNavigate();
     return(
         <div>
 
-            <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
+            <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("Onboarding")}>
                 <FaArrowLeft size={24}/>
             </button>
 
@@ -57,7 +55,7 @@ const ForgotPassForm: React.FC<forgotPass> = ({ setPage }) => {
                 </div>
 
                 <div className="flex flex-row justify-center my-12">
-                    <button className=" text-center" onClick={() => setPage("SignInForm")}>
+                    <button className=" text-center" onClick={() => navigate("SignInForm")}>
                         Back to sign in
                     </button>
                 </div>

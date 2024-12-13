@@ -4,12 +4,8 @@ import { useState } from "react";
 import FormField from "./FormField";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
-
-interface signUpPage{
-  setPage: (value: string) => void;
-}
-
-const Form: React.FC<signUpPage> = ({ setPage }) => {
+import { useNavigate } from "react-router-dom";
+const Form: React.FC= () => {
 
   const [gender, setGender] = useState("");
   
@@ -20,15 +16,15 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
       } = useForm<FormData>({
         resolver: zodResolver(UserSchema),
       });
+      const navigate=useNavigate();
 
   const onSubmit = async (data: FormData) => {
       console.log(data)
-      setPage("SignInForm")
+      navigate("/login")
   }
-
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("Onboarding")}>
             <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -128,7 +124,7 @@ const Form: React.FC<signUpPage> = ({ setPage }) => {
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-blue-500 text-center" onClick={() => setPage("SignInForm")}>
+                <button className="text-blue-500 text-center" onClick={() => navigate("/login")}>
                     Already have an account ?
                 </button>
             </div>

@@ -5,15 +5,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import { FormData, newPassData, newPassSchema} from "./formTypes";
 import FormField from "./FormField";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
-interface newPass{
-    setPage: (value: string) => void;
-  }
-  
+const NewPassForm: React.FC = () => {
 
-const NewPassForm: React.FC<newPass> = ({ setPage }) => {
-
-    const [userIsFocused, setUserIsFocused] = useState(false);
     const [inputIsEmpty , setInputIsEmpty] = useState(true);
 
     const onSubmit = async (data) => {
@@ -36,11 +31,11 @@ const NewPassForm: React.FC<newPass> = ({ setPage }) => {
       } = useForm<newPassData>({
         resolver: zodResolver(newPassSchema),
       });
-
+const navigate=useNavigate();
     return(
         <div className="w-full">
 
-            <button className="absolute top-[3%] left-[3%]" onClick={() => setPage("Onboarding")}>
+            <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("Onboarding")}>
                 <FaArrowLeft size={24}/>
             </button>
 
@@ -68,7 +63,7 @@ const NewPassForm: React.FC<newPass> = ({ setPage }) => {
                     
 
                 <div className="flex flex-row justify-center my-12">
-                    <button className=" text-center" onClick={() => setPage("SignInForm")}>
+                    <button className=" text-center" onClick={() => navigate("SignInForm")}>
                         Back to sign in
                     </button>
                 </div>
