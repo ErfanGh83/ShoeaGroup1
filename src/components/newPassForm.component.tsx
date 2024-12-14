@@ -1,27 +1,14 @@
 import { useForm } from "react-hook-form";
-import { FaLock } from "react-icons/fa";
-import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { FormData, newPassData, newPassSchema} from "./formTypes.component";
+import { newPassData, newPassSchema} from "./formTypes.component";
 import FormField from "./FormField.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 
 const NewPassForm: React.FC = () => {
 
-    const [inputIsEmpty , setInputIsEmpty] = useState(true);
-
     const onSubmit = async (data) => {
         console.log("SUCCESS", data);
-    }
-
-    const checkInput = async (input) => {
-        if(input.value.length > 0){
-            setInputIsEmpty(false)
-        }
-        else{
-            setInputIsEmpty(true);
-        }
     }
 
     const {

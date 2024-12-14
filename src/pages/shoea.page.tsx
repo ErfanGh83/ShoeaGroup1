@@ -1,7 +1,7 @@
 import { useState } from "react";
-import LoadingPage from "./pageLoading"
-import WelcomePage from "./pageWelcom";
-import Onboarding from "./onboarding";
+import LoadingPage from "./pageLoading.page"
+import WelcomePage from "./pageWelcom.page";
+import Onboarding from "./onboarding.page";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignInPage from "./signin.page";
 import ForgetPassPage from "./forget.pass.page";

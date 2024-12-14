@@ -1,4 +1,4 @@
-import NewPassForm from "../components/newPassForm";
+import NewPassForm from "../components/newPassForm.component";
 
 const ResetPassPage: React.FC = () => {
 

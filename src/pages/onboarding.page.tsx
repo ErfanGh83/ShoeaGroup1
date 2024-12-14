@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Quality from "../components/Onboarding/quality";
-import SatisFaction from "../components/Onboarding/satisfaction";
-import ShoeaRight from "../components/Onboarding/shoearight";
+import Quality from "../components/Onboarding/quality.component";
+import SatisFaction from "../components/Onboarding/satisfaction.component";
+import ShoeaRight from "../components/Onboarding/shoearight.component";
 import { Link } from "react-router-dom";
 const Onboarding = () => {
     const [pageIndex, setPageIndex] = useState<number>(0);
