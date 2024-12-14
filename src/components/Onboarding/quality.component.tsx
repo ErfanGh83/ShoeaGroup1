@@ -1,7 +1,7 @@
 
 const Page1: React.FC = () => {
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-centerp">
+    <div className="w-full h-[94%] flex flex-col items-center justify-centerp">
       <div className="w-full h-[60%]">
         <img src="/src/assets/obsp1-img2.png" className="w-full h-full" />
       </div>
@@ -9,8 +9,8 @@ const Page1: React.FC = () => {
         <p className="text-3xl leading-relaxed font-bold text-center">
           We provide high quality products just for you
         </p>
-        <div className="felx flex-col">
-          <div className=" flex gap-2 absolute bottom-36 left-[40%]">
+        <div className="w-full flex flex-row items-center">
+          <div className=" flex flex-row gap-2 mx-auto">
             <div className="w-8 h-1 bg-black"></div>
             <div className="w-8 h-1 bg-black opacity-50"></div>
             <div className="w-8 h-1 bg-black opacity-50"></div>
