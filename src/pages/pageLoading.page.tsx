@@ -3,11 +3,7 @@ import SiteTitle from "../components/siteTitle";
 import SiteLogo from "../components/siteLogo";
 import { useNavigate } from "react-router-dom";
 
-interface LoadingProps {
-  setPage: (value: number) => void;
-}
-
-const LoadingPage: React.FC<LoadingProps> = () => {
+const LoadingPage: React.FC= () => {
 const navigate=useNavigate()
   setTimeout(() => {
    navigate("/welcomepage")

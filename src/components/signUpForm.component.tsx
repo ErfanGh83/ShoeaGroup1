@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { FormData, UserSchema } from "./formTypes";
+import { FormData, UserSchema } from "./formTypes.component";
 import { useState } from "react";
-import FormField from "./FormField";
+import FormField from "./FormField.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ const Form: React.FC= () => {
   }
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("Onboarding")}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("/Onboarding")}>
             <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>

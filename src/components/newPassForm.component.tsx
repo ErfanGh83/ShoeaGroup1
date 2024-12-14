@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { FaLock } from "react-icons/fa";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { FormData, newPassData, newPassSchema} from "./formTypes";
-import FormField from "./FormField";
+import { FormData, newPassData, newPassSchema} from "./formTypes.component";
+import FormField from "./FormField.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 

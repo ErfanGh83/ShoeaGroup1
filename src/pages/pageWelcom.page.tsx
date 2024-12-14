@@ -1,11 +1,8 @@
 import BackgroundWelcome from "../components/backgroundWelcome";
 import { useNavigate } from "react-router-dom";
 
-interface WelcomePageProps {
-  setPage: (value: number) => void;
-}
 
-const WelcomePage: React.FC<WelcomePageProps> = () => {
+const WelcomePage: React.FC = () => {
   const navigate=useNavigate()
   setTimeout(() => {
     navigate("/onboarding")

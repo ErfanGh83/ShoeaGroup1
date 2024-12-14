@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { SignInFormData, UserSchema } from "./formTypes";
+import { SignInFormData, UserSchema } from "./formTypes.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
@@ -26,7 +26,7 @@ const SignInForm: React.FC = () => {
 const navigate=useNavigate();
   return (
     <div>
-        <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("Onboarding")}>
+        <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("/Onboarding")}>
             <FaArrowLeft size={24}/>
         </button>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,13 +67,13 @@ const navigate=useNavigate();
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-blue-500 text-center" onClick={() => navigate("SignUpForm")}>
+                <button className="text-blue-500 text-center" onClick={() => navigate("/signUp")}>
                     Don't have an account ?
                 </button>
             </div>
 
             <div className="flex flex-row justify-center">
-                <button className="text-center" onClick={() => navigate("ForgotPassForm")}>
+                <button className="text-center" onClick={() => navigate("/ForgotPassForm")}>
                     Forgot password ?
                 </button>
             </div>
