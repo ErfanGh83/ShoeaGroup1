@@ -1,9 +1,9 @@
 
 const Page1: React.FC = () => {
   return (
-    <div className="w-full h-[94%] flex flex-col items-center justify-centerp">
+    <div className="w-full h-10/12 flex flex-col items-center justify-centerp">
       <div className="w-full h-[60%]">
-        <img src="/src/assets/obsp1-img2.png" className="w-full h-full" />
+        <img src="/src/assets/obsp1-img2.png" className="w-full h-[500px]" />
       </div>
       <div className="relative w-full h-full flex flex-col items-center gap-16 pt-8 px-6">
         <p className="text-3xl leading-relaxed font-bold text-center">

@@ -13,5 +13,8 @@
     "json-server"
   ],
   "author": "aliziaeijazi@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "react-toastify": "^10.0.6"
+  }
 }

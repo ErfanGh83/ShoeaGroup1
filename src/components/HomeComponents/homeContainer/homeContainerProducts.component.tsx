@@ -29,8 +29,8 @@ function HomeContainerProducts() {
                     {product.title}
                 </h2>
 
-                <p className='text-sm'>
-                    {product.price}
+                <p className='text-md font-semibold'>
+                    $ {product.price}
                 </p>
             </li>
             )}

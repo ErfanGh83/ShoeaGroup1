@@ -7,7 +7,7 @@ import { CgProfile } from 'react-icons/cg';
 
 function HomeFooter() {
   return (
-    <div className='w-full h-[66px] bg-white flex flex-row items-center justify-evenly font-semibold fixed bottom-0'>
+    <div className='w-full h-[66px] bg-white flex flex-row items-center justify-evenly font-semibold fixed bottom-0 left-0'>
         <div className='flex flex-col items-center'>
            <BiHome size={30}/> 
            <p>Home</p>
