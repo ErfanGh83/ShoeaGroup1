@@ -34,7 +34,7 @@ const navigate=useNavigate();
           <h1 className="text-3xl font-bold text-center m-4">Login</h1>
           <div className="grid col-auto gap-4">
 
-            <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
+            <div className={`flex flex-row items-center w-fit mx-auto bg-gray-100 px-2 rounded-md ${
                 emailIsFocused? "border-2 border-black" : ""}`}>
                 <FaEnvelope size={18} color={emailIsFocused ? "black" : "gray"} />
                 <input
@@ -46,7 +46,7 @@ const navigate=useNavigate();
                 />
             </div>
 
-            <div className={`flex flex-row items-center bg-gray-100 px-2 rounded-md ${
+            <div className={`flex flex-row items-center w-fit mx-auto bg-gray-100 px-2 rounded-md ${
                 passIsFocused? "border-2 border-black" : ""}`}>
                 <FaLock color={passIsFocused ? "black" : "gray"} size={18} />
                 <input
