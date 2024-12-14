@@ -1,10 +1,13 @@
 
 import React from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 
 function HomeContainerProducts() {
     const baseURL = "http://localhost:5173/Products/";
+
+    const navigate = useNavigate();
 
     const [post, setPost] = React.useState(null);
 
@@ -20,7 +23,7 @@ function HomeContainerProducts() {
     <div>
         <ul className="grid grid-cols-2 w-full max-h-[600px] overflow-y-auto pt-6 mb-16">
             {post.map((product)=>
-                <li className='w-[182px] h-[244px] flex flex-col mx-auto'>
+                <li key={product.id}  className='w-[182px] h-[244px] flex flex-col mx-auto' onClick={() => navigate(`/product/${product.id}`)}>
                 <div className='size-[182px] rounded-2xl overflow-hidden'>
                     <img className='size-full' src={product.images}/>
                 </div>

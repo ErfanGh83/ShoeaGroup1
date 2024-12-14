@@ -8,6 +8,7 @@ import ForgetPassPage from "./forget.pass.page";
 import ResetPassPage from "./new.pass.page";
 import SigneUpPage from "./signeup.page";
 import Products from "./products.page";
+import ProductPage from "./productPage.page";
 const Shoea = () => {
 
   return (
@@ -21,6 +22,7 @@ const Shoea = () => {
         <Route path="/ForgotPassForm" element={<ForgetPassPage/>}></Route>
         <Route path="/resetPassForm" element={<ResetPassPage/>}></Route>
         <Route path="/Products" element={<Products/>}></Route>
+        <Route path="/product/:id" element={<ProductPage />} />
       </Routes>
     </BrowserRouter>
   );
