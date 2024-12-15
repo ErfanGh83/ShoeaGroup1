@@ -1,4 +1,3 @@
-import { useState } from "react";
 import LoadingPage from "./pageLoading.page"
 import WelcomePage from "./pageWelcom.page";
 import Onboarding from "./onboarding.page";
@@ -7,8 +6,10 @@ import SignInPage from "./signin.page";
 import ForgetPassPage from "./forget.pass.page";
 import ResetPassPage from "./new.pass.page";
 import SigneUpPage from "./signeup.page";
-import Products from "./products.page";
+import HomePage from "./homePage.page";
 import ProductPage from "./productPage.page";
+import BrandPage from "./brandPage.page";
+
 const Shoea = () => {
 
   return (
@@ -21,8 +22,9 @@ const Shoea = () => {
         <Route path="/signUp" element={<SigneUpPage/>}></Route>
         <Route path="/ForgotPassForm" element={<ForgetPassPage/>}></Route>
         <Route path="/resetPassForm" element={<ResetPassPage/>}></Route>
-        <Route path="/Products" element={<Products/>}></Route>
+        <Route path="/home" element={<HomePage/>}></Route>
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/brand/:brand" element={<BrandPage />} />
       </Routes>
     </BrowserRouter>
   );

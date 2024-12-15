@@ -1,16 +1,13 @@
 import { useState } from "react";
 import Home from "../components/Home.component";
 
-const Products = () => {
-
-    const [page, setPage] = useState<string>("Home");
+const HomePage = () => {
 
   return (
     <div className="relative w-full min-h-screen flex flex-col pt-24">
-      {page === "Home" && <Home />}
-
+      <Home />
     </div>
   );
 };
 
-export default Products;
+export default HomePage;

@@ -5,13 +5,14 @@ import { SiReebok } from "react-icons/si";
 import { SiNewbalance } from "react-icons/si";
 import { GiConverseShoe } from "react-icons/gi";
 import { CgMore } from "react-icons/cg";
+import { useNavigate } from "react-router";
 
 
 const categories = [
     {title : 'Nike',
         src: SiNike
     },
-    {title : 'Adiddas',
+    {title : 'Adidas',
         src: CgAdidas
     },
     {title : 'Puma',
@@ -41,11 +42,13 @@ const categories = [
 
 const HomeContainerCategories = () => {
 
+    const navigate = useNavigate();
+
     return(
         <div className="w-full h-[250px] my-4">
             <ul className="w-full h-full grid grid-cols-4 grid-rows-2">
                 {categories.map((brand)=>
-                    <li className="w-[60px] h-[91px] m-auto">
+                    <li className="w-[60px] h-[91px] m-auto" onClick={() => navigate(`/brand/${brand.title.toLowerCase()}`)}>
                         <div className="size-[60px] rounded-full bg-gray-200 flex items-center justify-evenly">
                             <brand.src className="w-8 h-8" />
                         </div>
