@@ -6,6 +6,8 @@ import { BiStar } from "react-icons/bi";
 import { BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProductPage() {
     const { id } = useParams<{ id: string }>();
@@ -55,7 +57,10 @@ function ProductPage() {
 
 
     const updateCart = (productId, newQuantity) => {
-        if (!userId || !user) return;
+        if (!userId || !user) {
+            toast.warn('please login first !');
+            return;
+        };
 
         const updatedCart = [...user.cart];
 
