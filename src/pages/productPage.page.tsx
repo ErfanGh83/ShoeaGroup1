@@ -6,6 +6,7 @@ import { BiStar } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 import { BiMinus } from "react-icons/bi";
 import { BiShoppingBag } from "react-icons/bi";
+import { VscLoading } from "react-icons/vsc";
 import axios from "axios";
 
 function ProductPage() {
@@ -19,7 +20,11 @@ function ProductPage() {
   }, [id]);
 
   if (!product) {
-    return <p>Loading...</p>;
+    return (
+    <div className="size-36 flex items-center justify-center m-auto animate-spin">
+        <VscLoading size={36}/>
+    </div>
+    );
   }
 
   return (

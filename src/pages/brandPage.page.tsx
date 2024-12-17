@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
+import { VscLoading } from 'react-icons/vsc';
 
 function BrandPage() {
     const { brand } = useParams<{ brand: string }>();
@@ -15,7 +16,11 @@ function BrandPage() {
   }, [brand]);
 
   if (!products) {
-    return <p>Loading...</p>;
+    return (
+    <div className="size-36 flex items-center justify-center m-auto animate-spin">
+        <VscLoading size={36}/>
+    </div>
+    );
   }
 
   return (

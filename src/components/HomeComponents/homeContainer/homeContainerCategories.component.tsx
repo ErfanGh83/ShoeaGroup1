@@ -48,7 +48,7 @@ const HomeContainerCategories = () => {
         <div className="w-full h-[250px] my-4">
             <ul className="w-full h-full grid grid-cols-4 grid-rows-2">
                 {categories.map((brand)=>
-                    <li className="w-[60px] h-[91px] m-auto" onClick={() => navigate(`/brand/${brand.title.toLowerCase()}`)}>
+                    <li key={brand.title.toLowerCase()} className="w-[60px] h-[91px] m-auto" onClick={() => navigate(`/brand/${brand.title.toLowerCase()}`)}>
                         <div className="size-[60px] rounded-full bg-gray-200 flex items-center justify-evenly">
                             <brand.src className="w-8 h-8" />
                         </div>
