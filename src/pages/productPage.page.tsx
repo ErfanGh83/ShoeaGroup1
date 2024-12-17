@@ -3,28 +3,105 @@ import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BiHeart } from "react-icons/bi";
 import { BiStar } from "react-icons/bi";
-import { BiPlus } from "react-icons/bi";
-import { BiMinus } from "react-icons/bi";
 import { BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
 import axios from "axios";
 
 function ProductPage() {
     const { id } = useParams<{ id: string }>();
+    const [userId, setUserId] = useState(null);
     const [product, setProduct] = useState(null);
+    const [user, setUser] = useState({});
+    const [quantity, setQuantity] = useState(0);
+
 
     useEffect(() => {
-    axios.get(`  http://localhost:5173/Products/${id}`).then((response) => {
-      setProduct(response.data);
+        axios.get(`  http://localhost:5173/Products/${id}`).then((response) => {
+        setProduct(response.data);
     });
-  }, [id]);
+    }, [id]);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            setUserId(user.id);
+        } else {
+            setUserId(null);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userId !== null) {
+            axios.get(`http://localhost:5173/users/${userId}`)
+                .then((response) => {
+                    setUser(response.data);
+
+                    if (response.data.cart) {
+                        for (let i = 0; i < response.data.cart.length; i++) {
+                            if (response.data.cart[i].id === id) {
+                                setQuantity(response.data.cart[i].quantity);
+                                break;
+                            }
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching user data:", error);
+                });
+        }
+    }, [userId, id]); 
+
+
+    const updateCart = (productId, newQuantity) => {
+        if (!userId || !user) return;
+
+        const updatedCart = [...user.cart];
+
+        const productIndex = updatedCart.findIndex(item => item.id === productId);
+    
+        if (productIndex !== -1) {
+            if (newQuantity > 0) {
+                updatedCart[productIndex].quantity = newQuantity;
+            } else {
+                updatedCart.splice(productIndex, 1);
+            }
+        } else if (newQuantity > 0) {
+            updatedCart.push({ id: productId, quantity: newQuantity });
+        }
+
+        axios.put(`http://localhost:5173/users/${userId}`, { ...user, cart: updatedCart })
+            .then((response) => {
+                console.log("Cart updated successfully:", response.data);
+                setUser({ ...user, cart: updatedCart }); // Update state
+            })
+            .catch((error) => {
+                console.error("Error updating cart:", error);
+            });
+    };
+    
 
   if (!product) {
     return (
-    <div className="size-36 flex items-center justify-center m-auto animate-spin">
-        <VscLoading size={36}/>
-    </div>
+        <div className="size-36 flex items-center justify-center m-auto animate-spin">
+            <VscLoading size={36}/>
+        </div>
     );
+  }
+
+  const add = () => {
+    const count = quantity + 1;
+    setQuantity(count)
+  }
+
+  const reduce = () => {
+    const count = quantity > 0? quantity - 1 : 0;
+    setQuantity(count)
+  }
+
+  const submitChanges = () => {
+    updateCart(id, quantity)
   }
 
   return (
@@ -151,16 +228,16 @@ function ProductPage() {
             <p className="text-2xl font-bold">Qauntity</p>
 
             <div className="w-[150px] h-[50px] flex flex-row justify-evenly items-center rounded-full mx-4 bg-gray-200 shadow-lg">
-                <button>
-                    <BiMinus size={24} />
+                <button className="text-2xl" onClick={add}>
+                    +
                 </button>
 
                 <p className="text-xl font-semibold">
-                    0
+                    {quantity}
                 </p>
 
-                <button>
-                    <BiPlus size={24}/>
+                <button className="text-2xl" onClick={reduce}>
+                    -
                 </button>
             </div>
         </div>
@@ -178,7 +255,7 @@ function ProductPage() {
                 </p>
             </div>
 
-            <button className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm">
+            <button onClick={submitChanges} className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm">
                 <BiShoppingBag size={24}/>
                 <p  className="text-2xl font-semibold">Add to cart</p>
             </button>

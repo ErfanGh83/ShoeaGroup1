@@ -274,7 +274,16 @@
       "phoneNumber": "09112868820",
       "gender": "male",
       "confirmPassword": "Erfan@123",
-      "cart": [],
+      "cart": [
+        {
+          "id": "1",
+          "quantity": 1
+        },
+        {
+          "id": "2",
+          "quantity": 4
+        }
+      ],
       "orders": [],
       "wishlist": [],
       "locations": [],
@@ -291,7 +300,12 @@
       "phoneNumber": "09112868822",
       "gender": "male",
       "confirmPassword": "Erfan@123",
-      "cart": [],
+      "cart": [
+        {
+          "id": "1",
+          "quantity": 5
+        }
+      ],
       "orders": [],
       "wishlist": [],
       "locations": [],
