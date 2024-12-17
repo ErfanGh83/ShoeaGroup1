@@ -32,7 +32,7 @@ function ProductPage() {
         <button onClick={()=>window.history.back()} className="size-12 m-2 flex justify-center items-center absolute">
             <BiArrowBack size={30}/>
         </button>
-        <div className="w-full max-h-[400px] overflow-hidden">
+        <div className="w-full max-h-[450px] overflow-hidden">
             <img src={product.images}/>
         </div>
 

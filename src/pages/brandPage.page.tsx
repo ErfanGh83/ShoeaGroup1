@@ -1,11 +1,13 @@
-import React from 'react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
 import { VscLoading } from 'react-icons/vsc';
+import { useNavigate } from 'react-router-dom';
 
 function BrandPage() {
+    const navigate = useNavigate()
+
     const { brand } = useParams<{ brand: string }>();
     const [products, setProducts] = useState(null);
 
