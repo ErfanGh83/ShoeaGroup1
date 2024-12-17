@@ -5,6 +5,10 @@ import FormField from "./FormField.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
 const Form: React.FC= () => {
 
   const [gender, setGender] = useState("");
@@ -18,10 +22,67 @@ const Form: React.FC= () => {
       });
       const navigate=useNavigate();
 
-  const onSubmit = async (data: FormData) => {
-      console.log(data)
-      navigate("/login")
-  }
+      const onSubmit = async (data: FormData) => {
+        console.log(data);
+      
+        const BASE_URL = 'http://localhost:5173/users';
+      
+        try {
+          const response = await axios.get(BASE_URL);
+          const users = response.data;
+      
+          const isUsernameTaken = users.some(
+            (user: any) => user.username === data.username
+          );
+          const isEmailTaken = users.some(
+            (user: any) => user.email === data.email
+          );
+          const isPhoneTaken = users.some(
+            (user: any) => user.phoneNumber === data.phoneNumber
+          );
+
+      
+          if (isUsernameTaken) {
+            toast.warning('Username already taken. Please choose another one.');
+            return;
+          }
+      
+          if (isEmailTaken) {
+            toast.warning('Email already registered. Please use another email.');
+            return;
+          }
+
+          if (isPhoneTaken) {
+            toast.warning('Phone number already registered.');
+            return;
+          }
+      
+          const newUserData = {
+            ...data,
+            cart: [],
+            orders: [],
+            wishlist: [],
+            locations: [],
+            defaultLocation: '',
+            defaultShipping: ''
+          };
+      
+          console.log('Final Data to be Posted:', newUserData);
+
+          await axios.post(BASE_URL, newUserData, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      
+          toast.success('Account created successfully!');
+          navigate('/login');
+        } catch (error) {
+          toast.error(error);
+          toast.warning('An error occurred. Please try again.');
+        }
+      };
+
   return (
     <div>
         <button className="absolute top-[3%] left-[3%]" onClick={() => navigate("/Onboarding")}>

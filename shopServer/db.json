@@ -264,6 +264,40 @@
           "counter": 0
         }
       ]
+    },
+    {
+      "firstName": "Erfan",
+      "lastName": "Ghasemian",
+      "username": "erfanGh",
+      "email": "erfan.ghasemian83@yahoo.com",
+      "password": "Erfan@123",
+      "phoneNumber": "09112868820",
+      "gender": "male",
+      "confirmPassword": "Erfan@123",
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "locations": [],
+      "defaultLocation": "",
+      "defaultShipping": "",
+      "id": "Erf2bq4"
+    },
+    {
+      "firstName": "Erfan",
+      "lastName": "Ghasemian",
+      "username": "erfan",
+      "email": "ali@gmail.com",
+      "password": "Erfan@123",
+      "phoneNumber": "09112868822",
+      "gender": "male",
+      "confirmPassword": "Erfan@123",
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "locations": [],
+      "defaultLocation": "",
+      "defaultShipping": "",
+      "id": "-aPY-dX"
     }
   ],
   "Products": [

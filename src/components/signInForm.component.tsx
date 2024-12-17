@@ -22,6 +22,7 @@ const SignInForm: React.FC = () => {
 
   const onSubmit = async (data: SignInFormData) => {
       console.log("SUCCESS", data);
+      navigate('/home')
   }
 const navigate=useNavigate();
   return (
