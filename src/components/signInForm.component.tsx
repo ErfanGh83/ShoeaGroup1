@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,17 +14,50 @@ type SignInFormData = {
 const SignInForm: React.FC = () => {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [passIsFocused, setPassIsFocused] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(0);
 
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignInFormData>();
+  const { register, handleSubmit } = useForm<SignInFormData>();
+
+  useEffect(() => {
+    const lockTime = localStorage.getItem("lockTime");
+    if (lockTime) {
+      const currentTime = new Date().getTime();
+      const timeDifference = currentTime - parseInt(lockTime);
+
+      if (timeDifference < 5 * 60 * 1000) {
+        setIsLocked(true);
+        setRemainingTime(5 * 60 - Math.floor(timeDifference / 1000));
+        startCountdown(5 * 60 - Math.floor(timeDifference / 1000));
+      } else {
+        localStorage.removeItem("lockTime");
+        localStorage.removeItem("attemptCount");
+        setIsLocked(false);
+      }
+    }
+  }, []);
+
+  const startCountdown = (seconds: number) => {
+    let timer = seconds;
+    const countdown = setInterval(() => {
+      timer--;
+      setRemainingTime(timer);
+      if (timer <= 0) {
+        clearInterval(countdown);
+        setIsLocked(false);
+        localStorage.removeItem("lockTime");
+        localStorage.removeItem("attemptCount");
+      }
+    }, 1000);
+  };
 
   const onSubmit = async (data: SignInFormData) => {
-    console.log("Sign In Data:", data);
+    if (isLocked) {
+      toast.error(`Too many failed attempts. Please wait ${remainingTime} seconds.`);
+      return;
+    }
 
     const BASE_URL = "http://localhost:5173/users";
 
@@ -40,9 +73,22 @@ const SignInForm: React.FC = () => {
       if (user) {
         toast.success(`Welcome back, ${user.username}!`);
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.removeItem("attemptCount");
         navigate("/home");
       } else {
-        toast.warning("Invalid email or password. Please try again.");
+        let attemptCount = parseInt(localStorage.getItem("attemptCount") || "0");
+        attemptCount += 1;
+        localStorage.setItem("attemptCount", attemptCount.toString());
+
+        if (attemptCount >= 5) {
+          const lockTime = new Date().getTime();
+          localStorage.setItem("lockTime", lockTime.toString());
+          setIsLocked(true);
+          startCountdown(5 * 60);
+          toast.error("Too many failed attempts. Login locked for 5 minutes.");
+        } else {
+          toast.warning(`Invalid password.`);
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -77,9 +123,6 @@ const SignInForm: React.FC = () => {
               onBlur={() => setEmailIsFocused(false)}
             />
           </div>
-          {errors.email && (
-            <p className="text-red-500 text-center">{errors.email.message}</p>
-          )}
 
           <div
             className={`flex flex-row items-center w-fit mx-auto bg-gray-100 px-2 rounded-md ${
@@ -96,36 +139,19 @@ const SignInForm: React.FC = () => {
               onBlur={() => setPassIsFocused(false)}
             />
           </div>
-          {errors.password && (
-            <p className="text-red-500 text-center">{errors.password.message}</p>
+
+          {isLocked && (
+            <p className="text-red-500 text-center">
+              Too many failed attempts. Please wait {remainingTime} seconds.
+            </p>
           )}
-
-          <div className="flex flex-row mx-auto gap-2">
-            <input className="w-[18px] accent-black" type="checkbox" />
-            <label>Remember me</label>
-          </div>
-
-          <div className="flex flex-row justify-center">
-            <button
-              className="text-blue-500 text-center"
-              onClick={() => navigate("/signUp")}
-            >
-              Don't have an account?
-            </button>
-          </div>
-
-          <div className="flex flex-row justify-center">
-            <button
-              className="text-center"
-              onClick={() => navigate("/ForgotPassForm")}
-            >
-              Forgot password?
-            </button>
-          </div>
 
           <button
             type="submit"
-            className="submit-button w-10/12 h-[48px] rounded-3xl bg-slate-900 text-2xl font-semibold text-white fixed bottom-[2%] right-[10%]"
+            className={`submit-button w-10/12 h-[48px] rounded-3xl text-2xl font-semibold text-white fixed bottom-[2%] right-[10%] ${
+              isLocked ? "bg-gray-400 cursor-not-allowed" : "bg-slate-900"
+            }`}
+            disabled={isLocked}
           >
             Login
           </button>
