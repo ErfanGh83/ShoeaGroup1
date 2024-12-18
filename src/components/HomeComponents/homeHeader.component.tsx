@@ -16,8 +16,6 @@ const HomeHeader = ()=>{
         } else {
             setUsername('');
         }
-
-        console.log(username)
     }, []);
 
     return(
@@ -45,8 +43,13 @@ const HomeHeader = ()=>{
             </div>
 
             <div className="w-16 h-6 flex flex-row justify-between items-center">
-                <BiBell size={28}/>
-                <BiHeart size={28}/>
+                
+                
+                <BiBell size={28} />
+                
+                <Link to="/wishlist">
+                    <BiHeart size={28}/>
+                </Link>
             </div>
 
         </header>

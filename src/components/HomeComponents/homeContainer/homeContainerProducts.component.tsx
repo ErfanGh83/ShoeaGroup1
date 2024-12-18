@@ -14,7 +14,6 @@ function HomeContainerProducts() {
     const fetchData = async () => {
       try {
         const params = { ...activeFilters };
-        console.log({params})
         const response = await axios.get(baseURL, { params });
         setPost(response.data);
       } catch (error) {

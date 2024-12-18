@@ -9,6 +9,7 @@ import SigneUpPage from "./signeup.page";
 import HomePage from "./homePage.page";
 import ProductPage from "./productPage.page";
 import BrandPage from "./brandPage.page";
+import WishListPage from "./wishListPage.page";
 
 const Shoea = () => {
 
@@ -22,9 +23,10 @@ const Shoea = () => {
         <Route path="/signUp" element={<SigneUpPage/>}></Route>
         <Route path="/ForgotPassForm" element={<ForgetPassPage/>}></Route>
         <Route path="/resetPassForm" element={<ResetPassPage/>}></Route>
-        <Route path="/home" element={<HomePage/>}></Route>
+        <Route path="/home" element={<HomePage/>} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/brand/:brand" element={<BrandPage />} />
+        <Route path="/wishlist" element={<WishListPage />} />
       </Routes>
     </BrowserRouter>
   );
