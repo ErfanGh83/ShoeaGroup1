@@ -1,7 +1,6 @@
-import React from 'react'
 import { BiHome } from 'react-icons/bi';
 import { BsCart } from 'react-icons/bs';
-import { CgShoppingCart } from 'react-icons/cg';
+import { CgShoppingBag } from 'react-icons/cg';
 import { BiWallet } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 
@@ -9,7 +8,7 @@ function HomeFooter() {
   return (
     <div className='w-[500px] h-[66px] bg-white flex flex-row items-center justify-evenly font-semibold fixed bottom-0'>
         <div className='flex flex-col items-center'>
-           <BiHome size={30}/> 
+           <BiHome size={30} color='black'/> 
            <p>Home</p>
         </div>
         
@@ -19,7 +18,7 @@ function HomeFooter() {
         </div>
 
         <div className='flex flex-col items-center'>
-            <CgShoppingCart size={30}/>
+            <CgShoppingBag size={30}/>
             <p>Orders</p>
         </div>
 

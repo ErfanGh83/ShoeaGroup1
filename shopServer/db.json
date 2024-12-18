@@ -285,7 +285,14 @@
         }
       ],
       "orders": [],
-      "wishlist": [],
+      "wishlist": [
+        {
+          "id": "1"
+        },
+        {
+          "id": "2"
+        }
+      ],
       "locations": [],
       "defaultLocation": "",
       "defaultShipping": "",

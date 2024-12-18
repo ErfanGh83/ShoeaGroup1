@@ -15,6 +15,7 @@ function ProductPage() {
     const [product, setProduct] = useState(null);
     const [user, setUser] = useState({});
     const [quantity, setQuantity] = useState(0);
+    const [isWished, setIsWished] = useState(false);
 
 
     useEffect(() => {
@@ -44,6 +45,15 @@ function ProductPage() {
                         for (let i = 0; i < response.data.cart.length; i++) {
                             if (response.data.cart[i].id === id) {
                                 setQuantity(response.data.cart[i].quantity);
+                                break;
+                            }
+                        }
+                    }
+
+                    if(response.data.wishlist){
+                        for (let i = 0; i < response.data.wishlist.length; i++) {
+                            if (response.data.wishlist[i].id === id) {
+                                setIsWished(true);
                                 break;
                             }
                         }
@@ -87,27 +97,62 @@ function ProductPage() {
     };
     
 
-  if (!product) {
-    return (
-        <div className="size-36 flex items-center justify-center m-auto animate-spin">
-            <VscLoading size={36}/>
-        </div>
-    );
-  }
+    if (!product) {
+        return (
+            <div className="size-36 flex items-center justify-center m-auto animate-spin">
+                <VscLoading size={36}/>
+            </div>
+        );
+    }
 
-  const add = () => {
-    const count = quantity + 1;
-    setQuantity(count)
-  }
+    const add = () => {
+        const count = quantity + 1;
+        setQuantity(count)
+    }
 
-  const reduce = () => {
-    const count = quantity > 0? quantity - 1 : 0;
-    setQuantity(count)
-  }
+    const reduce = () => {
+        const count = quantity > 0? quantity - 1 : 0;
+        setQuantity(count)
+    }
 
-  const submitChanges = () => {
-    updateCart(id, quantity)
-  }
+    const submitChanges = () => {
+        updateCart(id, quantity)
+    }
+
+    const toggleWish = () => {
+        if (!userId || !user) {
+            toast.warn('Please login first!');
+            return;
+        }
+
+        if(isWished){
+            setIsWished(false)
+        }
+        else{
+            setIsWished(true)
+        }
+
+        const updatedWishlist = [...user.wishlist];
+    
+        const productIndex = updatedWishlist.findIndex(item => item.id === id);
+    
+        if (productIndex !== -1) {
+            updatedWishlist.splice(productIndex, 1);
+        } else {
+            updatedWishlist.push({ id: id });
+        }
+
+        axios.put(`http://localhost:5173/users/${userId}`, { ...user, wishlist: updatedWishlist })
+            .then((response) => {
+                toast.success('Wishlist updated!');
+                setUser({ ...user, wishlist: updatedWishlist });
+            })
+            .catch((error) => {
+                console.error("Error updating wishlist:", error);
+            });
+    };
+
+
 
   return (
     <div>
@@ -123,8 +168,8 @@ function ProductPage() {
                 {product.title}
             </h1>
             
-            <button>
-                <BiHeart size={30}/>
+            <button onClick={toggleWish}>
+                <BiHeart size={30} color={isWished ? "red" : "black"} />
             </button>
         </div>
 
