@@ -9,13 +9,15 @@ const HomeHeader = ()=>{
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('storedUser');
+        const storedUser = localStorage.getItem('user');
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setUsername(user.username || '');
         } else {
             setUsername('');
         }
+
+        console.log(username)
     }, []);
 
     return(
