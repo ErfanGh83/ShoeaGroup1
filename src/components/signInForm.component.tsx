@@ -146,6 +146,8 @@ const SignInForm: React.FC = () => {
             </p>
           )}
 
+          <p onClick={()=>navigate('/signUp')} className="mx-auto my-2 text-md text-blue-500">Don't have an account ? sign up</p>
+
           <button
             type="submit"
             className={`submit-button w-10/12 h-[48px] rounded-3xl text-2xl font-semibold text-white fixed bottom-[2%] right-[10%] ${

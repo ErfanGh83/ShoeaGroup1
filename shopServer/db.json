@@ -312,6 +312,28 @@
       "defaultLocation": "",
       "defaultShipping": "",
       "id": "-aPY-dX"
+    },
+    {
+      "firstName": "Erfan",
+      "lastName": "Ghasemian",
+      "username": "ErfanGh",
+      "email": "erfan.ghasemian70@gmail.com",
+      "password": "Erfan@123",
+      "phoneNumber": "09121211212",
+      "gender": "male",
+      "confirmPassword": "Erfan@123",
+      "cart": [
+        {
+          "id": "1",
+          "quantity": 5
+        }
+      ],
+      "orders": [],
+      "wishlist": [],
+      "locations": [],
+      "defaultLocation": "",
+      "defaultShipping": "",
+      "id": "dJvnQ5z"
     }
   ],
   "Products": [

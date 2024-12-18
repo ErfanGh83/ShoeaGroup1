@@ -78,8 +78,8 @@ function ProductPage() {
 
         axios.put(`http://localhost:5173/users/${userId}`, { ...user, cart: updatedCart })
             .then((response) => {
-                console.log("Cart updated successfully:", response.data);
-                setUser({ ...user, cart: updatedCart }); // Update state
+                toast.success('Cart updated !')
+                setUser({ ...user, cart: updatedCart });
             })
             .catch((error) => {
                 console.error("Error updating cart:", error);
@@ -256,7 +256,7 @@ function ProductPage() {
                 </p>
 
                 <p className="text-2xl font-bold">
-                    $259.99
+                    ${product.price}
                 </p>
             </div>
 

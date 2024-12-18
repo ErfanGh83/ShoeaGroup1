@@ -1,21 +1,22 @@
 import { BiBell } from "react-icons/bi";
 import { BiHeart } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { useEffect, useState } from "react";
 
 const HomeHeader = ()=>{
 
-    const navigate = useNavigate()
-    const storedUser = localStorage.getItem("user");
-    let username;
+    const [username, setUsername] = useState('');
 
-    if (storedUser) {
-        const user = JSON.parse(storedUser);
-        username = user.username;
-    }
-    else{
-        username = '';
-    }
+    useEffect(() => {
+        const storedUser = localStorage.getItem('storedUser');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            setUsername(user.username || '');
+        } else {
+            setUsername('');
+        }
+    }, []);
 
     return(
         <header className="w-full h-20 shadow-xl absolute top-0 flex flex-row justify-between items-center px-6">
@@ -28,9 +29,15 @@ const HomeHeader = ()=>{
                     <p className="text-gray-400 text-md">
                         {username? 'Good Morning 👋' : ''}
                     </p>
-
-                    <h2 className=" font-semibold text-lg">
-                        {username? username : <button className="m-auto" onClick={()=>navigate('/login')}>Login</button>}
+                    
+                    <h2 className="font-semibold text-lg">
+                        {username ? (
+                            username
+                        ) : (
+                            <Link to="/login" className="m-auto">
+                                Login
+                            </Link>
+                        )}
                     </h2>
                 </div>
             </div>
