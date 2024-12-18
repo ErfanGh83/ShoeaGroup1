@@ -75,7 +75,7 @@ function WishListPage() {
                 
                 <div className='size-[182px] rounded-2xl overflow-hidden flex flex-row-reverse'>
                     <div className="w-fit h-fit absolute">
-                        <BiHeartCircle />
+                        <BiHeartCircle size={24}/>
                     </div>
                     <img className='size-full' src={product.images}/>
                 </div>
