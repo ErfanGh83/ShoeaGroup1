@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { BiHeart } from "react-icons/bi";
@@ -8,21 +8,23 @@ import { VscLoading } from "react-icons/vsc";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useProduct } from "../api/query";
 
 function ProductPage() {
     const { id } = useParams<{ id: string }>();
-    const [userId, setUserId] = useState(null);
-    const [product, setProduct] = useState(null);
+    const [userId, setUserId] = useState<number>(0);
+    const { data: product, isPending, isError } = useProduct(id!);
     const [user, setUser] = useState({});
     const [quantity, setQuantity] = useState(0);
     const [isWished, setIsWished] = useState(false);
+    const mutation = useMutation({
+        mutationFn: getUserInfo,
+    })
 
-
-    useEffect(() => {
-        axios.get(`  http://localhost:5173/Products/${id}`).then((response) => {
-        setProduct(response.data);
-    });
-    }, [id]);
+    function getUserInfo(id : number){
+        return fetch('http://localhost:5173/users/' + id).then(response => response.json()).then((mutation)=>setUser(mutation.data));
+    }
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -31,39 +33,54 @@ function ProductPage() {
             const user = JSON.parse(storedUser);
             setUserId(user.id);
         } else {
-            setUserId(null);
+            setUserId(0);
         }
-    }, []);
+        mutation.mutate(userId)
+    }, [userId]);
+
+    // const getUserData = () => {
+
+    //     if (response.data.cart) {
+    //         for (let i = 0; i < response.data.cart.length; i++) {
+    //             if (response.data.cart[i].id === id) {
+    //                 setQuantity(response.data.cart[i].quantity);
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     if(response.data.wishlist){
+    //         for (let i = 0; i < response.data.wishlist.length; i++) {
+    //             if (response.data.wishlist[i].id === id) {
+    //                 setIsWished(true);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
-        if (userId !== null) {
-            axios.get(`http://localhost:5173/users/${userId}`)
-                .then((response) => {
-                    setUser(response.data);
-
-                    if (response.data.cart) {
-                        for (let i = 0; i < response.data.cart.length; i++) {
-                            if (response.data.cart[i].id === id) {
-                                setQuantity(response.data.cart[i].quantity);
-                                break;
-                            }
-                        }
+        
+        if (userId !== null && user) {
+            if (user.cart) {
+                for (let i = 0; i < user.cart.length; i++) {
+                    if (user.cart[i].id === id) {
+                        setQuantity(user.cart[i].quantity);
+                        break;
                     }
+                }
+            }
 
-                    if(response.data.wishlist){
-                        for (let i = 0; i < response.data.wishlist.length; i++) {
-                            if (response.data.wishlist[i].id === id) {
-                                setIsWished(true);
-                                break;
-                            }
-                        }
+            if(user.wishlist){
+                for (let i = 0; i < user.wishlist.length; i++) {
+                    if (user.wishlist[i].id === id) {
+                        setIsWished(true);
+                        break;
                     }
-                })
-                .catch((error) => {
-                    console.error("Error fetching user data:", error);
-                });
+                }
+            }
         }
-    }, [userId, id]); 
+    }, [user, userId]); 
 
 
     const updateCart = (productId, newQuantity) => {
@@ -96,15 +113,6 @@ function ProductPage() {
             });
     };
     
-
-    if (!product) {
-        return (
-            <div className="size-36 flex items-center justify-center m-auto animate-spin">
-                <VscLoading size={36}/>
-            </div>
-        );
-    }
-
     const add = () => {
         const count = quantity + 1;
         setQuantity(count)
@@ -152,7 +160,16 @@ function ProductPage() {
             });
     };
 
-
+    if(isPending){
+        return (
+                    <div className="size-36 flex items-center justify-center m-auto animate-spin">
+                        <VscLoading size={36}/>
+                    </div>
+                );
+    }
+    else if(isError){
+        return(<p className="text-3xl m-auto text-center font-bold">Error fetching data</p>)
+    }
 
   return (
     <div>
@@ -301,7 +318,7 @@ function ProductPage() {
                 </p>
 
                 <p className="text-2xl font-bold">
-                    ${product.price}
+                    ${product.price * quantity}
                 </p>
             </div>
 
