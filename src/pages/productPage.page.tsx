@@ -1,87 +1,65 @@
-import { data, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BiArrowBack } from "react-icons/bi";
-import { BiHeart } from "react-icons/bi";
-import { BiStar } from "react-icons/bi";
-import { BiShoppingBag } from "react-icons/bi";
+import { BiArrowBack, BiHeart, BiStar, BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
-import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useProduct } from "../api/query";
+import axios from "axios";
+
+interface User {
+  id: number;
+  cart: { id: string; quantity: number }[];
+  wishlist: { id: string }[];
+}
 
 function ProductPage() {
-    const { id } = useParams<{ id: string }>();
-    const [userId, setUserId] = useState<number>(0);
-    const { data: product, isPending, isError } = useProduct(id!);
-    const [user, setUser] = useState({});
-    const [quantity, setQuantity] = useState(0);
-    const [isWished, setIsWished] = useState(false);
-    const mutation = useMutation({
-        mutationFn: getUserInfo,
-    })
+  const { id } = useParams<{ id: string }>();
+  const [userId, setUserId] = useState<number | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [quantity, setQuantity] = useState(0);
+  const [isWished, setIsWished] = useState(false);
 
-    function getUserInfo(id : number){
-        return fetch('http://localhost:5173/users/' + id).then(response => response.json()).then((mutation)=>setUser(mutation.data));
+  const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
+
+  const userInfoMutation = useMutation({
+    mutationFn: (userId: number) =>
+      axios.get(`http://localhost:5173/users/${userId}`).then((res) => res.data),
+    onSuccess: (data: User) => {
+      setUser(data);
+      const cartItem = data.cart.find((item) => item.id === id);
+      setQuantity(cartItem ? cartItem.quantity : 0);
+
+      const isInWishlist = data.wishlist.some((item) => item.id === id);
+      setIsWished(isInWishlist);
+    },
+    onError: () => {
+      toast.error("Failed to fetch user information.");
+    },
+  });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserId(user.id);
     }
+  }, []);
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
+  useEffect(() => {
+    if (userId !== null) {
+      userInfoMutation.mutate(userId);
+    }
+  }, [userId]);
 
-        if (storedUser) {
-            const user = JSON.parse(storedUser);
-            setUserId(user.id);
-        } else {
-            setUserId(0);
-        }
-        mutation.mutate(userId)
-    }, [userId]);
+  if (isProductLoading) {
+    return <VscLoading />;
+  }
 
-    // const getUserData = () => {
-
-    //     if (response.data.cart) {
-    //         for (let i = 0; i < response.data.cart.length; i++) {
-    //             if (response.data.cart[i].id === id) {
-    //                 setQuantity(response.data.cart[i].quantity);
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     if(response.data.wishlist){
-    //         for (let i = 0; i < response.data.wishlist.length; i++) {
-    //             if (response.data.wishlist[i].id === id) {
-    //                 setIsWished(true);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // }
-
-    useEffect(() => {
-        
-        if (userId !== null && user) {
-            if (user.cart) {
-                for (let i = 0; i < user.cart.length; i++) {
-                    if (user.cart[i].id === id) {
-                        setQuantity(user.cart[i].quantity);
-                        break;
-                    }
-                }
-            }
-
-            if(user.wishlist){
-                for (let i = 0; i < user.wishlist.length; i++) {
-                    if (user.wishlist[i].id === id) {
-                        setIsWished(true);
-                        break;
-                    }
-                }
-            }
-        }
-    }, [user, userId]); 
-
+  if (isProductError) {
+    return <div>Error loading product</div>;
+  }
 
     const updateCart = (productId, newQuantity) => {
         if (!userId || !user) {
@@ -160,16 +138,13 @@ function ProductPage() {
             });
     };
 
-    if(isPending){
-        return (
-                    <div className="size-36 flex items-center justify-center m-auto animate-spin">
-                        <VscLoading size={36}/>
-                    </div>
-                );
-    }
-    else if(isError){
-        return(<p className="text-3xl m-auto text-center font-bold">Error fetching data</p>)
-    }
+    if (isProductLoading) {
+        return <VscLoading />;
+      }
+    
+      if (isProductError) {
+        return <div>Error loading product</div>;
+      }
 
   return (
     <div>
@@ -313,6 +288,7 @@ function ProductPage() {
 
         <div className="flex flex-row px-6 my-10 justify-between">
             <div>
+                <p className="text-md text-gray-700 my-2">Price: ${product.price}</p>
                 <p className="text-base text-gray-500 font-medium">
                     Total price
                 </p>
