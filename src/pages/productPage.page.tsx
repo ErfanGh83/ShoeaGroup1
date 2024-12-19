@@ -15,136 +15,116 @@ interface User {
 }
 
 function ProductPage() {
-  const { id } = useParams<{ id: string }>();
-  const [userId, setUserId] = useState<number | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [quantity, setQuantity] = useState(0);
-  const [isWished, setIsWished] = useState(false);
-
-  const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
-
-  const userInfoMutation = useMutation({
-    mutationFn: (userId: number) =>
-      axios.get(`http://localhost:5173/users/${userId}`).then((res) => res.data),
-    onSuccess: (data: User) => {
-      setUser(data);
-      const cartItem = data.cart.find((item) => item.id === id);
-      setQuantity(cartItem ? cartItem.quantity : 0);
-
-      const isInWishlist = data.wishlist.some((item) => item.id === id);
-      setIsWished(isInWishlist);
-    },
-    onError: () => {
-      toast.error("Failed to fetch user information.");
-    },
-  });
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserId(user.id);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (userId !== null) {
-      userInfoMutation.mutate(userId);
-    }
-  }, [userId]);
-
-  if (isProductLoading) {
-    return <VscLoading />;
-  }
-
-  if (isProductError) {
-    return <div>Error loading product</div>;
-  }
-
-    const updateCart = (productId, newQuantity) => {
-        if (!userId || !user) {
-            toast.warn('please login first !');
-            return;
-        };
-
-        const updatedCart = [...user.cart];
-
-        const productIndex = updatedCart.findIndex(item => item.id === productId);
-    
-        if (productIndex !== -1) {
-            if (newQuantity > 0) {
-                updatedCart[productIndex].quantity = newQuantity;
-            } else {
-                updatedCart.splice(productIndex, 1);
-            }
-        } else if (newQuantity > 0) {
-            updatedCart.push({ id: productId, quantity: newQuantity });
-        }
-
-        axios.put(`http://localhost:5173/users/${userId}`, { ...user, cart: updatedCart })
-            .then((response) => {
-                toast.success('Cart updated !')
-                setUser({ ...user, cart: updatedCart });
-            })
-            .catch((error) => {
-                console.error("Error updating cart:", error);
-            });
+    const { id } = useParams<{ id: string }>();
+    const [userId, setUserId] = useState<number | null>(null);
+    const [user, setUser] = useState<User | null>(null);
+    const [quantity, setQuantity] = useState(0);
+    const [isWished, setIsWished] = useState(false);
+  
+    const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
+  
+    const userInfoMutation = useMutation({
+      mutationFn: (userId: number) =>
+        axios.get(`http://localhost:5173/users/${userId}`).then((res) => res.data),
+      onSuccess: (data: User) => {
+        setUser(data);
+        const cartItem = data.cart.find((item) => item.id === id);
+        setQuantity(cartItem ? cartItem.quantity : 0);
+  
+        const isInWishlist = data.wishlist.some((item) => item.id === id);
+        setIsWished(isInWishlist);
+      },
+      onError: () => {
+        toast.error("Failed to fetch user information.");
+      },
+    });
+  
+    useEffect(() => {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserId(user.id);
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (userId !== null) {
+        userInfoMutation.mutate(userId);
+      }
+    }, [userId]);
+  
+    const updateUserData = async (updatedData: { cart?: any[]; wishlist?: any[] }) => {
+      try {
+        const updatedUser = { ...user, ...updatedData };
+        await axios.put(`http://localhost:5173/users/${userId}`, updatedUser);
+        setUser(updatedUser);
+        toast.success("Cart updated !");
+      } catch (error) {
+        console.error("Error updating user data:", error);
+        toast.error("Failed to update user data.");
+      }
     };
-    
-    const add = () => {
-        const count = quantity + 1;
-        setQuantity(count)
-    }
-
-    const reduce = () => {
-        const count = quantity > 0? quantity - 1 : 0;
-        setQuantity(count)
-    }
+  
+    const updateCart = (newQuantity: number) => {
+      if (!userId || !user) {
+        toast.warn('Please login first!');
+        return;
+      }
+  
+      const updatedCart = [...user.cart];
+      const productIndex = updatedCart.findIndex((item) => item.id === id);
+  
+      if (productIndex !== -1) {
+        if (newQuantity > 0) {
+          updatedCart[productIndex].quantity = newQuantity;
+        } else {
+          updatedCart.splice(productIndex, 1);
+        }
+      } else if (newQuantity > 0) {
+        updatedCart.push({ id, quantity: newQuantity });
+      }
+  
+      updateUserData({ cart: updatedCart });
+    };
+  
+    const toggleWishlist = () => {
+      if (!userId || !user) {
+        toast.warn('Please login first!');
+        return;
+      }
+  
+      const updatedWishlist = [...user.wishlist];
+      const productIndex = updatedWishlist.findIndex((item) => item.id === id);
+  
+      if (productIndex !== -1) {
+        updatedWishlist.splice(productIndex, 1);
+        setIsWished(false);
+      } else {
+        updatedWishlist.push({ id });
+        setIsWished(true);
+      }
+  
+      updateUserData({ wishlist: updatedWishlist });
+    };
+  
+    const handleQuantityChange = (operation: "add" | "reduce") => {
+      setQuantity((prev) => {
+        const newQuantity = operation === "add" ? prev + 1 : prev > 0 ? prev - 1 : 0;
+        return newQuantity;
+      });
+    };
 
     const submitChanges = () => {
-        updateCart(id, quantity)
-    }
-
-    const toggleWish = () => {
-        if (!userId || !user) {
-            toast.warn('Please login first!');
-            return;
-        }
-
-        if(isWished){
-            setIsWished(false)
-        }
-        else{
-            setIsWished(true)
-        }
-
-        const updatedWishlist = [...user.wishlist];
-    
-        const productIndex = updatedWishlist.findIndex(item => item.id === id);
-    
-        if (productIndex !== -1) {
-            updatedWishlist.splice(productIndex, 1);
-        } else {
-            updatedWishlist.push({ id: id });
-        }
-
-        axios.put(`http://localhost:5173/users/${userId}`, { ...user, wishlist: updatedWishlist })
-            .then((response) => {
-                toast.success('Wishlist updated!');
-                setUser({ ...user, wishlist: updatedWishlist });
-            })
-            .catch((error) => {
-                console.error("Error updating wishlist:", error);
-            });
-    };
-
+        updateCart(quantity);
+      };
+  
     if (isProductLoading) {
-        return <VscLoading />;
-      }
-    
-      if (isProductError) {
-        return <div>Error loading product</div>;
-      }
+      return <VscLoading />;
+    }
+  
+    if (isProductError) {
+      return <div>Error loading product</div>;
+    }
 
   return (
     <div>
@@ -160,7 +140,7 @@ function ProductPage() {
                 {product.title}
             </h1>
             
-            <button onClick={toggleWish}>
+            <button onClick={toggleWishlist}>
                 <BiHeart size={30} color={isWished ? "red" : "black"} />
             </button>
         </div>
@@ -270,7 +250,7 @@ function ProductPage() {
             <p className="text-2xl font-bold">Qauntity</p>
 
             <div className="w-[150px] h-[50px] flex flex-row justify-evenly items-center rounded-full mx-4 bg-gray-200 shadow-lg">
-                <button className="text-2xl" onClick={add}>
+                <button className="text-2xl" onClick={() => handleQuantityChange("add")}>
                     +
                 </button>
 
@@ -278,7 +258,7 @@ function ProductPage() {
                     {quantity}
                 </p>
 
-                <button className="text-2xl" onClick={reduce}>
+                <button className="text-2xl" onClick={() => handleQuantityChange("reduce")}>
                     -
                 </button>
             </div>
