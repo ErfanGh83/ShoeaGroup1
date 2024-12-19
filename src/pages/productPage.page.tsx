@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useMutation } from "@tanstack/react-query";
 import { useProduct } from "../api/query";
 import axios from "axios";
+import { number } from "zod";
 
 interface User {
   id: number;
@@ -20,6 +21,8 @@ function ProductPage() {
     const [user, setUser] = useState<User | null>(null);
     const [quantity, setQuantity] = useState(0);
     const [isWished, setIsWished] = useState(false);
+    const [selectedColor, setSelectedColor] = useState<string | null>(null);
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
   
     const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
   
@@ -33,6 +36,9 @@ function ProductPage() {
   
         const isInWishlist = data.wishlist.some((item) => item.id === id);
         setIsWished(isInWishlist);
+
+        setSelectedColor(product.color[0]);
+        setSelectedSize(product.size[0]);
       },
       onError: () => {
         toast.error("Failed to fetch user information.");
@@ -65,46 +71,64 @@ function ProductPage() {
       }
     };
   
-    const updateCart = (newQuantity: number) => {
-      if (!userId || !user) {
-        toast.warn('Please login first!');
-        return;
-      }
-  
-      const updatedCart = [...user.cart];
-      const productIndex = updatedCart.findIndex((item) => item.id === id);
-  
-      if (productIndex !== -1) {
-        if (newQuantity > 0) {
-          updatedCart[productIndex].quantity = newQuantity;
-        } else {
-          updatedCart.splice(productIndex, 1);
+    const updateCart = (productId: string, newQuantity: number, color: string, size: string) => {
+        if (!userId || !user) {
+          toast.warn("Please login first!");
+          return;
         }
-      } else if (newQuantity > 0) {
-        updatedCart.push({ id, quantity: newQuantity });
-      }
-  
-      updateUserData({ cart: updatedCart });
-    };
-  
-    const toggleWishlist = () => {
-      if (!userId || !user) {
-        toast.warn('Please login first!');
+    
+        const updatedCart = [...user.cart];
+    
+        const productIndex = updatedCart.findIndex((item) => item.id === productId && item.color === color && item.size === size);
+    
+        if (productIndex !== -1) {
+          if (newQuantity > 0) {
+            updatedCart[productIndex].quantity = newQuantity;
+          } else {
+            updatedCart.splice(productIndex, 1);
+          }
+        } else if (newQuantity > 0) {
+          updatedCart.push({ id: productId, quantity: newQuantity, color, size });
+        }
+    
+        axios
+          .put(`http://localhost:5173/users/${userId}`, { ...user, cart: updatedCart })
+          .then((response) => {
+            toast.success("Cart updated!");
+            setUser({ ...user, cart: updatedCart });
+          })
+          .catch((error) => {
+            console.error("Error updating cart:", error);
+          });
+      };
+    
+    const toggleWish = () => {
+        if (!userId || !user) {
+        toast.warn("Please login first!");
         return;
-      }
-  
-      const updatedWishlist = [...user.wishlist];
-      const productIndex = updatedWishlist.findIndex((item) => item.id === id);
-  
-      if (productIndex !== -1) {
-        updatedWishlist.splice(productIndex, 1);
-        setIsWished(false);
-      } else {
-        updatedWishlist.push({ id });
-        setIsWished(true);
-      }
-  
-      updateUserData({ wishlist: updatedWishlist });
+        }
+
+        const updatedWishlist = [...user.wishlist];
+
+        const productIndex = updatedWishlist.findIndex((item) => item.id === id);
+
+        if (productIndex !== -1) {
+            setIsWished(false)
+            updatedWishlist.splice(productIndex, 1);
+        } else {
+            setIsWished(true)
+            updatedWishlist.push({ id: id });
+        }
+
+        axios
+        .put(`http://localhost:5173/users/${userId}`, { ...user, wishlist: updatedWishlist })
+        .then((response) => {
+            toast.success("Wishlist updated!");
+            setUser({ ...user, wishlist: updatedWishlist });
+        })
+        .catch((error) => {
+            console.error("Error updating wishlist:", error);
+        });
     };
   
     const handleQuantityChange = (operation: "add" | "reduce") => {
@@ -115,8 +139,8 @@ function ProductPage() {
     };
 
     const submitChanges = () => {
-        updateCart(quantity);
-      };
+        updateCart(id, quantity, selectedColor!, selectedSize!);
+    };
   
     if (isProductLoading) {
       return <VscLoading />;
@@ -140,7 +164,7 @@ function ProductPage() {
                 {product.title}
             </h1>
             
-            <button onClick={toggleWishlist}>
+            <button onClick={toggleWish}>
                 <BiHeart size={30} color={isWished ? "red" : "black"} />
             </button>
         </div>
@@ -185,24 +209,13 @@ function ProductPage() {
                 </p>
 
                 <ul className="w-11/12 h-fit py-2 flex flex-row gap-4 overflow-x-scroll">
-                    <li className="size-10 rounded-full border-2 border-black items-center">
+                        {product.size.map((size) => (
+                        <li key={size} onClick={() => setSelectedSize(size)} className={`size-10 rounded-full ${selectedSize === size ? "bg-black text-white" : ""} border-2 border-black items-center`}>
                         <p className="size-10 px-2 pt-1 font-bold">
-                            42
+                            {size}
                         </p>
                     </li>
-
-                    <li className="size-10 rounded-full border-2 border-black items-center">
-                        <p className="size-10 px-2 pt-1 font-bold">
-                            43
-                        </p>
-                    </li>
-
-                    <li className="size-10 rounded-full border-2 border-black items-center">
-                        <p className="size-10 px-2 pt-1 font-bold">
-                            44
-                        </p>
-                    </li>
-                    
+                        ))}
                 </ul>
             </div>
 
@@ -212,7 +225,7 @@ function ProductPage() {
                 </p>
 
                 <ul className="w-11/12 h-fit py-2 flex flex-row gap-4 overflow-x-scroll">
-                {product.color.map((element) => {
+                {product.color.map((color) => {
                     const colorClasses = {
                     red: 'bg-red-600',
                     blue: 'bg-blue-600',
@@ -224,10 +237,10 @@ function ProductPage() {
                     gray: 'bg-gray-600',
                     };
 
-                    const colorClass = colorClasses[element] || 'bg-gray-400';
+                    const colorClass = colorClasses[color] || 'bg-gray-400';
 
                     return (
-                    <li key={element} className={`w-10 h-10 rounded-full ${colorClass} shadow-md`}>
+                    <li onClick={() => setSelectedColor(color)} key={color} className={`w-10 h-10 rounded-full ${selectedColor === color ? "border-2 border-black" : ""} ${colorClass} shadow-md`}>
                         <p className="size-10 px-2 pt-1 font-bold"></p>
                     </li>
                     );

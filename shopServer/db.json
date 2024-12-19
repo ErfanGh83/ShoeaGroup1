@@ -286,15 +286,27 @@
         {
           "id": "3",
           "quantity": 5
+        },
+        {
+          "id": "1",
+          "quantity": 5,
+          "color": "rose",
+          "size": 42
+        },
+        {
+          "id": "1",
+          "quantity": 5,
+          "color": "rose",
+          "size": 40
         }
       ],
       "orders": [],
       "wishlist": [
         {
-          "id": "1"
+          "id": "2"
         },
         {
-          "id": "2"
+          "id": "1"
         }
       ],
       "locations": [],
