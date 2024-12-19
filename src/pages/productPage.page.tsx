@@ -212,37 +212,28 @@ function ProductPage() {
                 </p>
 
                 <ul className="w-11/12 h-fit py-2 flex flex-row gap-4 overflow-x-scroll">
-                    <li className="size-10 rounded-full bg-red-600 shadow-md">
-                        <p className="size-10 px-2 pt-1 font-bold ">
-                            
-                        </p>
-                    </li>
+                {product.color.map((element) => {
+                    const colorClasses = {
+                    red: 'bg-red-600',
+                    blue: 'bg-blue-600',
+                    green: 'bg-green-600',
+                    yellow: 'bg-yellow-600',
+                    purple: 'bg-purple-600',
+                    rose: 'bg-rose-600',
+                    emerald: 'bg-emerald-600',
+                    gray: 'bg-gray-600',
+                    };
 
-                    <li className="size-10 rounded-full bg-blue-600 shadow-md">
-                        <p className="size-10 px-2 pt-1 font-bold ">
-                            
-                        </p>
-                    </li>
+                    const colorClass = colorClasses[element] || 'bg-gray-400';
 
-                    <li className="size-10 rounded-full bg-green-600 shadow-md">
-                        <p className="size-10 px-2 pt-1 font-bold ">
-                            
-                        </p>
+                    return (
+                    <li key={element} className={`w-10 h-10 rounded-full ${colorClass} shadow-md`}>
+                        <p className="size-10 px-2 pt-1 font-bold"></p>
                     </li>
-
-                    <li className="size-10 rounded-full bg-white shadow-md">
-                        <p className="size-10 px-2 pt-1 font-bold ">
-                            
-                        </p>
-                    </li>
-
-                    <li className="size-10 rounded-full bg-purple-600 shadow-md">
-                        <p className="size-10 px-2 pt-1 font-bold ">
-                            
-                        </p>
-                    </li>
-                    
+                    );
+                })}
                 </ul>
+
             </div>
         </div>
 
