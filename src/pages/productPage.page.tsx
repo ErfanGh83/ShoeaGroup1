@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useMutation } from "@tanstack/react-query";
 import { useProduct } from "../api/query";
 import axios from "axios";
-import { number } from "zod";
 
 interface User {
   id: number;
@@ -37,8 +36,19 @@ function ProductPage() {
         const isInWishlist = data.wishlist.some((item) => item.id === id);
         setIsWished(isInWishlist);
 
-        setSelectedColor(product.color[0]);
-        setSelectedSize(product.size[0]);
+        const prodExist = data.cart.some((item) => item.id === id);
+        let defaultColor = product.color[0];
+        let defaultSize = product.size[0];
+        if(prodExist){
+            for(let i=0; i <data.cart.length; i++){
+                if(data.cart[i].id == id){
+                    defaultColor = data.cart[i].color;
+                    defaultSize = data.cart[i].size;
+                }
+            }
+        }
+        setSelectedColor(defaultColor);
+        setSelectedSize(defaultSize);
       },
       onError: () => {
         toast.error("Failed to fetch user information.");
