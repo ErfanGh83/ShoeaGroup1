@@ -289,13 +289,7 @@
         },
         {
           "id": "1",
-          "quantity": 5,
-          "color": "rose",
-          "size": 42
-        },
-        {
-          "id": "1",
-          "quantity": 5,
+          "quantity": 4,
           "color": "rose",
           "size": 40
         },
@@ -322,6 +316,48 @@
           "quantity": 7,
           "color": "gray",
           "size": 40
+        },
+        {
+          "id": "1",
+          "quantity": 4,
+          "color": "rose",
+          "size": 42
+        },
+        {
+          "id": "1",
+          "quantity": 5,
+          "color": "emerald",
+          "size": 42
+        },
+        {
+          "id": "9",
+          "quantity": 3,
+          "color": "rose",
+          "size": 44
+        },
+        {
+          "id": "9",
+          "quantity": 3,
+          "color": "emerald",
+          "size": 44
+        },
+        {
+          "id": "9",
+          "quantity": 3,
+          "color": "teal",
+          "size": 44
+        },
+        {
+          "id": "9",
+          "quantity": 3,
+          "color": "gray",
+          "size": null
+        },
+        {
+          "id": "9",
+          "quantity": 5,
+          "color": "emerald",
+          "size": 42
         }
       ],
       "orders": [],

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { BiArrowBack } from "react-icons/bi";
-import { BiHeartCircle } from "react-icons/bi";
 import { useProducts, useUser } from "../customHooks/useFetchData";
 import WishlistProducts from "../components/whislistComponents/wishistProducts"; // Assuming you have this component
 import { Product, User } from "../types/types";
-import { string } from "zod";
 
 function WishListPage() {
     const [userId, setUserId] = useState<string | null>(null);
