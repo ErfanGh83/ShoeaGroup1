@@ -5,7 +5,6 @@ const SigneUpPage: React.FC = () => {
   return (
     <div className="pt-44">
            <Form  />
-
     </div>
   );
 };
