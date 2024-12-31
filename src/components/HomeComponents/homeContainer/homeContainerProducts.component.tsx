@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useProducts } from '../../../customHooks/useFetchData';
 
-const fetchProducts = async (params: { brand: string[] }) => {
-  const response = await axios.get('http://localhost:5173/Products', {
-    params,
-  });
-  return response.data;
+type Filters = {
+  brand: string[];
+  color: string[];
+  size: string[];
 };
 
+
 function Products() {
-  const [filters, setFilters] = useState({
-    brand: [] as string[],
-    color: [] as string[],
-    size: [] as string[],
+  const [filters, setFilters] = useState<Filters>({
+    brand: [],
+    color: [],
+    size: [],
   });
+
   const navigate = useNavigate();
 
-  const toggleFilter = (filterType: string, filterValue: string) => {
+  const toggleFilter = (filterType: keyof Filters, filterValue: string) => {
     if (filterValue === 'all') {
       setFilters({
         brand: [],
@@ -38,27 +38,12 @@ function Products() {
     }
   };
 
-  const queryParams = {
-    brand: filters.brand,
-  };
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['products', queryParams],
-    queryFn: () => fetchProducts(queryParams),
-  });
+  const { data, isLoading, error } = useProducts()
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const filteredProducts = data?.filter((product: {
-    id: string;
-    title: string;
-    brand: string;
-    color: string[];
-    size: number[];
-    price: number;
-    images: string;
-  }) => {
+  const filteredProducts = data?.filter((product) => {
     const matchesBrand = filters.brand.length === 0 || filters.brand.includes(product.brand);
     const matchesColor =
       filters.color.length === 0 || product.color.some((col) => filters.color.includes(col));
@@ -80,7 +65,11 @@ function Products() {
             key={brand}
             onClick={() => toggleFilter('brand', brand)}
             className={`m-2 px-2 text-center rounded-3xl border-2 border-black ${
-              filters.brand.length === 0 && brand === 'all' ? 'bg-black text-white' : filters.brand.includes(brand) ? 'bg-black text-white' : 'bg-white'
+              filters.brand.length === 0 && brand === 'all'
+                ? 'bg-black text-white'
+                : filters.brand.includes(brand)
+                ? 'bg-black text-white'
+                : 'bg-white'
             }`}
           >
             {brand}
@@ -113,15 +102,7 @@ function Products() {
       </div>
 
       <ul className="grid grid-cols-2 w-full max-h-[600px] overflow-y-auto pt-6 mb-16">
-        {filteredProducts?.map((product: {
-          id: string;
-          title: string;
-          brand: string;
-          color: string[];
-          size: number[];
-          price: number;
-          images: string;
-        }) => (
+        {filteredProducts?.map((product) => (
           <li
             key={product.id}
             className="w-[182px] h-[244px] flex flex-col mx-auto"
