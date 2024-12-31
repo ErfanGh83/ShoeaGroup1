@@ -3,59 +3,32 @@ import { useEffect, useState } from "react";
 import { BiArrowBack, BiHeart, BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
-import { useProduct } from "../api/query";
-import axios from "axios";
+import { useProduct } from "../customHooks/useFetchData";
+import { useUpdateCart, useUserInfo } from "../customHooks/useFetchData";
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
-
-interface User {
-  id: number;
-  cart: { id: string; quantity: number; color: string; size: string }[];
-  wishlist: { id: string }[];
-}
+import useWishlist from "../customHooks/useFetchData";
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const [userId, setUserId] = useState<number | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [quantity, setQuantity] = useState(0);
-  const [isWished, setIsWished] = useState(false);
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
+  const updateCartMutation = useUpdateCart(userId ? String(userId) : null);
 
-  const userInfoMutation = useMutation({
-    mutationFn: (userId: number) =>
-      axios.get(`http://localhost:5173/users/${userId}`).then((res) => res.data),
-    onSuccess: (data: User) => {
-      setUser(data);
-      const cartItem = data.cart.find((item) => item.id === id);
-      setQuantity(cartItem ? cartItem.quantity : 0);
+  const {
+    user,
+    quantity,
+    selectedColor,
+    selectedSize,
+    setSelectedColor,
+    setSelectedSize,
+    setQuantity,
+    userInfoMutation,
+  } = useUserInfo({ id, product });
 
-      const isInWishlist = data.wishlist.some((item) => item.id === id);
-      setIsWished(isInWishlist);
-
-      const prodExist = data.cart.some((item) => item.id === id);
-      let defaultColor = product.color[0];
-      let defaultSize = product.size[0];
-      if (prodExist) {
-        for (let i = 0; i < data.cart.length; i++) {
-          if (data.cart[i].id === id) {
-            defaultColor = data.cart[i].color;
-            defaultSize = data.cart[i].size;
-          }
-        }
-      }
-      setSelectedColor(defaultColor);
-      setSelectedSize(defaultSize);
-    },
-    onError: () => {
-      toast.error("Failed to fetch user information.");
-    },
-  });
+  const { isWished, toggleWishlist } = useWishlist(userId);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -66,89 +39,56 @@ function ProductPage() {
   }, []);
 
   useEffect(() => {
-    if (userId !== null) {
+    if (userId && id && !userInfoMutation.isLoading && !user) {
       userInfoMutation.mutate(userId);
     }
-  }, [userId]);
+  }, [userId, id, user, userInfoMutation]);
 
   const handleQuantityChange = (operation: "add" | "reduce") => {
-    setQuantity((prev) => {
-      const newQuantity = operation === "add" ? prev + 1 : prev > 0 ? prev - 1 : 0;
-      return newQuantity;
-    });
+    setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));
   };
 
-  const updateCart = (productId: string, newQuantity: number, color: string, size: string) => {
+  const submitChanges = () => {
     if (!userId || !user) {
       toast.warn("Please login first!");
       return;
     }
 
     const updatedCart = [...user.cart];
-
     const productIndex = updatedCart.findIndex(
-      (item) => item.id === productId && item.color === color && item.size === size
+      (item) => item.id === id && item.color === selectedColor && item.size === selectedSize
     );
 
     if (productIndex !== -1) {
-      if (newQuantity > 0) {
-        updatedCart[productIndex].quantity = newQuantity;
+      if (quantity > 0) {
+        updatedCart[productIndex].quantity = quantity;
       } else {
         updatedCart.splice(productIndex, 1);
       }
-    } else if (newQuantity > 0) {
-      updatedCart.push({ id: productId, quantity: newQuantity, color, size });
+    } else if (quantity > 0) {
+      updatedCart.push({
+        id: id!,
+        quantity,
+        color: selectedColor!,
+        size: selectedSize!,
+      });
     }
 
-    axios
-      .put(`http://localhost:5173/users/${userId}`, { ...user, cart: updatedCart })
-      .then(() => {
+    updateCartMutation.mutate(updatedCart, {
+      onSuccess: () => {
         toast.success("Cart updated!");
-        setUser({ ...user, cart: updatedCart });
-      })
-      .catch((error) => {
-        console.error("Error updating cart:", error);
-      });
-  };
-
-  const submitChanges = () => {
-    updateCart(id, quantity, selectedColor!, selectedSize!);
-  };
-
-  const toggleWish = () => {
-    if (!userId || !user) {
-      toast.warn("Please login first!");
-      return;
-    }
-
-    const updatedWishlist = [...user.wishlist];
-    const productIndex = updatedWishlist.findIndex((item) => item.id === id);
-
-    if (productIndex !== -1) {
-      updatedWishlist.splice(productIndex, 1);
-      setIsWished(false);
-    } else {
-      updatedWishlist.push({ id });
-      setIsWished(true);
-    }
-
-    axios
-      .put(`http://localhost:5173/users/${userId}`, { ...user, wishlist: updatedWishlist })
-      .then((response) => {
-        toast.success(isWished ? "Removed from wishlist!" : "Added to wishlist!");
-        setUser({ ...user, wishlist: updatedWishlist });
-      })
-      .catch((error) => {
-        console.error("Error updating wishlist:", error);
-        toast.error("Failed to update wishlist.");
-      });
+      },
+      onError: () => {
+        toast.error("Failed to update cart.");
+      },
+    });
   };
 
   if (isProductLoading) {
     return <VscLoading />;
   }
 
-  if (isProductError) {
+  if (isProductError || !product) {
     return <div>Error loading product</div>;
   }
 
@@ -158,12 +98,12 @@ function ProductPage() {
         <BiArrowBack size={30} />
       </button>
       <div className="w-full max-h-[450px] overflow-hidden">
-        <img src={product.images} />
+        <img src={product.images} alt={product.title} />
       </div>
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.title}</h1>
-        <button onClick={toggleWish}>
+        <button onClick={() => toggleWishlist(id!)}>
           <BiHeart size={30} color={isWished ? "red" : "black"} />
         </button>
       </div>
@@ -187,7 +127,10 @@ function ProductPage() {
           <p className="text-2xl font-bold">${product.price * quantity}</p>
         </div>
 
-        <button onClick={submitChanges} className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm">
+        <button
+          onClick={submitChanges}
+          className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm"
+        >
           <BiShoppingBag size={24} />
           <p className="text-2xl font-semibold">Add to cart</p>
         </button>
