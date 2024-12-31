@@ -39,10 +39,10 @@ function ProductPage() {
   }, []);
 
   useEffect(() => {
-    if (userId && id && !userInfoMutation.isLoading && !user) {
+    if (userId && id && !user) {
       userInfoMutation.mutate(userId);
     }
-  }, [userId, id, user, userInfoMutation]);
+  }, [userId, id]);
 
   const handleQuantityChange = (operation: "add" | "reduce") => {
     setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));

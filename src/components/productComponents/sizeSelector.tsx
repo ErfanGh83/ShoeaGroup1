@@ -1,7 +1,7 @@
 interface SizeSelectorProps {
-    sizes: string[];
-    selectedSize: string | null;
-    onSizeChange: (size: string) => void;
+    sizes: number[];
+    selectedSize: number | null;
+    onSizeChange: (size: number) => void;
   }
   
   const SizeSelector: React.FC<SizeSelectorProps> = ({ sizes, selectedSize, onSizeChange }) => {

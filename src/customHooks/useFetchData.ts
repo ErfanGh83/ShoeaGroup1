@@ -62,41 +62,41 @@ const useProduct = (productId: string | null): UseQueryResult<Product, Error> =>
 
 const useUpdateCart = (userId: string | null): UseMutationResult<User, Error, CartItem[]> => {
     const mutationFn = async (updatedCart: CartItem[]): Promise<User> => {
-      if (!userId) {
-        throw new Error("User ID is required to update the cart");
-      }
-  
-      const storedUser = localStorage.getItem("user");
-      const user = storedUser ? JSON.parse(storedUser) : null;
-  
-      if (!user) {
-        throw new Error("User not found");
-      }
-  
-      const updatedUser = {
-        ...user,
-        cart: updatedCart,
-      };
+        if (!userId) {
+            throw new Error("User ID is required to update the cart");
+        }
 
-      const response = await api.put<User>(`/users/${userId}`, updatedUser);
-      return response.data;
+        const storedUser = localStorage.getItem("user");
+        const user = storedUser ? JSON.parse(storedUser) : null;
+
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        const updatedUser = {
+            ...user,
+            cart: updatedCart,
+        };
+
+        const response = await api.put<User>(`/users/${userId}`, updatedUser);
+        return response.data;
     };
-  
+
     return useMutation<User, Error, CartItem[]>({
-      mutationFn,
-      onSuccess: (data) => {
-        console.log("Cart updated successfully:", data.cart);
-      },
-      onError: (error) => {
-        console.error("Failed to update cart:", error.message);
-      },
+        mutationFn,
+        onSuccess: (data) => {
+            console.log("Cart updated successfully:", data.cart);
+        },
+        onError: (error) => {
+            console.error("Failed to update cart:", error.message);
+        },
     });
-  };
-  
+};
+
 
 interface UseUserInfoProps {
     id: string | undefined;
-    product: Product | null;
+    product: Product | undefined;
 }
 
 const useUserInfo = ({ id, product }: UseUserInfoProps) => {
@@ -147,7 +147,7 @@ const useUserInfo = ({ id, product }: UseUserInfoProps) => {
     return {
         user,
         quantity,
-        isWished,
+        initialWish: isWished,
         selectedColor,
         selectedSize,
         setSelectedColor,
@@ -156,53 +156,54 @@ const useUserInfo = ({ id, product }: UseUserInfoProps) => {
         userInfoMutation,
     };
 
-    
+
 };
 
 const useWishlist = (userId: number | null) => {
-  const [isWished, setIsWished] = useState(false);
+    const [isWished, setIsWished] = useState(false);
 
-  const toggleWishlist = (productId: string) => {
-    if (!userId) {
-      toast.warn("Please login first!");
-      return;
-    }
+    const toggleWishlist = (productId: string) => {
+        if (!userId) {
+            toast.warn("Please login first!");
+            return;
+        }
 
-    const storedUser = localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : null;
+        const storedUser = localStorage.getItem("user");
+        const user = storedUser ? JSON.parse(storedUser) : null;
 
-    if (!user) {
-      toast.warn("User not found.");
-      return;
-    }
 
-    const updatedWishlist = [...user.wishlist];
+        if (!user) {
+            toast.warn("User not found.");
+            return;
+        }
 
-    const productIndex = updatedWishlist.findIndex((item) => item.id === productId);
+        const updatedWishlist = [...user.wishlist];
 
-    if (productIndex !== -1) {
-      updatedWishlist.splice(productIndex, 1);
-      setIsWished(false);
-      toast.success("Removed from wishlist!");
-    } else {
-      updatedWishlist.push({ id: productId });
-      setIsWished(true);
-      toast.success("Added to wishlist!");
-    }
+        const productIndex = updatedWishlist.findIndex((item) => item.id == productId);
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        ...user,
-        wishlist: updatedWishlist,
-      })
-    );
-  };
+        if (productIndex !== -1) {
+            updatedWishlist.splice(productIndex, 1);
+            setIsWished(false);
+            toast.success("Removed from wishlist!");
+        } else {
+            updatedWishlist.push({ id: productId });
+            setIsWished(true);
+            toast.success("Added to wishlist!");
+        }
 
-  return {
-    isWished,
-    toggleWishlist,
-  };
+        localStorage.setItem(
+            "user",
+            JSON.stringify({
+                ...user,
+                wishlist: updatedWishlist,
+            })
+        );
+    };
+
+    return {
+        isWished,
+        toggleWishlist,
+    };
 };
 
 export default useWishlist;
