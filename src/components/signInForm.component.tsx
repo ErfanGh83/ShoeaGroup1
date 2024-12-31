@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaArrowLeft, FaEnvelope, FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
+import { User } from "../types/types";
+import { baseUrl } from "../customHooks/useFetchData";
 
 type SignInFormData = {
   email: string;
@@ -59,14 +61,14 @@ const SignInForm: React.FC = () => {
       return;
     }
 
-    const BASE_URL = "http://localhost:5173/users";
+    const BASE_URL = baseUrl;
 
     try {
       const response = await axios.get(BASE_URL);
       const users = response.data;
 
       const user = users.find(
-        (user: any) =>
+        (user: User) =>
           user.email === data.email && user.password === data.password
       );
 

@@ -110,14 +110,12 @@ const useUserInfo = ({ id, product }: UseUserInfoProps) => {
         mutationFn: (userId: number) =>
             axios.get(`${baseUrl}/users/${userId}`).then((res) => res.data),
         onSuccess: (data: User) => {
-            console.log(data)
             if (!id || !product) {
                 console.warn("Invalid product ID or product not loaded.");
                 return;
             }
 
             setUser(data);
-            console.log(data)
             const cartItem = data.cart.find((item) => item.id === id);
             setQuantity(cartItem ? cartItem.quantity : 0);
 
@@ -209,5 +207,5 @@ const useWishlist = (userId: number | null) => {
 export default useWishlist;
 
 
-export { useProducts, useUser, useProduct, useUpdateCart, useUserInfo, useWishlist };
+export { baseUrl, useProducts, useUser, useProduct, useUpdateCart, useUserInfo, useWishlist };
 

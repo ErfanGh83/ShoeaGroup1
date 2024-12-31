@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
+import { User } from "../types/types";
+import { baseUrl } from "../customHooks/useFetchData";
 
 const Form: React.FC= () => {
 
@@ -25,20 +27,20 @@ const Form: React.FC= () => {
       const onSubmit = async (data: FormData) => {
         console.log(data);
       
-        const BASE_URL = 'http://localhost:5173/users';
+        const BASE_URL = baseUrl;
       
         try {
           const response = await axios.get(BASE_URL);
           const users = response.data;
       
           const isUsernameTaken = users.some(
-            (user: any) => user.username === data.username
+            (user: User) => user.username === data.username
           );
           const isEmailTaken = users.some(
-            (user: any) => user.email === data.email
+            (user: User) => user.email === data.email
           );
           const isPhoneTaken = users.some(
-            (user: any) => user.phoneNumber === data.phoneNumber
+            (user: User) => user.phoneNumber === data.phoneNumber
           );
 
       
@@ -78,7 +80,7 @@ const Form: React.FC= () => {
           toast.success('Account created successfully!');
           navigate('/login');
         } catch (error) {
-          toast.error(error);
+          console.error(error);
           toast.warning('An error occurred. Please try again.');
         }
       };

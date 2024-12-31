@@ -1,3 +1,4 @@
+import React from "react";
 import { FormFieldProps } from "./formTypes.component";
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -18,7 +19,7 @@ const FormField: React.FC<FormFieldProps> = ({
     <div className="w-11/12 h-1 mx-auto my-1 flex items-center">
       {error && <span className="error-message text-red-500 text-xs mx-auto">{error.message}</span>}
     </div>
-    
   </>
 );
+
 export default FormField;
