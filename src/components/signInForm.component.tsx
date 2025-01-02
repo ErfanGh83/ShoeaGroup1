@@ -1,15 +1,19 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaArrowLeft, FaEnvelope, FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { User } from "../types/types";
 import { baseUrl } from "../customHooks/useFetchData";
+import { useMutation } from "react-query";
+import { ILoginApiParams, loginApi } from "../api/auth.api";
+import { AuthActions } from "../redux/slices/Auth.slice";
 
 type SignInFormData = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -18,10 +22,20 @@ const SignInForm: React.FC = () => {
   const [passIsFocused, setPassIsFocused] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
-
+  
+  const appDispatch = useDispatch();
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm<SignInFormData>();
+
+  const loginMutation = useMutation({
+    mutationKey: 'loginApi',
+    mutationFn: (data: ILoginApiParams) => loginApi(data),
+    onSuccess: ({ data }) => {
+        appDispatch(AuthActions.setLogin({ username: data.username, accessToken: data.accessToken }))
+        navigate('/home')
+    }
+  })
 
   useEffect(() => {
     const lockTime = localStorage.getItem("lockTime");
@@ -64,12 +78,12 @@ const SignInForm: React.FC = () => {
     const BASE_URL = baseUrl;
 
     try {
-      const response = await axios.get(BASE_URL);
+      const response = await axios.get(BASE_URL + '/users');
       const users = response.data;
 
       const user = users.find(
         (user: User) =>
-          user.email === data.email && user.password === data.password
+          user.username === data.username && user.password === data.password
       );
 
       if (user) {
@@ -117,10 +131,10 @@ const SignInForm: React.FC = () => {
           >
             <FaEnvelope size={18} color={emailIsFocused ? "black" : "gray"} />
             <input
-              {...register("email", { required: "Email is required" })}
+              {...register("username", { required: "Username is required" })}
               className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
-              type="email"
-              placeholder="Email"
+              type="username"
+              placeholder="Username"
               onFocus={() => setEmailIsFocused(true)}
               onBlur={() => setEmailIsFocused(false)}
             />

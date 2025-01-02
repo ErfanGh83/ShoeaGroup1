@@ -1,9 +1,8 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult } from "@tanstack/react-query";
 import axios from "axios";
-import { Product, User } from "../types/types";
+import { Product, User, CartItem } from "../types/types";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { CartItem } from "../types/types";
 
 const baseUrl = 'http://localhost:5173';
 
@@ -19,7 +18,7 @@ const fetchProducts = async (): Promise<Product[]> => {
     return data;
 };
 
-const fetchUser = async (userId: string): Promise<User> => {
+const fetchUser = async (userId: string | null): Promise<User> => {
     if (!userId) throw new Error("User ID is required");
     const { data } = await api.get<User>(`/users/${userId}`);
     return data;
@@ -38,7 +37,7 @@ const useProducts = (): UseQueryResult<Product[], Error> => {
     return useQuery<Product[], Error>({
         queryKey: ['products'],
         queryFn: fetchProducts,
-        staleTime: 5 * 60 * 1000,
+        staleTime: 60 * 1000,
         retry: 3,
     });
 };
@@ -47,7 +46,7 @@ const useProducts = (): UseQueryResult<Product[], Error> => {
 const useUser = (userId: string | null): UseQueryResult<User, Error> => {
     return useQuery<User, Error>({
         queryKey: ['user', userId],
-        queryFn: () => fetchUser(userId as string),
+        queryFn: () => fetchUser(userId),
         enabled: !!userId,
     });
 };

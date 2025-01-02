@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { BiArrowBack } from "react-icons/bi";
 import { useProducts, useUser } from "../customHooks/useFetchData";
 import WishlistProducts from "../components/whislistComponents/wishistProducts";
@@ -31,14 +30,15 @@ function WishListPage() {
 
     useEffect(() => {
         if (user && user.wishlist && products) {
+
+            //user.wishlist.map((w)=>products.find((p)=>p.id === w.id))
+            
             const filteredProducts = products.filter(product =>
                 user.wishlist.some(wishlistItem => wishlistItem.id === product.id)
             );
             setWishlistProducts(filteredProducts);
         }
     }, [user, products]);
-
-    const navigate = useNavigate();
 
     if (productsLoading || userLoading) return <div>Loading...</div>;
     if (productsError) return <div>Error fetching products: {productsError.message}</div>;
@@ -52,7 +52,7 @@ function WishListPage() {
                 </button>
                 <p className='text-4xl font-bold'>My Wishlist</p>
             </div>
-            <WishlistProducts products={wishlistProducts} navigate={navigate} />
+            <WishlistProducts products={wishlistProducts} />
         </div>
     );
 }

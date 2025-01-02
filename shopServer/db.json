@@ -352,6 +352,12 @@
           "quantity": 16,
           "color": "emerald",
           "size": 44
+        },
+        {
+          "id": "1",
+          "quantity": 15,
+          "color": "yellow",
+          "size": 41
         }
       ],
       "orders": [],
@@ -359,7 +365,6 @@
         {
           "id": "2"
         },
-        {},
         {
           "id": "1"
         }
