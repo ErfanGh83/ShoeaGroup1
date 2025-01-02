@@ -3,6 +3,7 @@ import axios from "axios";
 import { Product, User, CartItem } from "../types/types";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { HTTPPrivate } from "../services/http.service";
 
 const baseUrl = 'http://localhost:5173';
 
@@ -14,7 +15,7 @@ const api = axios.create({
 });
 
 const fetchProducts = async (): Promise<Product[]> => {
-    const { data } = await api.get<Product[]>('/Products');
+    const { data } = await HTTPPrivate.get<Product[]>('/api/products');
     return data;
 };
 
@@ -26,9 +27,7 @@ const fetchUser = async (userId: string | null): Promise<User> => {
 
 const fetchProduct = async (productId: string): Promise<Product> => {
     if (!productId) throw new Error("Product ID is required");
-    const url = `/products/${productId}`;
-    console.log("Fetching product with URL:", url);
-    const { data } = await api.get<Product>(url);
+    const { data } = await HTTPPrivate.get<Product>('/api/product' + productId);
     return data;
 };
 

@@ -2,12 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { FaArrowLeft, FaEnvelope, FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
-import { User } from "../types/types";
-import { baseUrl } from "../customHooks/useFetchData";
 import { useMutation } from "react-query";
 import { ILoginApiParams, loginApi } from "../api/auth.api";
 import { AuthActions } from "../redux/slices/Auth.slice";
@@ -69,48 +65,48 @@ const SignInForm: React.FC = () => {
     }, 1000);
   };
 
-  const onSubmit = async (data: SignInFormData) => {
-    if (isLocked) {
-      toast.error(`Too many failed attempts. Please wait ${remainingTime} seconds.`);
-      return;
-    }
+  // const onSubmit = async (data: SignInFormData) => {
+  //   if (isLocked) {
+  //     toast.error(`Too many failed attempts. Please wait ${remainingTime} seconds.`);
+  //     return;
+  //   }
 
-    const BASE_URL = baseUrl;
+  //   const BASE_URL = baseUrl;
 
-    try {
-      const response = await axios.get(BASE_URL + '/users');
-      const users = response.data;
+  //   try {
+  //     const response = await axios.get(BASE_URL + '/users');
+  //     const users = response.data;
 
-      const user = users.find(
-        (user: User) =>
-          user.username === data.username && user.password === data.password
-      );
+  //     const user = users.find(
+  //       (user: User) =>
+  //         user.username === data.username && user.password === data.password
+  //     );
 
-      if (user) {
-        toast.success(`Welcome back, ${user.username}!`);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.removeItem("attemptCount");
-        navigate("/home");
-      } else {
-        let attemptCount = parseInt(localStorage.getItem("attemptCount") || "0");
-        attemptCount += 1;
-        localStorage.setItem("attemptCount", attemptCount.toString());
+  //     if (user) {
+  //       toast.success(`Welcome back, ${user.username}!`);
+  //       localStorage.setItem("user", JSON.stringify(user));
+  //       localStorage.removeItem("attemptCount");
+  //       navigate("/home");
+  //     } else {
+  //       let attemptCount = parseInt(localStorage.getItem("attemptCount") || "0");
+  //       attemptCount += 1;
+  //       localStorage.setItem("attemptCount", attemptCount.toString());
 
-        if (attemptCount >= 5) {
-          const lockTime = new Date().getTime();
-          localStorage.setItem("lockTime", lockTime.toString());
-          setIsLocked(true);
-          startCountdown(5 * 60);
-          toast.error("Too many failed attempts. Login locked for 5 minutes.");
-        } else {
-          toast.warning(`Invalid password.`);
-        }
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("An error occurred. Please try again later.");
-    }
-  };
+  //       if (attemptCount >= 5) {
+  //         const lockTime = new Date().getTime();
+  //         localStorage.setItem("lockTime", lockTime.toString());
+  //         setIsLocked(true);
+  //         startCountdown(5 * 60);
+  //         toast.error("Too many failed attempts. Login locked for 5 minutes.");
+  //       } else {
+  //         toast.warning(`Invalid password.`);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     toast.error("An error occurred. Please try again later.");
+  //   }
+  // };
 
   return (
     <div>
@@ -120,7 +116,7 @@ const SignInForm: React.FC = () => {
       >
         <FaArrowLeft size={24} />
       </button>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(data => loginMutation.mutate(data))}>
         <img className="mx-auto" src="/src/assets/logo-black.svg" />
         <h1 className="text-3xl font-bold text-center m-4">Login</h1>
         <div className="grid col-auto gap-4">
