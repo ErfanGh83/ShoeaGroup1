@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useProducts } from "../../../customHooks/useFetchData";
 import { VscLoading } from "react-icons/vsc";
 

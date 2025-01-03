@@ -16,6 +16,7 @@ interface ILoginApiResponse {
 
 
 export const loginApi = async (data: ILoginApiParams): Promise<AxiosResponse<ILoginApiResponse>> => {
+    console.log(data)
     return HTTP.post('/auth/login', data)
 }
 

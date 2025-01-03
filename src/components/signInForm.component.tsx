@@ -65,49 +65,6 @@ const SignInForm: React.FC = () => {
     }, 1000);
   };
 
-  // const onSubmit = async (data: SignInFormData) => {
-  //   if (isLocked) {
-  //     toast.error(`Too many failed attempts. Please wait ${remainingTime} seconds.`);
-  //     return;
-  //   }
-
-  //   const BASE_URL = baseUrl;
-
-  //   try {
-  //     const response = await axios.get(BASE_URL + '/users');
-  //     const users = response.data;
-
-  //     const user = users.find(
-  //       (user: User) =>
-  //         user.username === data.username && user.password === data.password
-  //     );
-
-  //     if (user) {
-  //       toast.success(`Welcome back, ${user.username}!`);
-  //       localStorage.setItem("user", JSON.stringify(user));
-  //       localStorage.removeItem("attemptCount");
-  //       navigate("/home");
-  //     } else {
-  //       let attemptCount = parseInt(localStorage.getItem("attemptCount") || "0");
-  //       attemptCount += 1;
-  //       localStorage.setItem("attemptCount", attemptCount.toString());
-
-  //       if (attemptCount >= 5) {
-  //         const lockTime = new Date().getTime();
-  //         localStorage.setItem("lockTime", lockTime.toString());
-  //         setIsLocked(true);
-  //         startCountdown(5 * 60);
-  //         toast.error("Too many failed attempts. Login locked for 5 minutes.");
-  //       } else {
-  //         toast.warning(`Invalid password.`);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     toast.error("An error occurred. Please try again later.");
-  //   }
-  // };
-
   return (
     <div>
       <button
@@ -116,7 +73,7 @@ const SignInForm: React.FC = () => {
       >
         <FaArrowLeft size={24} />
       </button>
-      <form onSubmit={handleSubmit(data => loginMutation.mutate(data))}>
+      <form onSubmit={handleSubmit(data => {console.log(data); loginMutation.mutate(data)})}>
         <img className="mx-auto" src="/src/assets/logo-black.svg" />
         <h1 className="text-3xl font-bold text-center m-4">Login</h1>
         <div className="grid col-auto gap-4">
@@ -129,7 +86,8 @@ const SignInForm: React.FC = () => {
             <input
               {...register("username", { required: "Username is required" })}
               className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
-              type="username"
+              name="username"
+              type="text"
               placeholder="Username"
               onFocus={() => setEmailIsFocused(true)}
               onBlur={() => setEmailIsFocused(false)}
@@ -145,6 +103,7 @@ const SignInForm: React.FC = () => {
             <input
               {...register("password", { required: "Password is required" })}
               className="w-[380px] h-[36px] bg-gray-100 mx-auto p-2 rounded-md border-black focus:outline-none"
+              name="password"
               type="password"
               placeholder="Password"
               onFocus={() => setPassIsFocused(true)}

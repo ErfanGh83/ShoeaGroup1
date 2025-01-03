@@ -24,7 +24,7 @@ const Shoea = () => {
         <Route path="/ForgotPassForm" element={<ForgetPassPage/>}></Route>
         <Route path="/resetPassForm" element={<ResetPassPage/>}></Route>
         <Route path="/home" element={<HomePage/>} />
-        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/brand/:brand" element={<BrandPage />} />
         <Route path="/wishlist" element={<WishListPage />} />
       </Routes>

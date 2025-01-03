@@ -144,9 +144,9 @@ const useUserInfo = ({ id, product }: UseUserInfoProps) => {
         setQuantity,
         userInfoMutation,
     };
-
-
 };
+
+
 
 const useWishlist = (userId: number | null) => {
     const [isWished, setIsWished] = useState(false);
