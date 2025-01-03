@@ -1,41 +1,35 @@
 import { useQuery, UseQueryResult, useMutation, UseMutationResult } from "@tanstack/react-query";
-import axios from "axios";
 import { Product, User, CartItem } from "../types/types";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { HTTPPrivate } from "../services/http.service";
+import { HTTP, HTTPPrivate } from "../services/http.service";
 
-const baseUrl = 'http://localhost:5173';
+export const baseURL = 'http://localhost:8000';
 
-const api = axios.create({
-    baseURL: baseUrl,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-const fetchProducts = async (): Promise<Product[]> => {
-    const { data } = await HTTPPrivate.get<Product[]>('/api/products');
+const fetchProducts = async (params?: Record<string, any>): Promise<Product[]> => {
+    console.log(params)
+    const { data } = await HTTP.get<Product[]>('/api/products', { params });
+    console.log(data)
     return data;
 };
 
 const fetchUser = async (userId: string | null): Promise<User> => {
     if (!userId) throw new Error("User ID is required");
-    const { data } = await api.get<User>(`/users/${userId}`);
+    const { data } = await HTTPPrivate.get<User>(`/users/${userId}`);
     return data;
 };
 
 const fetchProduct = async (productId: string): Promise<Product> => {
     if (!productId) throw new Error("Product ID is required");
-    const { data } = await HTTPPrivate.get<Product>('/api/product' + productId);
+    const { data } = await HTTP.get<Product>(`/api/products/${productId}`);
     return data;
 };
 
 
-const useProducts = (): UseQueryResult<Product[], Error> => {
+const useProducts = (params?: Record<string, any>): UseQueryResult<Product[], Error> => {
     return useQuery<Product[], Error>({
-        queryKey: ['products'],
-        queryFn: fetchProducts,
+        queryKey: ['products', params],
+        queryFn: () => fetchProducts(params),
         staleTime: 60 * 1000,
         retry: 3,
     });
@@ -76,7 +70,7 @@ const useUpdateCart = (userId: string | null): UseMutationResult<User, Error, Ca
             cart: updatedCart,
         };
 
-        const response = await api.put<User>(`/users/${userId}`, updatedUser);
+        const response = await HTTPPrivate.put<User>(`/users/${userId}`, updatedUser);
         return response.data;
     };
 
@@ -106,7 +100,7 @@ const useUserInfo = ({ id, product }: UseUserInfoProps) => {
 
     const userInfoMutation = useMutation({
         mutationFn: (userId: number) =>
-            axios.get(`${baseUrl}/users/${userId}`).then((res) => res.data),
+            HTTPPrivate.get(`/users/${userId}`).then((res) => res.data),
         onSuccess: (data: User) => {
             if (!id || !product) {
                 console.warn("Invalid product ID or product not loaded.");
@@ -205,5 +199,4 @@ const useWishlist = (userId: number | null) => {
 export default useWishlist;
 
 
-export { baseUrl, useProducts, useUser, useProduct, useUpdateCart, useUserInfo, useWishlist };
-
+export { useProducts, useUser, useProduct, useUpdateCart, useUserInfo, useWishlist };

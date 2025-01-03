@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { BiSearch } from "react-icons/bi";
-import axios from "axios";
 import { useNavigate } from "react-router";
+import { baseURL } from "../../customHooks/useFetchData";
+import { HTTP } from "../../services/http.service";
 
 const HomeSearchBar = () => {
 
@@ -10,12 +11,12 @@ const HomeSearchBar = () => {
     const [searchResult, setSearchResult] = useState('invisible')
     const navigate = useNavigate()
 
-    const baseURL = 'http://localhost:5173/Products'
+    const baseUrl = baseURL
 
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get(baseURL);
+            const response = await HTTP.get(baseUrl);
             setProducts(response.data);
           } catch (error) {
             console.error("Error fetching products:", error);

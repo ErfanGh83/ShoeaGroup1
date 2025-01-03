@@ -9,7 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { User } from "../types/types";
-import { baseUrl } from "../customHooks/useFetchData";
+import { baseURL } from "../customHooks/useFetchData";
 
 const Form: React.FC= () => {
 
@@ -27,7 +27,7 @@ const Form: React.FC= () => {
       const onSubmit = async (data: FormData) => {
         console.log(data);
       
-        const BASE_URL = baseUrl;
+        const BASE_URL = baseURL;
       
         try {
           const response = await axios.get(BASE_URL);

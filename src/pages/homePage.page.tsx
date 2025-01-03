@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Home from "../components/Home.component";
 
 const HomePage = () => {

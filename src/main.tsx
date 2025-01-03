@@ -4,25 +4,14 @@ import './index.css'
 import App from './App.tsx'
 import { Provider } from "react-redux";
 import { store } from "./redux/store.redux";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0, // Number of times to retry a failed query
-    },
-    mutations: {
-      retry: 0, // Number of times to retry a failed mutation
-    },
-  },
-})
+import QueryProvider from './providers/QueryProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider>
         <App />
-      </QueryClientProvider>
+      </QueryProvider>
     </Provider>
   </StrictMode>,
 )

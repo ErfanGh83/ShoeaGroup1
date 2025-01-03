@@ -31,8 +31,8 @@ function WishListPage() {
     useEffect(() => {
         if (user && user.wishlist && products) {
 
-            //user.wishlist.map((w)=>products.find((p)=>p.id === w.id))
-            
+            user.wishlist.map((w)=>products.find((p)=>p.id === w.id))
+
             const filteredProducts = products.filter(product =>
                 user.wishlist.some(wishlistItem => wishlistItem.id === product.id)
             );
