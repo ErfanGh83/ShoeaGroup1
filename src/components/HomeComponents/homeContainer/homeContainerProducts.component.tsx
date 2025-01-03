@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useProducts } from "../../../customHooks/useFetchData";
-import { Product } from "../../types/types";
+import { VscLoading } from "react-icons/vsc";
 
 interface Filters {
   brands: string[];
@@ -15,8 +15,6 @@ const HomeContainerProducts: React.FC = () => {
     colors: [],
     sizes: [],
   });
-
-  const navigate = useNavigate();
 
   const handleFilterChange = (filterType: keyof Filters, filterValue: string) => {
     setFilters((prev) => {
@@ -41,7 +39,11 @@ const HomeContainerProducts: React.FC = () => {
   const queryParams = buildQueryParams(filters);
   const { data, isLoading, error } = useProducts(queryParams);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return(
+    <div className="size-36 flex items-center justify-center m-auto animate-spin">
+      <VscLoading size={36}/>
+    </div>
+  );
   if (error){
     if(error.message == 'Request failed with status code 404'){
       return(<div className="mx-auto my-6">
@@ -94,17 +96,21 @@ const HomeContainerProducts: React.FC = () => {
 
       <ul className="grid grid-cols-2 w-full max-h-[600px] overflow-y-auto pt-6 mb-16">
         {data?.map((product) => (
-          <li
-            key={product.id}
-            className="w-[182px] h-[244px] flex flex-col mx-auto"
-            onClick={() => navigate(`/product/${product.id}`)}
-          >
-            <div className="size-[182px] rounded-2xl overflow-hidden">
-              <img className="size-full" src={product.images[0]} alt={product.name} />
-            </div>
-            <h2 className="max-w-36 overflow-x-auto font-medium">{product.name}</h2>
-            <p className="text-md font-semibold">${product.price}</p>
+          <Link key={product.id} to={`/products/${product.id}`} >
+            <li  className='w-[182px] h-[244px] flex flex-col mx-auto'>
+              <div className='size-[182px] rounded-2xl overflow-hidden'>
+                  <img className='size-full' src={product.images[0]}/>
+              </div>
+
+              <h2 className='w-full overflow-hidden text-lg text-center font-medium'>
+                  {product.name}
+              </h2>
+
+              <p className='text-md text-center font-semibold'>
+                  $ {product.price}
+              </p>
           </li>
+        </Link>
         ))}
       </ul>
     </div>

@@ -9,7 +9,6 @@ export const baseURL = 'http://localhost:8000';
 const fetchProducts = async (params?: Record<string, any>): Promise<Product[]> => {
     console.log(params)
     const { data } = await HTTP.get<Product[]>('/api/products', { params });
-    console.log(data)
     return data;
 };
 
@@ -31,7 +30,7 @@ const useProducts = (params?: Record<string, any>): UseQueryResult<Product[], Er
         queryKey: ['products', params],
         queryFn: () => fetchProducts(params),
         staleTime: 60 * 1000,
-        retry: 3,
+        retry: 1,
     });
 };
 
