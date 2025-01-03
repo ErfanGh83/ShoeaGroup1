@@ -2,21 +2,27 @@ import { BiBell } from "react-icons/bi";
 import { BiHeart } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import { useEffect, useState } from "react";
+import { BiLogOut } from "react-icons/bi";
+import { logout, useUser } from "../../customHooks/useFetchData";
+import { useSelector, useDispatch } from "react-redux";
+import { AuthActions } from "../../redux/slices/Auth.slice";
+import { RootState } from "../../redux/store.redux";
 
 const HomeHeader = ()=>{
 
-    const [username, setUsername] = useState('');
+    const { data : user, isLoading, error } = useUser();
+    const userState = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch();
+    console.log(userState)
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            const user = JSON.parse(storedUser);
-            setUsername(user.username || '');
-        } else {
-            setUsername('');
+    const handleLogout = async () => {
+        try {
+            await logout();
+            dispatch(AuthActions.clear());
+        } catch (error) {
+            console.error("Logout failed", error);
         }
-    }, []);
+    };
 
     return(
         <header className="w-full h-20 shadow-xl absolute top-0 flex flex-row justify-between items-center px-6">
@@ -27,12 +33,12 @@ const HomeHeader = ()=>{
                 
                 <div className="flex flex-col w-[140px] ml-2">
                     <p className="text-gray-400 text-md">
-                        {username? 'Good Morning 👋' : ''}
+                        {userState?.username? 'Good Morning 👋' : ''}
                     </p>
                     
                     <h2 className="font-semibold text-lg">
-                        {username ? (
-                            username
+                        {userState?.username ? (
+                            userState?.username
                         ) : (
                             <Link to="/login" className="m-auto">
                                 Login
@@ -40,6 +46,21 @@ const HomeHeader = ()=>{
                         )}
                     </h2>
                 </div>
+            </div>
+
+            <div>
+                <h2 className="font-semibold text-lg mx-auto">
+                    {!userState?.username ? (
+                        !userState?.username
+                    ) : (
+                        <Link to="/login">
+                                <button onClick={handleLogout} className="w-fit py-2 px-4 rounded-full border-black border-2 m-auto items-center justify-evenly flex flex-row gap-2">
+                                    <BiLogOut size={24} color="black"/>
+                                    Logout
+                                </button>
+                        </Link>
+                    )}
+                </h2>
             </div>
 
             <div className="w-16 h-6 flex flex-row justify-between items-center">

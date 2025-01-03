@@ -12,9 +12,13 @@ const fetchProducts = async (params?: Record<string, any>): Promise<Product[]> =
     return data;
 };
 
-const fetchUser = async (userId: string | null): Promise<User> => {
-    if (!userId) throw new Error("User ID is required");
-    const { data } = await HTTPPrivate.get<User>(`/users/${userId}`);
+const fetchUser = async (): Promise<User> => {
+    const { data } = await HTTPPrivate.get<User>(`/auth/whoami`);
+    return data;
+};
+
+const logout = async (): Promise<User> => {
+    const { data } = await HTTPPrivate.post<User>(`/auth/logout`);
     return data;
 };
 
@@ -35,11 +39,10 @@ const useProducts = (params?: Record<string, any>): UseQueryResult<Product[], Er
 };
 
 
-const useUser = (userId: string | null): UseQueryResult<User, Error> => {
+const useUser = (): UseQueryResult<User, Error> => {
     return useQuery<User, Error>({
-        queryKey: ['user', userId],
-        queryFn: () => fetchUser(userId),
-        enabled: !!userId,
+        queryKey: ['user'],
+        queryFn: fetchUser,
     });
 };
 
@@ -198,4 +201,4 @@ const useWishlist = (userId: number | null) => {
 export default useWishlist;
 
 
-export { useProducts, useUser, useProduct, useUpdateCart, useUserInfo, useWishlist };
+export { useProducts, useUser, logout, useProduct, useUpdateCart, useUserInfo, useWishlist };
