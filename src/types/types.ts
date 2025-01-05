@@ -1,12 +1,22 @@
 interface Product {
-    id: string;
-    title: string;
+    id: number;
+    name: string;
     price: number;
+    sold_quantity: number;
+    view_count: number;
+    rating: number;
+    description: string;
+    is_popular: boolean;
     order: number;
-    size: number[];
-    color: string[];
-    brand: string;
-    images: string;
+    sizes: number[];
+    colors: string[];
+    brand: {
+        id: number;
+        name: string;
+        icon: string;
+    };
+    images: string[];
+    isFavorite: boolean;
 }
 
 interface CartItem {
@@ -16,26 +26,13 @@ interface CartItem {
     size?: number;
 }
 
-interface WishlistItem {
-    id: string;
-}
-
 interface User {
-    id: string;
     firstName: string;
     lastName: string;
-    username: string;
+    phone: string;
     email: string;
     password: string;
-    phoneNumber: string;
-    gender: string;
-    confirmPassword: string;
-    cart: CartItem[];
-    orders: [];
-    wishlist: WishlistItem[];
-    locations: [];
-    defaultLocation: string;
-    defaultShipping: string;
+    username: string;
 }
 
-export type { Product, User, CartItem, WishlistItem };
+export type { Product, CartItem, User };

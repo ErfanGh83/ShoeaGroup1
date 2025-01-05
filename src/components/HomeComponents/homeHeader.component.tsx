@@ -3,17 +3,18 @@ import { BiHeart } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
-import { logout, useUser } from "../../customHooks/useFetchData";
+import { useUser } from "../../customHooks/useFetchData";
+import { logout } from "../../api/auth.api";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthActions } from "../../redux/slices/Auth.slice";
 import { RootState } from "../../redux/store.redux";
 
 const HomeHeader = ()=>{
 
-    const { data : user, isLoading, error } = useUser();
     const userState = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
-    console.log(userState)
+    const { data : user, isLoading, error } = useUser();
+
 
     const handleLogout = async () => {
         try {
@@ -36,7 +37,7 @@ const HomeHeader = ()=>{
                         {userState?.username? 'Good Morning 👋' : ''}
                     </p>
                     
-                    <h2 className="font-semibold text-lg">
+                    <h2 className="font-semibold text-lg h-max">
                         {userState?.username ? (
                             userState?.username
                         ) : (

@@ -6,7 +6,7 @@ import { HTTP, HTTPPrivate } from "../services/http.service";
 
 export const baseURL = 'http://localhost:8000';
 
-const fetchProducts = async (params?: Record<string, any>): Promise<Product[]> => {
+const fetchProducts = async (params?: Record<string, string>): Promise<Product[]> => {
     console.log(params)
     const { data } = await HTTP.get<Product[]>('/api/products', { params });
     return data;
@@ -17,19 +17,19 @@ const fetchUser = async (): Promise<User> => {
     return data;
 };
 
-const logout = async (): Promise<User> => {
-    const { data } = await HTTPPrivate.post<User>(`/auth/logout`);
-    return data;
-};
-
 const fetchProduct = async (productId: string): Promise<Product> => {
     if (!productId) throw new Error("Product ID is required");
     const { data } = await HTTP.get<Product>(`/api/products/${productId}`);
     return data;
 };
 
+const fetchCart = async (userId : string): Promise<CartItem> => {
+    const { data } = await HTTPPrivate.get<CartItem>(`/api/cart/${userId}`);
+    return data;
+};
 
-const useProducts = (params?: Record<string, any>): UseQueryResult<Product[], Error> => {
+
+const useProducts = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
     return useQuery<Product[], Error>({
         queryKey: ['products', params],
         queryFn: () => fetchProducts(params),
@@ -51,6 +51,13 @@ const useProduct = (productId: string | null): UseQueryResult<Product, Error> =>
         queryKey: ['product', productId],
         queryFn: () => fetchProduct(productId as string),
         enabled: !!productId,
+    });
+};
+
+const useCart = (userId : string): UseQueryResult<CartItem, Error> => {
+    return useQuery<CartItem, Error>({
+        queryKey: ['user'],
+        queryFn: ()=>fetchCart(userId),
     });
 };
 
@@ -201,4 +208,4 @@ const useWishlist = (userId: number | null) => {
 export default useWishlist;
 
 
-export { useProducts, useUser, logout, useProduct, useUpdateCart, useUserInfo, useWishlist };
+export { useProducts, useUser, useProduct, useUpdateCart, useUserInfo, useWishlist, useCart };

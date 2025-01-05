@@ -7,8 +7,8 @@ import { z, ZodType } from "zod";
     username: string;
     email: string;
     password: string;
-    confirmPassword: string;
-    phoneNumber: string;
+    confirmPassword?: string;
+    phone: string;
     gender: "male" | "female";
   };
 
@@ -38,7 +38,7 @@ import { z, ZodType } from "zod";
   | "username"
   | "email"
   | "password"
-  | "phoneNumber"
+  | "phone"
   | "gender"
   | "confirmPassword";
 
@@ -60,7 +60,7 @@ import { z, ZodType } from "zod";
       /^[a-zA-Z0-9!#$@()]+$/,
       "رمز وارد شده صحیح نمی باشد."
     ),
-    phoneNumber: z
+    phone: z
     .string()
     .length(11, "شماره تلفن باید 11 رقمی باشد")
     .startsWith('09', "شماره تلفن باید با 09 شروع شود"),

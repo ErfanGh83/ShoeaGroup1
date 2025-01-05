@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios"
 import { HTTP, HTTPPrivate } from "../services/http.service"
+import { User } from "../types/types"
 
 
 
@@ -14,11 +15,23 @@ interface ILoginApiResponse {
     username: string
 }
 
+export const refreshToken = async (): Promise<AxiosResponse<ILoginApiResponse>> => {
+    return HTTP.post('/auth/refresh')
+}
+
+export const signUp = async (data: User): Promise<AxiosResponse<ISignUpResponse>> => {
+    return HTTP.post('/auth/register', data)
+}
 
 export const loginApi = async (data: ILoginApiParams): Promise<AxiosResponse<ILoginApiResponse>> => {
-    console.log(data)
     return HTTP.post('/auth/login', data)
 }
+
+export const logout = async (): Promise<User> => {
+    const { data } = await HTTP.post<User>(`/auth/logout`);
+    console.log(data)
+    return data;
+};
 
 interface IWhoAmIApiResponse {
     username: string

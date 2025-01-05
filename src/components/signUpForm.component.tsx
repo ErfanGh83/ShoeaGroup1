@@ -5,11 +5,9 @@ import FormField from "./FormField.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
-import { User } from "../types/types";
-import { baseURL } from "../customHooks/useFetchData";
+
+import { signUp } from "../api/auth.api";
 
 const Form: React.FC= () => {
 
@@ -25,64 +23,9 @@ const Form: React.FC= () => {
       const navigate=useNavigate();
 
       const onSubmit = async (data: FormData) => {
-        console.log(data);
-      
-        const BASE_URL = baseURL;
-      
-        try {
-          const response = await axios.get(BASE_URL);
-          const users = response.data;
-      
-          const isUsernameTaken = users.some(
-            (user: User) => user.username === data.username
-          );
-          const isEmailTaken = users.some(
-            (user: User) => user.email === data.email
-          );
-          const isPhoneTaken = users.some(
-            (user: User) => user.phoneNumber === data.phoneNumber
-          );
+        delete data.confirmPassword;
 
-      
-          if (isUsernameTaken) {
-            toast.warning('Username already taken. Please choose another one.');
-            return;
-          }
-      
-          if (isEmailTaken) {
-            toast.warning('Email already registered. Please use another email.');
-            return;
-          }
-
-          if (isPhoneTaken) {
-            toast.warning('Phone number already registered.');
-            return;
-          }
-      
-          const newUserData = {
-            ...data,
-            cart: [],
-            orders: [],
-            wishlist: [],
-            locations: [],
-            defaultLocation: '',
-            defaultShipping: ''
-          };
-      
-          console.log('Final Data to be Posted:', newUserData);
-
-          await axios.post(BASE_URL, newUserData, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-      
-          toast.success('Account created successfully!');
-          navigate('/login');
-        } catch (error) {
-          console.error(error);
-          toast.warning('An error occurred. Please try again.');
-        }
+        signUp(data)
       };
 
   return (
@@ -169,11 +112,11 @@ const Form: React.FC= () => {
 
               <div className="w-3/4">
                   <FormField
-                  type="phoneNumber"
+                  type="phone"
                   placeholder="Phone number"
-                  name="phoneNumber"
+                  name="phone"
                   register={register}
-                  error={errors.phoneNumber}
+                  error={errors.phone}
                 />
               </div>
             </div>
