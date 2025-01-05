@@ -19,11 +19,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ isWished, toggleWish })
       </button>
 
       <div className="w-full max-h-[450px] overflow-hidden">
-        <img src={product.images} alt={product.title} />
+        <img src={product.images[0]} alt={product.name} />
       </div>
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
-        <h1 className="text-4xl font-bold">{product.title}</h1>
+        <h1 className="text-4xl font-bold">{product.name}</h1>
         <button onClick={toggleWish}>
           <BiHeart size={30} color={isWished ? "red" : "black"} />
         </button>
@@ -47,7 +47,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ isWished, toggleWish })
         <h2 className="text-2xl font-bold">Description</h2>
         <p className="text-gray-600 my-2">
           description
-          <button className="inline-block text-black mx-2 font-semibold">View more...</button>
+          <button className="inline-block text-black mx-2 font-semibold">{product.description} View more...</button>
         </p>
       </div>
     </div>

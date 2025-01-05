@@ -3,19 +3,45 @@ import { useEffect, useState } from "react";
 import { BiArrowBack, BiHeart, BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "react-toastify";
-import { useProduct, useUser } from "../customHooks/useFetchData";
+import { useCart, useProduct, useUser } from "../customHooks/useFetchData";
 import { useUpdateCart, useUserInfo } from "../customHooks/useFetchData";
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
-import useWishlist from "../customHooks/useFetchData";
+import { useWishlist } from "../customHooks/useFetchData";
+import { addToCart, toggleWishlist } from "../api/auth.api";
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
+  const [quantity, setQuantity] = useState(0)
   // const [userId, setUserId] = useState<number | null>(null);
-
+  const { data: user} = useUser()
   const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
-  const {user} = useUser()
+  // const { data: cart } = useCart()
+  // const { data: wishlist } = useWishlist({})
+
+  // console.log(cart)
+  console.log(product)
+
+  const handleSubmit = () => {
+    addToCart({
+    productId: id,
+    color: 'red',
+    size: 41,
+    count: quantity
+    })
+    
+  }
+
+  const toggleWish = () => {
+    console.log('toggled')
+    console.log({
+      productId : Number(id)
+    })
+    toggleWishlist({
+      productId: Number(id)
+    })
+  }
   // console.log(product)
   // const updateCartMutation = useUpdateCart(userId ? String(userId) : null);
 
@@ -46,9 +72,9 @@ function ProductPage() {
   //   }
   // }, [userId, id]);
 
-  // const handleQuantityChange = (operation: "add" | "reduce") => {
-  //   setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));
-  // };
+  const handleQuantityChange = (operation: "add" | "reduce") => {
+    setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));
+  };
 
   // const submitChanges = () => {
   //   if (!userId || !user) {
@@ -105,8 +131,8 @@ function ProductPage() {
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
-        <button onClick={() => console.log('toggled')}>
-          <BiHeart size={30} color={data.isFavorite ? "red" : "black"} />
+        <button onClick={() => toggleWish()}>
+          <BiHeart size={30} color={product.isFavorite ? "red" : "black"} />
         </button>
       </div>
 {/* 
@@ -115,10 +141,10 @@ function ProductPage() {
         <ColorSelector colors={product.color} selectedColor={selectedColor} onColorChange={setSelectedColor} />
       </div> */}
 
-      {/* <div className="flex flex-row px-6 mt-8 items-center">
+      <div className="flex flex-row px-6 mt-8 items-center">
         <p className="text-2xl font-bold">Quantity</p>
-        <QuantitySelector quantity={0} onQuantityChange={handleQuantityChange} />
-      </div> */}
+        <QuantitySelector quantity={quantity || 0} onQuantityChange={handleQuantityChange} />
+      </div>
 
       <hr className="mx-6 mt-6" />
 
@@ -126,11 +152,11 @@ function ProductPage() {
         <div>
           <p className="text-md text-gray-700 my-2">Price: ${product.price}</p>
           <p className="text-base text-gray-500 font-medium">Total price</p>
-          {/* <p className="text-2xl font-bold">${product.price * quantity}</p> */}
+          <p className="text-2xl font-bold">${product.price * quantity || product.price}</p>
         </div>
 
         <button
-          onClick={()=>console.log('submit')}
+          onClick={() => handleSubmit()}
           className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm"
         >
           <BiShoppingBag size={24} />
