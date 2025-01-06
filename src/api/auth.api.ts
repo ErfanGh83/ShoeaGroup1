@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios"
 import { HTTP, HTTPPrivate } from "../services/http.service"
-import { Product, User } from "../types/types"
+import { CartItem, User } from "../types/types"
 
 
 
@@ -31,7 +31,7 @@ export const loginApi = async (data: ILoginApiParams): Promise<AxiosResponse<ILo
     return HTTP.post('/auth/login', data)
 }
 
-export const addToCart = async (data: Product): Promise<AxiosResponse<string>> => {
+export const addToCart = async (data: CartItem): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/cart', data)
 }
 

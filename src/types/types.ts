@@ -20,8 +20,8 @@ interface Product {
 }
 
 interface CartItem {
-    id: string;
-    quantity: number;
+    productId: number;
+    count: number;
     color?: string;
     size?: number;
 }

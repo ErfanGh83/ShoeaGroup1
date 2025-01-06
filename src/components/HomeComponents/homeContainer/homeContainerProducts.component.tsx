@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useProducts } from "../../../customHooks/useFetchData";
 import { VscLoading } from "react-icons/vsc";
+import { BiArrowBack } from "react-icons/bi";
 
 interface Filters {
   brands: string[];
@@ -39,19 +40,33 @@ const HomeContainerProducts: React.FC = () => {
   const queryParams = buildQueryParams(filters);
   const { data, isLoading, error } = useProducts(queryParams);
 
-  if (isLoading) return(
+  if (isLoading) return (
     <div className="size-36 flex items-center justify-center m-auto animate-spin">
-      <VscLoading size={36}/>
+      <VscLoading size={36} />
     </div>
   );
-  if (error){
-    if(error.message == 'Request failed with status code 404'){
-      return(<div className="mx-auto my-6">
+  if (error) {
+    if (error.message == 'Request failed with status code 404') {
+      return (<div className="mx-auto my-6 flex flex-col">
         <h2 className="text-center text-xl font-bold">No products found with the selected combination of filters!</h2>
+        <button className="rounded-full border-black border-2 size-fit p-4 mx-auto my-4" onClick={() => setFilters({
+          brands: [],
+          colors: [],
+          sizes: [],
+        })}><BiArrowBack size={24}/>
+        </button>
       </div>)
     }
-    return(
-      <div>{error.message}</div>
+    return (
+      <div className="flex flex-col">
+        <div>{error.message}</div>
+        <button className="rounded-full border-black border-2 size-fit p-4 mx-auto my-4" onClick={() => setFilters({
+          brands: [],
+          colors: [],
+          sizes: [],
+        })}><BiArrowBack size={24}/>
+        </button>
+      </div>
     )
   }
 
@@ -97,20 +112,20 @@ const HomeContainerProducts: React.FC = () => {
       <ul className="grid grid-cols-2 w-full max-h-[600px] overflow-y-auto pt-6 mb-16">
         {data?.map((product) => (
           <Link key={product.id} to={`/products/${product.id}`} >
-            <li  className='w-[182px] h-[244px] flex flex-col mx-auto'>
+            <li className='w-[182px] h-[244px] flex flex-col mx-auto'>
               <div className='size-[182px] rounded-2xl overflow-hidden'>
-                  <img className='size-full' src={product.images[0]}/>
+                <img className='size-full' src={product.images[0]} />
               </div>
 
               <h2 className='w-full overflow-hidden text-lg text-center font-medium'>
-                  {product.name}
+                {product.name}
               </h2>
 
               <p className='text-md text-center font-semibold'>
-                  $ {product.price}
+                $ {product.price}
               </p>
-          </li>
-        </Link>
+            </li>
+          </Link>
         ))}
       </ul>
     </div>

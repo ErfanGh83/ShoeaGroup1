@@ -11,8 +11,8 @@ const WishlistProducts: React.FC<WishlistProductsProps> = ({ products }) => {
     return (
         <ul className="grid grid-cols-2 w-full pt-6 mb-16">
             {products.map((product) => (
-                <Link to={`/product/${product.id}`}>
-                    <li key={product.id} className='w-[182px] h-[244px] flex flex-col mx-auto'>
+                <Link key={product.id} to={`/products/${product.id}`}>
+                    <li className='w-[182px] h-[244px] flex flex-col mx-auto'>
                         <div className='size-[182px] rounded-2xl overflow-hidden flex flex-row-reverse'>
                             <div className="w-fit h-fit absolute">
                                 <BiHeartCircle size={24} />

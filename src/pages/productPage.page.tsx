@@ -3,41 +3,49 @@ import { useEffect, useState } from "react";
 import { BiArrowBack, BiHeart, BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "react-toastify";
-import { useCart, useProduct, useUser } from "../customHooks/useFetchData";
-import { useUpdateCart, useUserInfo } from "../customHooks/useFetchData";
+import { useCart, useProduct, useUser, useWishlist } from "../customHooks/useFetchData";
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
-import useWishlist from "../customHooks/useFetchData";
 import { addToCart, toggleWishlist } from "../api/auth.api";
+import { CartItem } from "../types/types";
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
-  const {user} = useUser();
+  const { data: user } = useUser();
   const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
   const [quantity, setQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState(41);
   const [selectedColor, setSelectedColor] = useState('red');
+  const [isWished, setIsWished] = useState(false)
   const { data: cart } = useCart()
+  const { data: wishlistArray } = useWishlist()
 
   const handleQuantityChange = (operation: "add" | "reduce") => {
     setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));
   };
 
   useEffect(() => {
+
+    if (product) {
+      console.log(product)
+      setIsWished(wishlistArray?.some((item) => item.id === Number(id)) || false);
+    }
+
     if (cart) {
-      const cartItem = cart.find((item) => item.productId == id);
+      const cartItem = cart.find((item: CartItem) => item.productId == Number(id));
+
       if (cartItem) {
         setSelectedColor(cartItem.color)
         setSelectedSize(cartItem.size)
         setQuantity(cartItem.count);
       }else{
-        setSelectedColor(product?.colors[0])
+        setSelectedColor(product?.colors[0] || '')
         setSelectedSize(Number(product?.sizes[0]))
         setQuantity(0)
       }
     }
-  }, [cart, product]);
+  }, [id, cart, product]);
 
   const handleSubmit = () => {
     addToCart({
@@ -46,6 +54,25 @@ function ProductPage() {
       size: selectedSize,
       count: quantity
     })
+  }
+
+  const handleToggleWish = () => {
+    if(user){
+      toggleWishlist({
+        productId: Number(id)
+      })
+      toast.success('Wishlist updated!')
+
+      if(isWished){
+        setIsWished(false)
+      }
+      else{
+        setIsWished(true)
+      }
+    }
+    else{
+      toast.warn('Please login first')
+    }
   }
 
   if (isProductLoading) {
@@ -67,8 +94,8 @@ function ProductPage() {
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
-        <button onClick={() => toggleWishlist({ productId: Number(product.id)})}>
-          <BiHeart size={30} color={product.isFavorite ? "red" : "black"} />
+        <button onClick={() => handleToggleWish()}>
+          <BiHeart size={30} color={isWished ? "red" : "black"} />
         </button>
       </div>
 
