@@ -19,11 +19,11 @@ export const refreshToken = async (): Promise<AxiosResponse<ILoginApiResponse>> 
     return HTTP.post('/auth/refresh')
 }
 
-export const signUp = async (data: User): Promise<AxiosResponse<ISignUpResponse>> => {
+export const signUp = async (data: User): Promise<AxiosResponse<string>> => {
     return HTTP.post('/auth/register', data)
 }
 
-export const toggleWishlist = async (data: object): Promise<AxiosResponse<IToggleWishResponse>> => {
+export const toggleWishlist = async (data: object): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/wishlist', data)
 }
 
@@ -31,7 +31,7 @@ export const loginApi = async (data: ILoginApiParams): Promise<AxiosResponse<ILo
     return HTTP.post('/auth/login', data)
 }
 
-export const addToCart = async (data: Product): Promise<AxiosResponse<IAddCartResponse>> => {
+export const addToCart = async (data: Product): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/cart', data)
 }
 

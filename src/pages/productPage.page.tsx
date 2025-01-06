@@ -8,109 +8,45 @@ import { useUpdateCart, useUserInfo } from "../customHooks/useFetchData";
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
-import { useWishlist } from "../customHooks/useFetchData";
+import useWishlist from "../customHooks/useFetchData";
 import { addToCart, toggleWishlist } from "../api/auth.api";
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
-  const [quantity, setQuantity] = useState(0)
-  // const [userId, setUserId] = useState<number | null>(null);
-  const { data: user} = useUser()
+  const {user} = useUser();
   const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
-  // const { data: cart } = useCart()
-  // const { data: wishlist } = useWishlist({})
-
-  // console.log(cart)
-  console.log(product)
-
-  const handleSubmit = () => {
-    addToCart({
-    productId: id,
-    color: 'red',
-    size: 41,
-    count: quantity
-    })
-    
-  }
-
-  const toggleWish = () => {
-    console.log('toggled')
-    console.log({
-      productId : Number(id)
-    })
-    toggleWishlist({
-      productId: Number(id)
-    })
-  }
-  // console.log(product)
-  // const updateCartMutation = useUpdateCart(userId ? String(userId) : null);
-
-  // const {
-  //   user,
-  //   quantity,
-  //   selectedColor,
-  //   selectedSize,
-  //   setSelectedColor,
-  //   setSelectedSize,
-  //   setQuantity,
-  //   userInfoMutation,
-  // } = useUserInfo({ id, product });
-
-  // const { isWished, toggleWishlist } = useWishlist(userId);
-
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     const user = JSON.parse(storedUser);
-  //     setUserId(user.id);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (userId && id && !user) {
-  //     userInfoMutation.mutate(userId);
-  //   }
-  // }, [userId, id]);
+  const [quantity, setQuantity] = useState(0);
+  const [selectedSize, setSelectedSize] = useState(41);
+  const [selectedColor, setSelectedColor] = useState('red');
+  const { data: cart } = useCart()
 
   const handleQuantityChange = (operation: "add" | "reduce") => {
     setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));
   };
 
-  // const submitChanges = () => {
-  //   if (!userId || !user) {
-  //     toast.warn("Please login first!");
-  //     return;
-  //   }
+  useEffect(() => {
+    if (cart) {
+      const cartItem = cart.find((item) => item.productId == id);
+      if (cartItem) {
+        setSelectedColor(cartItem.color)
+        setSelectedSize(cartItem.size)
+        setQuantity(cartItem.count);
+      }else{
+        setSelectedColor(product?.colors[0])
+        setSelectedSize(Number(product?.sizes[0]))
+        setQuantity(0)
+      }
+    }
+  }, [cart, product]);
 
-  //   const updatedCart = [...user.cart];
-  //   const productIndex = updatedCart.findIndex(
-  //     (item) => item.id === id && item.color === selectedColor && item.size === selectedSize
-  //   );
-
-  //   if (productIndex !== -1) {
-  //     if (quantity > 0) {
-  //       updatedCart[productIndex].quantity = quantity;
-  //     } else {
-  //       updatedCart.splice(productIndex, 1);
-  //     }
-  //   } else if (quantity > 0) {
-  //     updatedCart.push({
-  //       id: id!,
-  //       quantity,
-  //       color: selectedColor!,
-  //       size: selectedSize!,
-  //     });
-  //   }
-
-  //   updateCartMutation.mutate(updatedCart, {
-  //     onSuccess: () => {
-  //       toast.success("Cart updated!");
-  //     },
-  //     onError: () => {
-  //       toast.error("Failed to update cart.");
-  //     },
-  //   });
-  // };
+  const handleSubmit = () => {
+    addToCart({
+      productId: Number(id),
+      color: selectedColor,
+      size: selectedSize,
+      count: quantity
+    })
+  }
 
   if (isProductLoading) {
     return <VscLoading />;
@@ -131,19 +67,19 @@ function ProductPage() {
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
-        <button onClick={() => toggleWish()}>
+        <button onClick={() => toggleWishlist({ productId: Number(product.id)})}>
           <BiHeart size={30} color={product.isFavorite ? "red" : "black"} />
         </button>
       </div>
-{/* 
+
       <div className="flex flex-row px-6 justify-between mt-2">
-        <SizeSelector sizes={product.size} selectedSize={selectedSize} onSizeChange={setSelectedSize} />
-        <ColorSelector colors={product.color} selectedColor={selectedColor} onColorChange={setSelectedColor} />
-      </div> */}
+        <SizeSelector sizes={product.sizes} selectedSize={selectedSize} onSizeChange={setSelectedSize} />
+        <ColorSelector colors={product.colors} selectedColor={selectedColor} onColorChange={setSelectedColor} />
+      </div>
 
       <div className="flex flex-row px-6 mt-8 items-center">
         <p className="text-2xl font-bold">Quantity</p>
-        <QuantitySelector quantity={quantity || 0} onQuantityChange={handleQuantityChange} />
+        <QuantitySelector quantity={quantity} onQuantityChange={handleQuantityChange} />
       </div>
 
       <hr className="mx-6 mt-6" />
@@ -156,7 +92,7 @@ function ProductPage() {
         </div>
 
         <button
-          onClick={() => handleSubmit()}
+          onClick={handleSubmit}
           className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm"
         >
           <BiShoppingBag size={24} />

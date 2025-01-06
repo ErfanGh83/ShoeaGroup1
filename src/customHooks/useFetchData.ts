@@ -1,8 +1,9 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { Product, User, CartItem } from "../types/types";
 import { HTTP, HTTPPrivate } from "../services/http.service";
+import { BASE_URL } from "../config/api.config";
 
-export const baseURL = 'http://localhost:8000';
+export const baseURL = BASE_URL;
 
 const fetchProducts = async (params?: Record<string, string>): Promise<Product[]> => {
     const { data } = await HTTP.get<Product[]>('/api/products', { params });

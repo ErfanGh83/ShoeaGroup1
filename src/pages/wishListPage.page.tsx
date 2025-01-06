@@ -1,48 +1,30 @@
-import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
-import { useProducts, useUser } from "../customHooks/useFetchData";
+import { useUser, useWishlist } from "../customHooks/useFetchData";
 import WishlistProducts from "../components/whislistComponents/wishistProducts";
-import { Product, User } from "../types/types";
+import { VscLoading } from "react-icons/vsc";
+
 
 function WishListPage() {
-    const [userId, setUserId] = useState<string | null>(null);
-    const [user, setUser] = useState<User | null>(null);
-    const [wishlistProducts, setWishlistProducts] = useState<Product[]>([]);
 
-    const { data: products, error: productsError, isLoading: productsLoading } = useProducts();
-    const { data: userData, error: userError, isLoading: userLoading } = useUser(userId);
+    const { data: user } = useUser()
+    const { data: wishlistProducts, isError: isProductError, isLoading: isProductLoading } = useWishlist()
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            const user: User = JSON.parse(storedUser);
-            setUserId(user?.id || null);
-        } else {
-            setUserId(null);
-        }
-    }, []);
+    if (isProductLoading) {
+        return <VscLoading />;
+    }
 
-    useEffect(() => {
-        if (userData) {
-            setUser(userData);
-        }
-    }, [userData]);
+    if (isProductError) {
+        return <div>Error loading product</div>;
+    }
 
-    useEffect(() => {
-        if (user && user.wishlist && products) {
+    if(!wishlistProducts){
+        return(
+            <div className="mx-auto my-8 text-center">
+                <h1 className="text-6xl">Empty .</h1>
+            </div>
+        )
+    }
 
-            user.wishlist.map((w)=>products.find((p)=>p.id === w.id))
-
-            const filteredProducts = products.filter(product =>
-                user.wishlist.some(wishlistItem => wishlistItem.id === product.id)
-            );
-            setWishlistProducts(filteredProducts);
-        }
-    }, [user, products]);
-
-    if (productsLoading || userLoading) return <div>Loading...</div>;
-    if (productsError) return <div>Error fetching products: {productsError.message}</div>;
-    if (userError) return <div>Error fetching user data: {userError.message}</div>;
 
     return (
         <div>

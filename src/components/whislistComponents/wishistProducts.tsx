@@ -17,10 +17,10 @@ const WishlistProducts: React.FC<WishlistProductsProps> = ({ products }) => {
                             <div className="w-fit h-fit absolute">
                                 <BiHeartCircle size={24} />
                             </div>
-                            <img className='size-full' src={product.images} />
+                            <img className='size-full' src={product.images[0]} />
                         </div>
                         <h2 className='max-w-36 overflow-x-auto font-medium'>
-                            {product.title}
+                            {product.name}
                         </h2>
                         <p className='text-md font-semibold'>
                             $ {product.price}
