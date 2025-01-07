@@ -1,8 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BiArrowBack, BiHeart, BiShoppingBag } from "react-icons/bi";
+import { BiArrowBack, BiHeart, BiShoppingBag, BiStar } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
 import { toast } from "react-toastify";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import { useCart, useProduct, useUser, useWishlist } from "../customHooks/useFetchData";
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
@@ -11,6 +14,14 @@ import { useDispatch } from "react-redux";
 import { CartActions } from "../redux/slices/Cart.slice";
 import { addToCart, toggleWishlist } from "../customHooks/useFetchData";
 import { CartItem } from "../types/types";
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -63,7 +74,7 @@ function ProductPage() {
         id: product?.id,
         name: product?.name,
         price: product?.price,
-        quantity: 1,
+        quantity: quantity,
         images: product?.images,
       })
     );
@@ -100,15 +111,20 @@ function ProductPage() {
     <div>
       <button
         onClick={() => window.history.back()}
-        className="size-12 m-2 flex justify-center items-center absolute"
+        className="size-12 m-2 flex justify-center items-center absolute z-10"
       >
         <BiArrowBack size={30} />
       </button>
-      <div className="w-full max-h-[450px] overflow-hidden">
-        <img src={product.images[0]} alt={product.name} />
-      </div>
 
-      <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
+      <Slider {...sliderSettings}>
+        {product?.images.map((image, index) => (
+          <div key={index}>
+            <img className="w-full h-[500px]" src={image} alt={product?.name} />
+          </div>
+        ))}
+      </Slider>
+
+      <div className="w-full h-fit py-2 my-4 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
 
         <button onClick={() => handleToggleWish()}>
@@ -117,14 +133,20 @@ function ProductPage() {
       </div>
 
       <div className="flex flex-row ">
-        <div className="size-fit p-1 rounded-xl flex justify-center items-center bg-gray-200">
-          <p>
+        <div className="size-fit px-2 py-1 rounded-md flex justify-center items-center bg-gray-200 mx-4">
+          <p className="text-sm font-medium text-gray-600">
             {product.sold_quantity} sold
           </p>
         </div>
 
         <div>
+          <BiStar size={26}/>
+        </div>
 
+        <div className="mx-2 my-auto">
+          <p className="font-medium text-gray-600">
+            {product.rating} ({product.view_count} reviews)
+          </p>
         </div>
       </div>
 

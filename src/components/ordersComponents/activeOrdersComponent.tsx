@@ -57,7 +57,7 @@ function ActiveOrdersComponent() {
         <div>
             <ul>
                 {products.map((product: Product) => (
-                    <li key={product.id} className="w-5/6 mx-auto my-8 rounded-3xl shadow-md p-2 flex flex-row gap-8">
+                    <li key={product.productId} className="w-5/6 mx-auto my-8 rounded-3xl shadow-md p-2 flex flex-row gap-8">
                         <div className="size-32 rounded-2xl overflow-hidden">
                             <img className="size-fit" src={`${product.images[0]}`} />
                         </div>

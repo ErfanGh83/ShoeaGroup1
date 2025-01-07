@@ -33,20 +33,20 @@ function OrdersPage() {
                 </div>
 
                 <div className='w-11/12 mx-auto flex flex-row items-center'>
-                        <button onClick={() => setActiveState('active')} className={`w-1/2 border-b-4 border-b-gray text-center font-semibold text-xl p-2 ${
+                        <button onClick={() => setActiveState('active')} className={`w-1/2 border-b-4 border-b-gray text-center font-semibold text-xl ${
                             activeState == 'active'? 'text-black border-b-black' : 'text-gray-400'}`}>
                             <Link to={`/orders/active`}>
-                                <h3 className='text-center size-full'>
+                                <h3 className='text-center size-full m-2'>
                                     Active 
                                 </h3>
                             </Link>
                         </button>
                     
                         
-                        <button onClick={() => setActiveState('completed')} className={`w-1/2 border-b-4 border-b-gray text-center font-semibold text-xl p-2 ${
+                        <button onClick={() => setActiveState('completed')} className={`w-1/2 border-b-4 border-b-gray text-center font-semibold text-xl ${
                             activeState == 'completed'? 'text-black border-b-black' : 'text-gray-400'}`}>
                             <Link to={`/orders/completed`}>
-                                <h3 className='text-center size-full'>
+                                <h3 className='text-center size-full m-2'>
                                     Completed
                                 </h3>
                             </Link>
