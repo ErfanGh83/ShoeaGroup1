@@ -99,6 +99,25 @@ function ProductPage() {
         </button>
       </div>
 
+      <div className="flex flex-row ">
+        <div className="size-fit p-1 rounded-xl flex justify-center items-center bg-gray-200">
+          <p>
+            {product.sold_quantity} sold
+          </p>
+        </div>
+
+        <div>
+
+        </div>
+      </div>
+
+      <hr className="mx-6 mt-6" />
+
+      <div className="w-11/12 mx-auto gap-4">
+        <h2 className="text-xl font-semibold my-2">Description</h2>
+        <p className="text-sm text-gray-600">{product.description}</p>
+      </div>
+
       <div className="flex flex-row px-6 justify-between mt-2">
         <SizeSelector sizes={product.sizes} selectedSize={selectedSize} onSizeChange={setSelectedSize} />
         <ColorSelector colors={product.colors} selectedColor={selectedColor} onColorChange={setSelectedColor} />
