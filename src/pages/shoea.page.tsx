@@ -15,6 +15,8 @@ import OrdersPage from "./ordersPage";
 import ProfilePage from "./profilePage";
 import WalletPage from "./walletPage";
 import CartPage from "./cartPage";
+import CompletedOrdersComponent from "../components/ordersComponents/completedOrdersComponent";
+import ActiveOrdersComponent from "../components/ordersComponents/activeOrdersComponent";
 
 const Shoea = () => {
 
@@ -29,12 +31,19 @@ const Shoea = () => {
         <Route path="/ForgotPassForm" element={<ForgetPassPage/>}/>
         <Route path="/resetPassForm" element={<ResetPassPage/>}/>
         <Route path="/" element={<Layout />}>
+
           <Route path="/home" element={<HomePage/>} />
           <Route path="/cart" element={<CartPage/>} />
-          <Route path="/orders" element={<OrdersPage/>}/>
+
+          <Route path="/orders" element={<OrdersPage/>}>
+            <Route path="active" element={<ActiveOrdersComponent/>}/>
+            <Route path="completed" element={<CompletedOrdersComponent/>}/>
+          </Route>
+
           <Route path="/wallet" element={<WalletPage/>} />
           <Route path="/profile" element={<ProfilePage/>} />
         </Route>
+
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/brand/:brand" element={<BrandPage />} />
         <Route path="/wishlist" element={<WishListPage />} />

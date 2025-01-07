@@ -32,6 +32,11 @@ const fetchCart = async (): Promise<CartItem> => {
     return data;
 };
 
+const fetchOrders = async (params?: Record<string, string>): Promise<Product[]> => {
+    const { data } = await HTTPPrivate.get<Product[]>(`/api/orders`, { params });
+    return data;
+};
+
 export const toggleWishlist = async (data: object): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/wishlist', data)
 }
@@ -39,7 +44,6 @@ export const toggleWishlist = async (data: object): Promise<AxiosResponse<string
 export const addToCart = async (data: CartItem): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/cart', data)
 }
-
 
 const useProducts = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
     return useQuery<Product[], Error>({
@@ -82,5 +86,14 @@ const useCart = (): UseQueryResult<CartItem, Error> => {
     });
 };
 
+const useOrders = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
+    return useQuery<Product[], Error>({
+        queryKey: ['orders', params],
+        queryFn: () => fetchOrders(params),
+        staleTime: 60 * 1000,
+        retry: 1,
+    });
+};
 
-export { useProducts, useUser, useProduct, useWishlist, useCart };
+
+export { useProducts, useUser, useProduct, useWishlist, useCart, useOrders };

@@ -11,7 +11,7 @@ function HomeFooter() {
   const footerItems = [
     { path: '/home', label: 'Home', icon: <BiHome size={30} /> },
     { path: '/cart', label: 'Cart', icon: <BsCart size={30} /> },
-    { path: '/orders', label: 'Orders', icon: <CgShoppingBag size={30} /> },
+    { path: '/orders/active', altPath: '/orders/completed', label: 'Orders', icon: <CgShoppingBag size={30} /> },
     { path: '/wallet', label: 'Wallet', icon: <BiWallet size={30} /> },
     { path: '/profile', label: 'Profile', icon: <CgProfile size={30} /> },
   ];
@@ -22,12 +22,12 @@ function HomeFooter() {
         <Link to={item.path} key={item.path} className="flex flex-col items-center">
           <div
             style={{
-              color: location.pathname === item.path ? 'black' : 'gray',
+              color: location.pathname === item.path || location.pathname === item.altPath ? 'black' : 'gray',
             }}
           >
             {item.icon}
           </div>
-          <p style={{ color: location.pathname === item.path ? 'black' : 'gray' }}>
+          <p style={{ color: location.pathname === item.path || location.pathname === item.altPath ? 'black' : 'gray' }}>
             {item.label}
           </p>
         </Link>
