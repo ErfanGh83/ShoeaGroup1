@@ -7,6 +7,8 @@ import { useCart, useProduct, useUser, useWishlist } from "../customHooks/useFet
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
+import { useDispatch } from "react-redux";
+import { CartActions } from "../redux/slices/Cart.slice";
 import { addToCart, toggleWishlist } from "../customHooks/useFetchData";
 import { CartItem } from "../types/types";
 
@@ -18,7 +20,6 @@ function ProductPage() {
   const [selectedSize, setSelectedSize] = useState(41);
   const [selectedColor, setSelectedColor] = useState('red');
   const [isWished, setIsWished] = useState(false)
-  const { data: cart } = useCart()
   const { data: wishlistArray } = useWishlist()
 
   const handleQuantityChange = (operation: "add" | "reduce") => {
@@ -46,7 +47,8 @@ function ProductPage() {
       }
     }
   }, [id, cart, product]);
-
+  
+  const dispatch = useDispatch();
   const handleSubmit = () => {
     addToCart({
       productId: Number(id),
@@ -54,6 +56,16 @@ function ProductPage() {
       size: selectedSize,
       count: quantity
     })
+    
+    dispatch(
+      CartActions.addItem({
+        id: product?.id,
+        name: product?.name,
+        price: product?.price,
+        quantity: 1,
+        images: product?.images,
+      })
+    );
   }
 
   const handleToggleWish = () => {
@@ -85,7 +97,10 @@ function ProductPage() {
 
   return (
     <div>
-      <button onClick={() => window.history.back()} className="size-12 m-2 flex justify-center items-center absolute">
+      <button
+        onClick={() => window.history.back()}
+        className="size-12 m-2 flex justify-center items-center absolute"
+      >
         <BiArrowBack size={30} />
       </button>
       <div className="w-full max-h-[450px] overflow-hidden">
@@ -94,6 +109,7 @@ function ProductPage() {
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
+
         <button onClick={() => handleToggleWish()}>
           <BiHeart size={30} color={isWished ? "red" : "black"} />
         </button>
@@ -138,6 +154,7 @@ function ProductPage() {
         </div>
 
         <button
+
           onClick={handleSubmit}
           className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm"
         >

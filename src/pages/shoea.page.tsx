@@ -1,4 +1,4 @@
-import LoadingPage from "./pageLoading.page"
+import LoadingPage from "./pageLoading.page";
 import WelcomePage from "./pageWelcom.page";
 import Onboarding from "./onboarding.page";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -18,8 +18,8 @@ import CartPage from "./cartPage";
 import CompletedOrdersComponent from "../components/ordersComponents/completedOrdersComponent";
 import ActiveOrdersComponent from "../components/ordersComponents/activeOrdersComponent";
 
-const Shoea = () => {
 
+const Shoea = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -47,6 +47,7 @@ const Shoea = () => {
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/brand/:brand" element={<BrandPage />} />
         <Route path="/wishlist" element={<WishListPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </BrowserRouter>
   );
