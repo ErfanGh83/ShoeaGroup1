@@ -1,4 +1,4 @@
-import { data, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BiArrowBack, BiHeart, BiShoppingBag } from "react-icons/bi";
 import { VscLoading } from "react-icons/vsc";
@@ -7,7 +7,7 @@ import { useCart, useProduct, useUser, useWishlist } from "../customHooks/useFet
 import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
-import { addToCart, toggleWishlist } from "../api/auth.api";
+import { addToCart, toggleWishlist } from "../customHooks/useFetchData";
 import { CartItem } from "../types/types";
 
 function ProductPage() {

@@ -23,16 +23,8 @@ export const signUp = async (data: User): Promise<AxiosResponse<string>> => {
     return HTTP.post('/auth/register', data)
 }
 
-export const toggleWishlist = async (data: object): Promise<AxiosResponse<string>> => {
-    return HTTPPrivate.post('/api/wishlist', data)
-}
-
 export const loginApi = async (data: ILoginApiParams): Promise<AxiosResponse<ILoginApiResponse>> => {
     return HTTP.post('/auth/login', data)
-}
-
-export const addToCart = async (data: CartItem): Promise<AxiosResponse<string>> => {
-    return HTTPPrivate.post('/api/cart', data)
 }
 
 export const logout = async (): Promise<User> => {

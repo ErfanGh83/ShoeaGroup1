@@ -2,6 +2,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { Product, User, CartItem } from "../types/types";
 import { HTTP, HTTPPrivate } from "../services/http.service";
 import { BASE_URL } from "../config/api.config";
+import { AxiosResponse } from "axios";
 
 export const baseURL = BASE_URL;
 
@@ -30,6 +31,14 @@ const fetchCart = async (): Promise<CartItem> => {
     const { data } = await HTTPPrivate.get<CartItem>(`/api/cart`);
     return data;
 };
+
+export const toggleWishlist = async (data: object): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.post('/api/wishlist', data)
+}
+
+export const addToCart = async (data: CartItem): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.post('/api/cart', data)
+}
 
 
 const useProducts = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
