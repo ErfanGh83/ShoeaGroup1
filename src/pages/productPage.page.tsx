@@ -21,6 +21,7 @@ function ProductPage() {
   const [selectedColor, setSelectedColor] = useState('red');
   const [isWished, setIsWished] = useState(false)
   const { data: wishlistArray } = useWishlist()
+  const { data: cart } = useCart()
 
   const handleQuantityChange = (operation: "add" | "reduce") => {
     setQuantity((prev) => (operation === "add" ? prev + 1 : Math.max(prev - 1, 0)));
