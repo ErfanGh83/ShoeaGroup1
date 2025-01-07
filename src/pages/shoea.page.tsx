@@ -10,7 +10,7 @@ import HomePage from "./homePage.page";
 import ProductPage from "./productPage.page";
 import BrandPage from "./brandPage.page";
 import WishListPage from "./wishListPage.page";
-import cartPage from "./cart";
+import CartPage from "./CartPage";
 
 const Shoea = () => {
   return (
@@ -27,7 +27,7 @@ const Shoea = () => {
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/brand/:brand" element={<BrandPage />} />
         <Route path="/wishlist" element={<WishListPage />} />
-        <Route path="/cart" element={cartPage()} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </BrowserRouter>
   );

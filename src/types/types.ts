@@ -1,5 +1,5 @@
 interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   sold_quantity: number;
@@ -21,15 +21,32 @@ interface Product {
 
 interface CartItem {
   id: string;
+  name?: string;
+  brand?: string;
+  images?: string;
+  price?: number;
   quantity: number;
   color?: string;
   size?: number;
 }
-interface CartState {
-  item: CartItem[];
-  totalAmount: number;
-}
 
+interface CartItemState {
+  item: CartItem[];
+  totalPrice: number;
+}
+interface DeleteModalProps {
+  item: {
+    id: string;
+    title: string;
+    price: number;
+    images: string;
+    selectedColor: string;
+    selectedSize: string;
+  };
+  isOpen: boolean;
+  onClose: () => void;
+  onDelete: (id: string) => void;
+}
 interface User {
   firstName: string;
   lastName: string;
@@ -39,4 +56,4 @@ interface User {
   username: string;
 }
 
-export type { Product, CartItem, User, CartState };
+export type { Product, CartItem, User, CartItemState, DeleteModalProps };

@@ -9,13 +9,31 @@ import ColorSelector from "../components/productComponents/colorSelector";
 import SizeSelector from "../components/productComponents/sizeSelector";
 import QuantitySelector from "../components/productComponents/quantitySelector";
 import useWishlist from "../customHooks/useFetchData";
+import { useDispatch } from "react-redux";
+import { CartActions } from "../redux/slices/Cart.slice";
 
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
   // const [userId, setUserId] = useState<number | null>(null);
 
-  const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
-  const {user} = useUser()
+  const {
+    data: product,
+    isLoading: isProductLoading,
+    isError: isProductError,
+  } = useProduct(id!);
+  const { user } = useUser();
+  const dispatch = useDispatch();
+  const handelAddToCart = () => {
+    dispatch(
+      CartActions.addItem({
+        id: product?.id,
+        name: product?.name,
+        price: product?.price,
+        quantity: 1,
+        images: product?.images,
+      })
+    );
+  };
   // console.log(product)
   // const updateCartMutation = useUpdateCart(userId ? String(userId) : null);
 
@@ -96,7 +114,10 @@ function ProductPage() {
 
   return (
     <div>
-      <button onClick={() => window.history.back()} className="size-12 m-2 flex justify-center items-center absolute">
+      <button
+        onClick={() => window.history.back()}
+        className="size-12 m-2 flex justify-center items-center absolute"
+      >
         <BiArrowBack size={30} />
       </button>
       <div className="w-full max-h-[450px] overflow-hidden">
@@ -105,11 +126,11 @@ function ProductPage() {
 
       <div className="w-full h-fit py-2 my-2 flex flex-row items-center justify-between px-6">
         <h1 className="text-4xl font-bold">{product.name}</h1>
-        <button onClick={() => console.log('toggled')}>
+        <button onClick={() => console.log("toggled")}>
           <BiHeart size={30} color={data.isFavorite ? "red" : "black"} />
         </button>
       </div>
-{/* 
+      {/* 
       <div className="flex flex-row px-6 justify-between mt-2">
         <SizeSelector sizes={product.size} selectedSize={selectedSize} onSizeChange={setSelectedSize} />
         <ColorSelector colors={product.color} selectedColor={selectedColor} onColorChange={setSelectedColor} />
@@ -130,7 +151,7 @@ function ProductPage() {
         </div>
 
         <button
-          onClick={()=>console.log('submit')}
+          onClick={handelAddToCart}
           className="w-[300px] h-[60px] flex flex-row items-center rounded-full bg-black text-white justify-center gap-2 shadow-sm"
         >
           <BiShoppingBag size={24} />
