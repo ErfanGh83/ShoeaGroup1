@@ -10,20 +10,31 @@ import HomePage from "./homePage.page";
 import ProductPage from "./productPage.page";
 import BrandPage from "./brandPage.page";
 import WishListPage from "./wishListPage.page";
+import Layout from "../components/layout";
+import OrdersPage from "./ordersPage";
+import ProfilePage from "./profilePage";
+import WalletPage from "./walletPage";
+import CartPage from "./cartPage";
 
 const Shoea = () => {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoadingPage/>}></Route>
-        <Route path="/welcomepage" element={<WelcomePage/>}></Route>
-        <Route path="/onboarding" element={<Onboarding/>}></Route>
-        <Route path="/login" element={<SignInPage/>}></Route>
-        <Route path="/signUp" element={<SigneUpPage/>}></Route>
-        <Route path="/ForgotPassForm" element={<ForgetPassPage/>}></Route>
-        <Route path="/resetPassForm" element={<ResetPassPage/>}></Route>
-        <Route path="/home" element={<HomePage/>} />
+        <Route path="/" element={<LoadingPage/>}/>
+        <Route path="/welcomepage" element={<WelcomePage/>}/>
+        <Route path="/onboarding" element={<Onboarding/>}/>
+        <Route path="/login" element={<SignInPage/>}/>
+        <Route path="/signUp" element={<SigneUpPage/>}/>
+        <Route path="/ForgotPassForm" element={<ForgetPassPage/>}/>
+        <Route path="/resetPassForm" element={<ResetPassPage/>}/>
+        <Route path="/" element={<Layout />}>
+          <Route path="/home" element={<HomePage/>} />
+          <Route path="/cart" element={<CartPage/>} />
+          <Route path="/orders" element={<OrdersPage/>}/>
+          <Route path="/wallet" element={<WalletPage/>} />
+          <Route path="/profile" element={<ProfilePage/>} />
+        </Route>
         <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/brand/:brand" element={<BrandPage />} />
         <Route path="/wishlist" element={<WishListPage />} />
