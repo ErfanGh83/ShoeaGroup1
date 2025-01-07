@@ -71,48 +71,57 @@ const HomeContainerProducts: React.FC = () => {
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-2 mb-4">
-        <h3 className="mr-2">Brands:</h3>
-        {["nike", "adidas", "puma"].map((brand) => (
-          <button
-            key={brand}
-            onClick={() => handleFilterChange("brands", brand)}
-            className={`px-4 py-2 rounded-full border ${filters.brands.includes(brand) ? "bg-black text-white" : "bg-white text-black"}`}
-          >
-            {brand}
-          </button>
-        ))}
+    <div className="px-2">
+      <div className="size-fit flex flex-col mx-4 mt-4 font-semibold text-md">
+        <div className="flex flex-wrap gap-2 mb-4">
+          <h3 className="mr-2">Brands:</h3>
+            <ul className="flex flex-row overflow-x-auto w-[330px] gap-x-2">
+              {["nike", "adidas", "puma", "asics", "newbalance", "reebok", "converse"].map((brand) => (
+              <button
+                key={brand}
+                onClick={() => handleFilterChange("brands", brand)}
+                className={`px-4 py-2 rounded-full border ${filters.brands.includes(brand) ? "bg-black text-white" : "bg-white text-black"}`}
+              >
+                {brand}
+              </button>
+            ))}
+            </ul>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-4">
+          <h3 className="mr-2">Colors:</h3>
+          <ul className="flex flex-row overflow-x-auto w-[330px] gap-x-2">
+            {["red", "emerald", "rose", "teal"].map((color) => (
+            <button
+              key={color}
+              onClick={() => handleFilterChange("colors", color)}
+              className={`px-4 py-2 rounded-full border ${filters.colors.includes(color) ? "bg-black text-white" : "bg-white text-black"}`}
+            >
+              {color}
+            </button>
+          ))}
+          </ul>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-4">
+          <h3 className="mr-2">Sizes:</h3>
+          <ul className="flex flex-row overflow-x-auto w-[330px] gap-x-2">
+            {["40", "41", "42", "43"].map((size) => (
+            <button
+              key={size}
+              onClick={() => handleFilterChange("sizes", size)}
+              className={`px-4 py-2 rounded-full border ${filters.sizes.includes(size) ? "bg-black text-white" : "bg-white text-black"}`}
+            >
+              {size}
+            </button>
+          ))}
+          </ul>
+        </div>
       </div>
-      <div className="flex flex-wrap gap-2 mb-4">
-        <h3 className="mr-2">Colors:</h3>
-        {["red", "emerald", "rose", "teal"].map((color) => (
-          <button
-            key={color}
-            onClick={() => handleFilterChange("colors", color)}
-            className={`px-4 py-2 rounded-full border ${filters.colors.includes(color) ? "bg-black text-white" : "bg-white text-black"}`}
-          >
-            {color}
-          </button>
-        ))}
-      </div>
-      <div className="flex flex-wrap gap-2 mb-4">
-        <h3 className="mr-2">Sizes:</h3>
-        {["40", "41", "42", "43"].map((size) => (
-          <button
-            key={size}
-            onClick={() => handleFilterChange("sizes", size)}
-            className={`px-4 py-2 rounded-full border ${filters.sizes.includes(size) ? "bg-black text-white" : "bg-white text-black"}`}
-          >
-            {size}
-          </button>
-        ))}
-      </div>
+        
 
-      <ul className="grid grid-cols-2 w-full max-h-[600px] overflow-y-auto pt-6 mb-16">
+      <ul className="grid grid-cols-2 w-full h-fit p-2 overflow-y-auto pt-6 mb-16 justify-between">
         {data?.map((product) => (
           <Link key={product.id} to={`/products/${product.id}`} >
-            <li className='w-[182px] h-[244px] flex flex-col mx-auto'>
+            <li className='w-fit h-fit p-2 flex flex-col mx-auto'>
               <div className='size-[182px] rounded-2xl overflow-hidden'>
                 <img className='size-full' src={product.images[0]} />
               </div>
