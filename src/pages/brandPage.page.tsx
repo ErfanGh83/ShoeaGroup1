@@ -38,7 +38,7 @@ function BrandPage() {
 
         <ul className="grid grid-cols-2 w-full pt-6 mb-16">
             {data.map((product)=>
-            <Link key={product.id} to={`/product/${product.id}`} >
+            <Link key={product.id} to={`/products/${product.id}`} >
                 <li  className='w-[182px] h-[244px] flex flex-col mx-auto'>
                     <div className='size-[182px] rounded-2xl overflow-hidden'>
                         <img className='size-full' src={product.images[0]}/>

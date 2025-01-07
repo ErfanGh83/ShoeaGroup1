@@ -1,30 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { useNavigate } from "react-router";
-import { baseURL } from "../../customHooks/useFetchData";
-import { HTTP } from "../../services/http.service";
+import { useProducts } from "../../customHooks/useFetchData";
+import { VscLoading } from "react-icons/vsc";
 
 const HomeSearchBar = () => {
 
     const [search, setSearch] = useState('')
-    const [products, setProducts] = useState([])
+    const { data: products, isLoading, error } = useProducts()
     const [searchResult, setSearchResult] = useState('invisible')
     const navigate = useNavigate()
 
-    const baseUrl = baseURL
+    if (isLoading) return(
+        <div className="size-36 flex items-center justify-center m-auto animate-spin">
+          <VscLoading size={36}/>
+        </div>
+      );
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await HTTP.get(baseUrl);
-            setProducts(response.data);
-          } catch (error) {
-            console.error("Error fetching products:", error);
-          }
-        };
-    
-        fetchData();
-    }, []);
+      if (error){
+        if(error.message == 'Request failed with status code 404'){
+          return(<div className="mx-auto my-6">
+            <h2 className="text-center text-xl font-bold">No products found with the selected combination of filters!</h2>
+          </div>)
+        }
+        return(
+          <div>{error.message}</div>
+        )
+      }
 
     return(
         
@@ -41,14 +43,14 @@ const HomeSearchBar = () => {
             </div>
             
             {searchResult == 'visible'? <ul className="w-11/12 bg-white max-h-[400px] overflow-y-auto shadow-2xl m-12 absolute rounded-lg overflow-hidden flex flex-col">
-                {products.filter((item)=>{
+                {products?.filter((product)=>{
                     return search.toLowerCase() === '' 
-                    ? item 
-                    : item.title.toLowerCase().includes(search);
+                    ? product 
+                    : product.name.toLowerCase().includes(search);
                 } ).map((product)=>(
                     <li onClick={() => navigate(`/product/${product.id}`)} key={product.id} className="w-full h-fit p-4 flex flex-row items-center justify-between border-b-2 border-b-gray-100">
-                        <img className="size-12" src={product.images} />
-                        <p>{product.title}</p>
+                        <img className="size-12" src={product.images[0]} />
+                        <p>{product.name}</p>
                         <p>${product.price}</p>
                     </li>
                 ))}

@@ -1,56 +1,50 @@
-import { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
-import { useProducts, useUser } from "../customHooks/useFetchData";
+import { useUser, useWishlist } from "../customHooks/useFetchData";
 import WishlistProducts from "../components/whislistComponents/wishistProducts";
-import { Product, User } from "../types/types";
+import { VscLoading } from "react-icons/vsc";
+import { useEffect } from "react";
 
 function WishListPage() {
-    const [userId, setUserId] = useState<string | null>(null);
-    const [user, setUser] = useState<User | null>(null);
-    const [wishlistProducts, setWishlistProducts] = useState<Product[]>([]);
+    const { data: user } = useUser();
+    const { data: wishlistProducts, isError: isProductError, isLoading: isProductLoading } = useWishlist();
 
-    const { data: products, error: productsError, isLoading: productsLoading } = useProducts();
-    const { data: userData, error: userError, isLoading: userLoading } = useUser(userId);
+    if (isProductLoading) {
+        return (
+            <div className="flex justify-center items-center h-full">
+                <VscLoading size={36} className="animate-spin" />
+            </div>
+        );
+    }
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            const user: User = JSON.parse(storedUser);
-            setUserId(user?.id || null);
-        } else {
-            setUserId(null);
-        }
-    }, []);
+    if (isProductError) {
+        return (<div>
+            <div className="mx-auto my-8 text-center flex flex-col">
+                <button className="size-12 mx-4" onClick={() => window.history.back()}>
+                    <BiArrowBack size={30} />
+                </button>
+                <h1 className="text-4xl">Error loading the wishlist</h1>
+            </div>
+        </div>)
+    }
 
-    useEffect(() => {
-        if (userData) {
-            setUser(userData);
-        }
-    }, [userData]);
-
-    useEffect(() => {
-        if (user && user.wishlist && products) {
-
-            user.wishlist.map((w)=>products.find((p)=>p.id === w.id))
-
-            const filteredProducts = products.filter(product =>
-                user.wishlist.some(wishlistItem => wishlistItem.id === product.id)
-            );
-            setWishlistProducts(filteredProducts);
-        }
-    }, [user, products]);
-
-    if (productsLoading || userLoading) return <div>Loading...</div>;
-    if (productsError) return <div>Error fetching products: {productsError.message}</div>;
-    if (userError) return <div>Error fetching user data: {userError.message}</div>;
+    if (!wishlistProducts || wishlistProducts.length === 0) {
+        return (
+            <div className="mx-auto my-8 text-center flex flex-col">
+                <button className="size-12 mx-4" onClick={() => window.history.back()}>
+                    <BiArrowBack size={30} />
+                </button>
+                <h1 className="text-6xl">Empty.</h1>
+            </div>
+        );
+    }
 
     return (
         <div>
-            <div className='w-full flex flex-row items-center my-4'>
-                <button className='size-12 mx-4' onClick={() => window.history.back()}>
+            <div className="w-full flex flex-row items-center my-4">
+                <button className="size-12 mx-4" onClick={() => window.history.back()}>
                     <BiArrowBack size={30} />
                 </button>
-                <p className='text-4xl font-bold'>My Wishlist</p>
+                <p className="text-4xl font-bold">My Wishlist</p>
             </div>
             <WishlistProducts products={wishlistProducts} />
         </div>
