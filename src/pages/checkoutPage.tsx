@@ -1,7 +1,10 @@
+import AddressComponent from "../components/checkout/addressComponent";
 
 function CheckoutPage() {
   return (
-    <div>CheckoutPage</div>
+    <div>
+        <AddressComponent />
+    </div>
   )
 }
 

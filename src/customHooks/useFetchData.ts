@@ -37,12 +37,25 @@ const fetchOrders = async (params?: Record<string, string>): Promise<Product[]> 
     return data;
 };
 
+const fetchAddress = async (params?: Record<string, string>): Promise<IAddress> => {
+    const { data } = await HTTPPrivate.get<IAddress>(`/api/address`, { params });
+    return data;
+};
+
 export const toggleWishlist = async (data: object): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/wishlist', data)
 }
 
 export const addToCart = async (data: CartItem): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/cart', data)
+}
+
+export const addToAddress = async (data: IAddress): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.post('/api/address', data)
+}
+
+export const setSelectedAddress = async (data: string): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.post('/api/address', data)
 }
 
 const useProducts = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
@@ -95,5 +108,13 @@ const useOrders = (params?: Record<string, string>): UseQueryResult<Product[], E
     });
 };
 
+const useAddress = (params?: Record<string, string>): UseQueryResult<IAddress, Error> => {
+    return useQuery<IAddresss, Error>({
+        queryKey: ['address', params],
+        queryFn: () => fetchAddress(params),
+        staleTime: 60 * 1000,
+        retry: 1,
+    });
+};
 
-export { useProducts, useUser, useProduct, useWishlist, useCart, useOrders };
+export { useProducts, useUser, useProduct, useWishlist, useCart, useOrders, useAddress };
