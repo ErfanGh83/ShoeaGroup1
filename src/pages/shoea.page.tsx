@@ -19,6 +19,7 @@ import CompletedOrdersComponent from "../components/ordersComponents/completedOr
 import ActiveOrdersComponent from "../components/ordersComponents/activeOrdersComponent";
 import CheckoutPage from "./checkoutPage";
 import ChangeAddress from "../components/checkout/changeAddress";
+import ChangeDelivery from "../components/checkout/changeDelivery";
 
 
 const Shoea = () => {
@@ -52,6 +53,7 @@ const Shoea = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/checkout/address" element={<ChangeAddress />} />
+        <Route path="/checkout/delivery" element={<ChangeDelivery />} />
       </Routes>
     </BrowserRouter>
   );
