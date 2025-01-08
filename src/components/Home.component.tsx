@@ -1,5 +1,5 @@
 import HomeHeader from "./HomeComponents/homeHeader.component";
-import HomeSearchBar from "./HomeComponents/homeSearchBar.component";
+import HomeSearchBar from "./HomeComponents/searchbar/homeSearchBar.component";
 import HomeContainer from "./HomeComponents/homeContainer.component";
 import HomeFooter from "./HomeComponents/homeFooter.component";
 
