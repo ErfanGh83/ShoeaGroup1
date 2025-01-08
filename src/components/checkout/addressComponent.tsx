@@ -2,11 +2,16 @@ import { VscLocation } from "react-icons/vsc";
 import { BiPencil } from "react-icons/bi";
 import { Link } from "react-router";
 import { useAddress, useUser } from "../../customHooks/useFetchData";
+import { useEffect } from "react";
 
 function AddressComponent() {
 
     const { data: user } = useUser()
-    const { data: selectedAddress, isError: isAddressError, isLoading: isAddressLoading } = useAddress({ isSelected: 'true'})
+    const { data: selectedAddress, isError: isAddressError, isLoading: isAddressLoading, refetch } = useAddress({ isSelected: 'true'})
+
+    useEffect(() => {
+        refetch();
+    }, []);
 
     if(isAddressLoading){
         return(<div>

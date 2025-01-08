@@ -26,7 +26,7 @@ const sliderSettings = {
 function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const { data: user } = useUser();
-  const { data: product, isLoading: isProductLoading, isError: isProductError } = useProduct(id!);
+  const { data: product, isLoading: isProductLoading, isError: isProductError, refetch } = useProduct(id!);
   const [quantity, setQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState(41);
   const [selectedColor, setSelectedColor] = useState('red');
@@ -39,9 +39,12 @@ function ProductPage() {
   };
 
   useEffect(() => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
 
     if (product) {
-      console.log(product)
       setIsWished(wishlistArray?.some((item) => item.id === Number(id)) || false);
     }
 
@@ -59,7 +62,7 @@ function ProductPage() {
       }
     }
   }, [id, cart, product]);
-  
+
   const dispatch = useDispatch();
   const handleSubmit = () => {
     addToCart({

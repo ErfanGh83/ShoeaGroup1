@@ -1,5 +1,5 @@
 interface Product {
-  id: string;
+  id: number;
   name: string;
   price: number;
   sold_quantity: number;
@@ -20,15 +20,32 @@ interface Product {
 }
 
 interface CartItem {
-  id: string;
-  name?: string;
-  brand?: string;
-  images?: string;
-  price?: number;
-  quantity: number;
-  color?: string;
-  size?: number;
+  name: string;
+  count: number;
+  price: number;
+  total_price: number;
+  color: string;
+  size: number;
+  images: string[];
+  productId: number;
 }
+
+interface CartData {
+  productId: number;
+  color: string;
+  size: number;
+  count: number;
+}
+
+interface IAddress {
+  name: string;
+  address: string;
+}
+
+interface SelectAddressParam {
+  name: string
+}
+
 
 interface CartItemState {
   item: CartItem[];
@@ -56,4 +73,4 @@ interface User {
   username: string;
 }
 
-export type { Product, CartItem, User, CartItemState, DeleteModalProps };
+export type { Product, CartItem, CartData, User, CartItemState, DeleteModalProps, IAddress, SelectAddressParam };

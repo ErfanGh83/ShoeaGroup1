@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Product, User, CartItem } from "../types/types";
+import { Product, User, CartItem, IAddress, CartData, SelectAddressParam } from "../types/types";
 import { HTTP, HTTPPrivate } from "../services/http.service";
 import { BASE_URL } from "../config/api.config";
 import { AxiosResponse } from "axios";
@@ -27,8 +27,8 @@ const fetchProduct = async (productId: string): Promise<Product> => {
     return data;
 };
 
-const fetchCart = async (): Promise<CartItem> => {
-    const { data } = await HTTPPrivate.get<CartItem>(`/api/cart`);
+const fetchCart = async (): Promise<CartItem[]> => {
+    const { data } = await HTTPPrivate.get<CartItem[]>(`/api/cart`);
     return data;
 };
 
@@ -37,8 +37,8 @@ const fetchOrders = async (params?: Record<string, string>): Promise<Product[]> 
     return data;
 };
 
-const fetchAddress = async (params?: Record<string, string>): Promise<IAddress> => {
-    const { data } = await HTTPPrivate.get<IAddress>(`/api/address`, { params });
+const fetchAddress = async (params?: Record<string, string>): Promise<IAddress[]> => {
+    const { data } = await HTTPPrivate.get<IAddress[]>(`/api/address`, { params });
     return data;
 };
 
@@ -46,7 +46,7 @@ export const toggleWishlist = async (data: object): Promise<AxiosResponse<string
     return HTTPPrivate.post('/api/wishlist', data)
 }
 
-export const addToCart = async (data: CartItem): Promise<AxiosResponse<string>> => {
+export const addToCart = async (data: CartData): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/cart', data)
 }
 
@@ -54,7 +54,7 @@ export const addToAddress = async (data: IAddress): Promise<AxiosResponse<string
     return HTTPPrivate.post('/api/address', data)
 }
 
-export const setSelectedAddress = async (data: string): Promise<AxiosResponse<string>> => {
+export const setSelectedAddress = async (data: SelectAddressParam): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/address', data)
 }
 
@@ -92,8 +92,8 @@ const useProduct = (productId: string | null): UseQueryResult<Product, Error> =>
     });
 };
 
-const useCart = (): UseQueryResult<CartItem, Error> => {
-    return useQuery<CartItem, Error>({
+const useCart = (): UseQueryResult<CartItem[], Error> => {
+    return useQuery<CartItem[], Error>({
         queryKey: ['cart'],
         queryFn: fetchCart,
     });
@@ -108,12 +108,14 @@ const useOrders = (params?: Record<string, string>): UseQueryResult<Product[], E
     });
 };
 
-const useAddress = (params?: Record<string, string>): UseQueryResult<IAddress, Error> => {
-    return useQuery<IAddresss, Error>({
+const useAddress = (params?: Record<string, string>): UseQueryResult<IAddress[], Error> => {
+    return useQuery<IAddress[], Error>({
         queryKey: ['address', params],
         queryFn: () => fetchAddress(params),
         staleTime: 60 * 1000,
         retry: 1,
+        refetchOnWindowFocus: true,
+        refetchOnMount: true, 
     });
 };
 

@@ -6,7 +6,11 @@ import { useEffect } from "react";
 
 function WishListPage() {
     const { data: user } = useUser();
-    const { data: wishlistProducts, isError: isProductError, isLoading: isProductLoading } = useWishlist();
+    const { data: wishlistProducts, isError: isProductError, isLoading: isProductLoading, refetch } = useWishlist();
+
+    useEffect(() => {
+        refetch();
+    }, []);
 
     if (isProductLoading) {
         return (
