@@ -1,23 +1,8 @@
-// import React, { useState } from "react";
+import { useCart, useUpdateCart } from "../../customHooks/useFetchData";
 
-// import { useDispatch } from "react-redux";
-// import { CartActions } from "../../redux/slices/Cart.slice";
-import {
-  useCart,
-  useDeleteCart,
-  useDiscount,
-  useUpdateCart,
-} from "../../customHooks/useFetchData";
-// import { CartItem as CartItemType } from "../../types/types";
 import { BiTrash } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 import { BiMinus } from "react-icons/bi";
-// // import { useAppSelector } from "../../hook/redux.hook";
-// import DeleteModal from "./DeleteModal";
-
-// interface CartItemProps {
-//   item: CartItemType;
-// }
 
 // const CartItem: React.FC<CartItemProps> = ({ item }) => {
 //   const dispatch = useDispatch();
