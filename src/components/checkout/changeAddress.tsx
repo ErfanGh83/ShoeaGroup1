@@ -17,7 +17,7 @@ function ChangeAddress() {
 
     useEffect(() => {
         if (initialAddress) {
-            setLocalSelectedAddress(initialAddress);
+            setLocalSelectedAddress(initialAddress as IAddress);
         }
     }, [initialAddress]);
 
@@ -36,11 +36,11 @@ function ChangeAddress() {
             const isDuplicate = addresses.find(obj => obj.name === newAddress.name);
             
             if(!isDuplicate){
-                refetch();
+                addToAddress({ name: newAddress.name, address: newAddress.address })
                 setSelectedAddress({name: newAddress.name});
                 setLocalSelectedAddress(newAddress);
-                addToAddress({ name: newAddress.name, address: newAddress.address })
                 setMode("view");
+                refetch();
             }
             else{
                 toast.warn('address names should be unique')
@@ -52,7 +52,7 @@ function ChangeAddress() {
     };
 
     if (!addresses || isError) {
-        return <div>no addresses</div>;
+        return <div className="text-center">Error while fetching addresses</div>;
     }
 
     return (
@@ -62,7 +62,7 @@ function ChangeAddress() {
             {mode === "view" ? (
                 <>
                     <div className="flex flex-col gap-4 my-4">
-                        {addresses.map((address) => (
+                        {addresses.map((address: IAddress) => (
                             <div
                                 key={address.name}
                                 className={`w-full h-[100px] p-2 my-4 rounded-2xl shadow-md flex flex-row items-center cursor-pointer ${localSelectedAddress.name === address.name

@@ -4,17 +4,6 @@ import { useCart, useUser } from "../../customHooks/useFetchData"
 function CheckoutCart() {
 
     const { data: products } = useCart()
-    const { data: user } = useUser()
-
-    if (!user) {
-        return (
-            <Link to={`/login`}>
-                <div className="text-center text-3xl text-blue-600">
-                    please login.
-                </div>
-            </Link>
-        )
-    }
 
     if (!products) {
         return (

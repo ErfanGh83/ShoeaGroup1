@@ -20,6 +20,8 @@ import ActiveOrdersComponent from "../components/ordersComponents/activeOrdersCo
 import CheckoutPage from "./checkoutPage";
 import ChangeAddress from "../components/checkout/changeAddress";
 import ChangeDelivery from "../components/checkout/changeDelivery";
+import MostPopularPage from "./mostPopularPage";
+import PaymentComponent from "../components/checkout/paymentComponent";
 
 
 const Shoea = () => {
@@ -37,6 +39,7 @@ const Shoea = () => {
 
           <Route path="/home" element={<HomePage/>} />
           <Route path="/cart" element={<CartPage/>} />
+          <Route path="/mostpopular" element={<MostPopularPage />} />
 
           <Route path="/orders" element={<OrdersPage/>}>
             <Route path="active" element={<ActiveOrdersComponent/>}/>
@@ -54,6 +57,7 @@ const Shoea = () => {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/checkout/address" element={<ChangeAddress />} />
         <Route path="/checkout/delivery" element={<ChangeDelivery />} />
+        <Route path="/checkout/payment" element={<PaymentComponent />} />
       </Routes>
     </BrowserRouter>
   );

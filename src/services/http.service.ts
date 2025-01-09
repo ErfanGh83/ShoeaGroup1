@@ -2,6 +2,7 @@ import axios from "axios";
 import { BASE_URL, TIMEOUT } from "../config/api.config";
 import { AuthActions, getAccessToken } from "../redux/slices/Auth.slice";
 import { store } from "../redux/store.redux";
+import { toast } from "react-toastify";
 
 
 
@@ -47,9 +48,9 @@ httpPrivate.interceptors.response.use(
     else if (errorCode === 403)
       window.location.href = "/login"
     else if (errorCode === 404)
-      alert("Data not Found")
+      console.log('Error code: 404, Not Found')
     else {
-      alert("Unkown Error")
+      console.log('Uknown Error')
     }
     return Promise.reject(error);
 

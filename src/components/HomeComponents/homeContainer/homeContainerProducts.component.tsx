@@ -72,6 +72,12 @@ const HomeContainerProducts: React.FC = () => {
 
   return (
     <div className="px-2">
+        <Link to={`/mostpopular`}>
+          <div className='m-4'>
+            <h2 className="text-xl font-bold">Most Popular</h2>
+          </div>
+        </Link>
+          
       <div className="size-fit flex flex-col mx-4 mt-4 font-semibold text-md">
         <div className="flex flex-wrap gap-2 mb-4">
           <h3 className="mr-2">Brands:</h3>

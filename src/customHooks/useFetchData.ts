@@ -37,8 +37,8 @@ const fetchOrders = async (params?: Record<string, string>): Promise<OrderItem[]
     return data;
 };
 
-const fetchAddress = async (params?: Record<string, string>): Promise<IAddress[]> => {
-    const { data } = await HTTPPrivate.get<IAddress[]>(`/api/address`, { params });
+const fetchAddress = async (params?: Record<string, string>): Promise<IAddress[] | IAddress> => {
+    const { data } = await HTTPPrivate.get<IAddress[] | IAddress>(`/api/address`, { params });
     return data;
 };
 
@@ -80,7 +80,7 @@ const useProducts = (params?: Record<string, string>): UseQueryResult<Product[],
         queryKey: ['products', params],
         queryFn: () => fetchProducts(params),
         staleTime: 60 * 1000,
-        retry: 1,
+        retry: 0,
     });
 };
 
@@ -89,7 +89,7 @@ const useHistory = (params?: Record<string, string>): UseQueryResult<[], Error> 
         queryKey: ['history', params],
         queryFn: () => fetchSearchHistory(params),
         staleTime: 60 * 1000,
-        retry: 1,
+        retry: 0,
     });
 };
 
@@ -103,7 +103,7 @@ const useWishlist = (params?: Record<string, string>): UseQueryResult<Product[],
         queryKey: ['wishlist', params],
         queryFn: () => fetchWishlist(params),
         staleTime: 60 * 1000,
-        retry: 1,
+        retry: 0,
     });
 };
 
@@ -112,6 +112,7 @@ const useUser = (): UseQueryResult<User, Error> => {
     return useQuery<User, Error>({
         queryKey: ['user'],
         queryFn: fetchUser,
+        retry: 0,
     });
 };
 
@@ -120,6 +121,7 @@ const useProduct = (productId: string | null): UseQueryResult<Product, Error> =>
         queryKey: ['product', productId],
         queryFn: () => fetchProduct(productId as string),
         enabled: !!productId,
+        retry: 0,
     });
 };
 
@@ -127,6 +129,7 @@ const useCart = (): UseQueryResult<CartItem[], Error> => {
     return useQuery<CartItem[], Error>({
         queryKey: ['cart'],
         queryFn: fetchCart,
+        retry: 0,
     });
 };
 
@@ -135,16 +138,16 @@ const useOrders = (params?: Record<string, string>): UseQueryResult<OrderItem[],
         queryKey: ['orders', params],
         queryFn: () => fetchOrders(params),
         staleTime: 60 * 1000,
-        retry: 1,
+        retry: 0,
     });
 };
 
-const useAddress = (params?: Record<string, string>): UseQueryResult<IAddress[], Error> => {
-    return useQuery<IAddress[], Error>({
+const useAddress = (params?: Record<string, string>): UseQueryResult<IAddress[] | IAddress, Error> => {
+    return useQuery<IAddress[] | IAddress, Error>({
         queryKey: ['address', params],
         queryFn: () => fetchAddress(params),
         staleTime: 60 * 1000,
-        retry: 1,
+        retry: 0,
         refetchOnWindowFocus: true,
         refetchOnMount: true, 
     });
