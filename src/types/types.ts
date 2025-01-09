@@ -20,7 +20,7 @@ interface Product {
 }
 
 interface CartItem {
-  id?: string;
+  productId: string;
   name?: string;
   brand?: string;
   images?: string;
@@ -28,6 +28,11 @@ interface CartItem {
   count?: number;
   color?: string;
   size?: number;
+}
+
+export interface DiscountType {
+  code: string;
+  discount: number;
 }
 
 interface CartItemState {
