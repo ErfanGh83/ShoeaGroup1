@@ -1,7 +1,5 @@
-import React from "react";
-import CartList from "../components/Cart/CartList";
-import CartSummary from "../components/Cart/CartSummary";
 import { BiSearch } from "react-icons/bi";
+import CartItems from "../components/Cart/CartItem";
 
 const CartPage: React.FC = () => {
   return (
@@ -15,12 +13,7 @@ const CartPage: React.FC = () => {
           <BiSearch size={28} />
         </button>
       </header>
-      <div className="flex-1 overflow-auto custom-scrollbar">
-        <CartList />
-      </div>
-      <div className="flex items-center w-full pb-12">
-        <CartSummary />
-      </div>
+      <CartItems />
     </div>
   );
 };

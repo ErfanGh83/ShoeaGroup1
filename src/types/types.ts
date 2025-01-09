@@ -20,12 +20,12 @@ interface Product {
 }
 
 interface CartItem {
-  id: string;
+  id?: string;
   name?: string;
   brand?: string;
   images?: string;
   price?: number;
-  quantity: number;
+  quantity?: number;
   color?: string;
   size?: number;
 }
