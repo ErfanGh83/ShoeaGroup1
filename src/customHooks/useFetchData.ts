@@ -94,7 +94,7 @@ const useHistory = (params?: Record<string, string>): UseQueryResult<[], Error> 
 };
 
 // const { data: products, isError: isProductsError, isLoading } = useProducts({ search: 'nike'})
-// addToSearchHistory('nike'
+// addToSearchHistory('nike')
 // const { data: searchHistoryArray, isError: isHistoryError } = useHistory()
 // deleteFromHistorySearch('nike')
 
