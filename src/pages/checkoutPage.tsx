@@ -3,10 +3,12 @@ import AddressComponent from "../components/checkout/addressComponent";
 import CheckoutCart from "../components/checkout/checkoutCart";
 import DeliveryComponent from "../components/checkout/deliveryComponent";
 import { useUser } from "../customHooks/useFetchData";
+import { BiArrowBack } from "react-icons/bi";
 
 function CheckoutPage() {
 
   const { data: user } = useUser()
+
 
   if (!user) {
     return (
@@ -20,6 +22,12 @@ function CheckoutPage() {
 
   return (
     <div>
+      <Link to={`/home`}>
+        <button className='size-12 mx-4'>
+          <BiArrowBack size={30} />
+        </button>
+      </Link>
+
       <AddressComponent />
       <CheckoutCart />
       <DeliveryComponent />

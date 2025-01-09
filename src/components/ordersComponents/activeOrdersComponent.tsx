@@ -3,13 +3,19 @@ import { VscLoading } from 'react-icons/vsc';
 import { BiError } from 'react-icons/bi';
 import { OrderItem } from '../../types/types';
 import { Link } from 'react-router';
+import { useEffect } from 'react';
 
 function ActiveOrdersComponent() {
     const {
         data: products,
         isError: isProductsError,
         isLoading: isProductsLoading,
+        refetch,
     } = useOrders({ status: 'indelivery' });
+
+    useEffect(()=>{
+        refetch()
+    }, [])
 
     if (isProductsLoading) {
         return (

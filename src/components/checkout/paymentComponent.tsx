@@ -4,9 +4,27 @@ import { BsPaypal } from "react-icons/bs";
 import { BsGoogle } from "react-icons/bs";
 import { Link } from "react-router";
 import { useState } from "react";
+import { addToOrders, useAddress, useCart } from "../../customHooks/useFetchData";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store.redux";
 
 function PaymentComponent() {
+    const activeDelivery = useSelector((state: RootState) => state.delivery.activeDelivery);
+
     const [activePayment, setActivePayment] = useState('Wallet')
+    const { data: cart } = useCart()
+    const { data: selectedAddress } = useAddress({ isSelected: 'true'})
+
+    const handleAddToOrder = () => {
+        addToOrders(
+            {
+                products: cart,
+                address: selectedAddress.address,
+                shippingType: activeDelivery,
+                discount: 0
+            }
+        )
+    }
 
     return (
         <div className="p-2">
@@ -79,9 +97,9 @@ function PaymentComponent() {
             </div>
 
             <Link to={`/home`}>
-                <div className="w-[450px] h-[50px] rounded-3xl bg-black mx-4 text-white font-semibold text-xl flex items-center justify-center absolute bottom-2">
+                <button onClick={handleAddToOrder} className="w-[450px] h-[50px] rounded-3xl bg-black mx-4 text-white font-semibold text-xl flex items-center justify-center absolute bottom-2">
                     Apply
-                </div>
+                </button>
             </Link>
         </div>
     );

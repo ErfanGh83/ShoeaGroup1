@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Product, User, CartItem, IAddress, CartData, SelectAddressParam, OrderItem } from "../types/types";
+import { Product, User, CartItem, IAddress, CartData, SelectAddressParam, OrderItem, Order } from "../types/types";
 import { HTTP, HTTPPrivate } from "../services/http.service";
 import { BASE_URL } from "../config/api.config";
 import { AxiosResponse } from "axios";
@@ -69,6 +69,10 @@ export const deleteAllSearchHistory = async (): Promise<AxiosResponse<string>> =
 
 export const addToAddress = async (data: IAddress): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/address', data)
+}
+
+export const addToOrders = async (data: Order): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.post('/api/orders', data)
 }
 
 export const setSelectedAddress = async (data: SelectAddressParam): Promise<AxiosResponse<string>> => {

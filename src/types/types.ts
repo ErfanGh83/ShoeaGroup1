@@ -34,6 +34,13 @@ interface OrderItem {
   address: string;
 }
 
+interface Order {
+  products: Product[];
+  discount: number;
+  shippingType: string;
+  address: string;
+}
+
 interface CartItem {
   name: string;
   count: number;
@@ -88,4 +95,4 @@ interface User {
   username: string;
 }
 
-export type { Product, CartItem, CartData, User, CartItemState, DeleteModalProps, IAddress, SelectAddressParam, OrderItem };
+export type { Product, CartItem, CartData, User, CartItemState, DeleteModalProps, IAddress, SelectAddressParam, OrderItem, Order };
