@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css'
 
 import { signUp } from "../api/auth.api";
+import { toast } from "react-toastify";
 
 const Form: React.FC= () => {
 
   const [gender, setGender] = useState("");
+  const Navigate = useNavigate()
   
     const {
         register,
@@ -24,8 +26,10 @@ const Form: React.FC= () => {
 
       const onSubmit = async (data: FormData) => {
         delete data.confirmPassword;
-
+        delete data.gender;
         signUp(data)
+        Navigate(`/login`)
+        toast.success('signed up successfully')
       };
 
   return (

@@ -3,8 +3,7 @@ const ForgetPassPage: React.FC = () => {
 
   return (
     <div className="pt-44">
-           <ForgotPassForm  />
-
+      <ForgotPassForm  />
     </div>
   );
 };

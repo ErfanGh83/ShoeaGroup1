@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { FaArrowLeft, FaEnvelope, FaLock } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
@@ -117,7 +117,16 @@ const SignInForm: React.FC = () => {
             </p>
           )}
 
-          <p onClick={()=>navigate('/signUp')} className="mx-auto my-2 text-md text-blue-500">Don't have an account ? sign up</p>
+          <div className="mx-auto flex flex-col items-center justify-center">
+            <Link to={`/signUp`}>
+              <p className="mx-auto my-2 text-md text-blue-500">Don't have an account ? sign up</p>
+            </Link>
+
+            <Link to={`/ForgotPassForm`}>
+              <p className="mx-auto my-2 text-md text-blue-500">Forgot password</p>
+            </Link>
+          </div>
+            
 
           <button
             type="submit"

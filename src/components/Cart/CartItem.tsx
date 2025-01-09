@@ -16,11 +16,11 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const dispatch = useDispatch();
   //   const cartItems = useAppSelector((state) => state.cart.item);
 
-  const handleQuantityChange = (quantity: number) => {
-    if (quantity <= 0) {
+  const handleQuantityChange = (count: number) => {
+    if (count <= 0) {
       dispatch(CartActions.removeItem(item.id));
     } else {
-      dispatch(CartActions.updateItemQuantity({ id: item.id, quantity }));
+      dispatch(CartActions.updateItemQuantity({ id: item.id, count }));
     }
   };
 
@@ -60,14 +60,14 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
       </div>
       <div className="flex items-center justify-center bg-gray-200 rounded-3xl p-1 mt-20">
         <button
-          onClick={() => handleQuantityChange(item.quantity - 1)}
+          onClick={() => handleQuantityChange(item.count - 1)}
           className="w-8 h-8 rounded-full flex items-center justify-center"
         >
           <BiMinus size={18} />
         </button>
-        <span className="mx-2 text-lg font-semibold">{item.quantity}</span>
+        <span className="mx-2 text-lg font-semibold">{item.count}</span>
         <button
-          onClick={() => handleQuantityChange(item.quantity + 1)}
+          onClick={() => handleQuantityChange(item.count + 1)}
           className="w-8 h-8 rounded-full flex items-center justify-center"
         >
           <BiPlus size={18} />

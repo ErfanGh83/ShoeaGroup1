@@ -9,7 +9,7 @@ import { z, ZodType } from "zod";
     password: string;
     confirmPassword?: string;
     phone: string;
-    gender: "male" | "female";
+    gender?: "male" | "female";
   };
 
   export type newPassData = {

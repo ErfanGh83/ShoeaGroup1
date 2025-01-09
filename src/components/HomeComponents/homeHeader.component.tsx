@@ -3,7 +3,6 @@ import { BiHeart } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
-import { useUser } from "../../customHooks/useFetchData";
 import { logout } from "../../api/auth.api";
 import { useSelector, useDispatch } from "react-redux";
 import { AuthActions } from "../../redux/slices/Auth.slice";
@@ -13,13 +12,11 @@ const HomeHeader = ()=>{
 
     const userState = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
-    const { data : user, isLoading, error } = useUser();
-
 
     const handleLogout = async () => {
         try {
-            await logout();
             dispatch(AuthActions.clear());
+            await logout();
         } catch (error) {
             console.error("Logout failed", error);
         }

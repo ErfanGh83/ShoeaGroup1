@@ -7,7 +7,7 @@ import { IAddress } from "../../types/types";
 
 function ChangeAddress() {
     const { data: initialAddress } = useAddress({ isSelected: "true" });
-    const { data: addresses, refetch } = useAddress();
+    const { data: addresses, isError, refetch } = useAddress();
     const [mode, setMode] = useState("view");
     const [localSelectedAddress, setLocalSelectedAddress] = useState({
         name: "",
@@ -17,7 +17,7 @@ function ChangeAddress() {
 
     useEffect(() => {
         if (initialAddress) {
-            setLocalSelectedAddress(initialAddress[0]);
+            setLocalSelectedAddress(initialAddress);
         }
     }, [initialAddress]);
 
@@ -36,10 +36,10 @@ function ChangeAddress() {
             const isDuplicate = addresses.find(obj => obj.name === newAddress.name);
             
             if(!isDuplicate){
+                refetch();
                 setSelectedAddress({name: newAddress.name});
                 setLocalSelectedAddress(newAddress);
                 addToAddress({ name: newAddress.name, address: newAddress.address })
-                refetch();
                 setMode("view");
             }
             else{
@@ -51,7 +51,7 @@ function ChangeAddress() {
         }
     };
 
-    if (!addresses) {
+    if (!addresses || isError) {
         return <div>no addresses</div>;
     }
 

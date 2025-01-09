@@ -7,7 +7,7 @@ const initialState: CartItemState = {
 };
 
 const calculateTotalPrice = (items: CartItem[]): number => {
-  return items.reduce((total, item) => total + item.price! * item.quantity, 0);
+  return items.reduce((total, item) => total + item.price! * item.count, 0);
 };
 
 const cartSlice = createSlice({
@@ -19,7 +19,7 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
+        existingItem.count += action.payload.count;
       } else {
         state.item.push(action.payload);
       }
@@ -31,7 +31,7 @@ const cartSlice = createSlice({
     ) => {
       const item = state.item.find((item) => item.id === action.payload.id);
       if (item) {
-        item.quantity = action.payload.quantity;
+        item.count = action.payload.quantity;
       }
       state.totalPrice = calculateTotalPrice(state.item);
     },

@@ -42,12 +42,29 @@ const fetchAddress = async (params?: Record<string, string>): Promise<IAddress[]
     return data;
 };
 
+const fetchSearchHistory = async (params?: Record<string, string>): Promise<[]> => {
+    const { data } = await HTTPPrivate.get<[]>(`/api/search`, { params });
+    return data;
+};
+
 export const toggleWishlist = async (data: object): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/wishlist', data)
 }
 
 export const addToCart = async (data: CartData): Promise<AxiosResponse<string>> => {
     return HTTPPrivate.post('/api/cart', data)
+}
+
+export const addToSearchHistory = async (data: string): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.post('/api/search', data)
+}
+
+export const deleteFromSearchHistory = async (data: string): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.delete(`/api/search/${data}`)
+}
+
+export const deleteAllSearchHistory = async (): Promise<AxiosResponse<string>> => {
+    return HTTPPrivate.delete(`/api/search`)
 }
 
 export const addToAddress = async (data: IAddress): Promise<AxiosResponse<string>> => {
@@ -66,6 +83,20 @@ const useProducts = (params?: Record<string, string>): UseQueryResult<Product[],
         retry: 1,
     });
 };
+
+const useHistory = (params?: Record<string, string>): UseQueryResult<[], Error> => {
+    return useQuery<[], Error>({
+        queryKey: ['history', params],
+        queryFn: () => fetchSearchHistory(params),
+        staleTime: 60 * 1000,
+        retry: 1,
+    });
+};
+
+// const { data: products, isError: isProductsError, isLoading } = useProducts({ search: 'nike'})
+// addToSearchHistory('nike'
+// const { data: searchHistoryArray, isError: isHistoryError } = useHistory()
+// deleteFromHistorySearch('nike')
 
 const useWishlist = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
     return useQuery<Product[], Error>({
@@ -119,4 +150,4 @@ const useAddress = (params?: Record<string, string>): UseQueryResult<IAddress[],
     });
 };
 
-export { useProducts, useUser, useProduct, useWishlist, useCart, useOrders, useAddress };
+export { useProducts, useUser, useProduct, useWishlist, useCart, useOrders, useAddress, useHistory };

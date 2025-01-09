@@ -52,7 +52,7 @@ const NewPassForm: React.FC = () => {
         </div>
 
         <div className="flex flex-row justify-center my-12">
-          <button className="text-center" onClick={() => navigate("SignInForm")}>
+          <button className="text-center" onClick={() => navigate("/SignInForm")}>
             Back to sign in
           </button>
         </div>

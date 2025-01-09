@@ -3,10 +3,11 @@ import { BiPencil } from "react-icons/bi";
 import { Link } from "react-router";
 import { useAddress, useUser } from "../../customHooks/useFetchData";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 function AddressComponent() {
 
-    const { data: user } = useUser()
+    // const { data: user } = useUser()
     const { data: selectedAddress, isError: isAddressError, isLoading: isAddressLoading, refetch } = useAddress({ isSelected: 'true'})
 
     useEffect(() => {
@@ -19,10 +20,8 @@ function AddressComponent() {
         </div>)
     }
 
-    if(isAddressError){
-        return(<div>
-            error fetching address
-        </div>)
+    if(isAddressError || !selectedAddress){
+        toast.error(`no addresses found`)
     }
 
     return (

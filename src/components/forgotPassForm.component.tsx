@@ -40,7 +40,7 @@ const ForgotPassForm: React.FC = () => {
         <img className="mx-auto" src="/src/assets/logo-black.svg" alt="Logo" />
         <h1 className="text-3xl font-bold text-center m-4 mt-24">Forgot password</h1>
         <div
-          className={`flex flex-row items-center bg-gray-100 px-2 rounded-md mt-12 ${
+          className={`w-fit  mx-auto flex flex-row items-center bg-gray-100 px-2 rounded-md mt-12 ${
             userIsFocused ? "border-2 border-black" : ""
           }`}
         >
@@ -60,7 +60,7 @@ const ForgotPassForm: React.FC = () => {
         )}
 
         <div className="flex flex-row justify-center my-12">
-          <button className="text-center" onClick={() => navigate("SignInForm")}>
+          <button className="text-center" onClick={() => navigate("/login")}>
             Back to sign in
           </button>
         </div>
