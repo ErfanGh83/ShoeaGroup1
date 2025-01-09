@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { Product, User, CartItem, IAddress, CartData, SelectAddressParam } from "../types/types";
+import { Product, User, CartItem, IAddress, CartData, SelectAddressParam, OrderItem } from "../types/types";
 import { HTTP, HTTPPrivate } from "../services/http.service";
 import { BASE_URL } from "../config/api.config";
 import { AxiosResponse } from "axios";
@@ -32,8 +32,8 @@ const fetchCart = async (): Promise<CartItem[]> => {
     return data;
 };
 
-const fetchOrders = async (params?: Record<string, string>): Promise<Product[]> => {
-    const { data } = await HTTPPrivate.get<Product[]>(`/api/orders`, { params });
+const fetchOrders = async (params?: Record<string, string>): Promise<OrderItem[]> => {
+    const { data } = await HTTPPrivate.get<OrderItem[]>(`/api/orders`, { params });
     return data;
 };
 
@@ -99,8 +99,8 @@ const useCart = (): UseQueryResult<CartItem[], Error> => {
     });
 };
 
-const useOrders = (params?: Record<string, string>): UseQueryResult<Product[], Error> => {
-    return useQuery<Product[], Error>({
+const useOrders = (params?: Record<string, string>): UseQueryResult<OrderItem[], Error> => {
+    return useQuery<OrderItem[], Error>({
         queryKey: ['orders', params],
         queryFn: () => fetchOrders(params),
         staleTime: 60 * 1000,

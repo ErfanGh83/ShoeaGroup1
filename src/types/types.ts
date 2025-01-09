@@ -19,6 +19,21 @@ interface Product {
   isFavorite: boolean;
 }
 
+interface OrderItem {
+  userId: number;
+  status: string;
+  name: string;
+  productId: number;
+  count: number;
+  color: string;
+  size: number;
+  images: string[];
+  price: number;
+  total_price: number;
+  shippingType: string;
+  address: string;
+}
+
 interface CartItem {
   name: string;
   count: number;
@@ -73,4 +88,4 @@ interface User {
   username: string;
 }
 
-export type { Product, CartItem, CartData, User, CartItemState, DeleteModalProps, IAddress, SelectAddressParam };
+export type { Product, CartItem, CartData, User, CartItemState, DeleteModalProps, IAddress, SelectAddressParam, OrderItem };

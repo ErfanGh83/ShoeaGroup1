@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { VscLocation } from "react-icons/vsc";
 import { addToAddress, setSelectedAddress, useAddress } from "../../customHooks/useFetchData";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import { IAddress } from "../../types/types";
 
 function ChangeAddress() {
     const { data: initialAddress } = useAddress({ isSelected: "true" });
@@ -16,11 +17,11 @@ function ChangeAddress() {
 
     useEffect(() => {
         if (initialAddress) {
-            setLocalSelectedAddress(initialAddress);
+            setLocalSelectedAddress(initialAddress[0]);
         }
     }, [initialAddress]);
 
-    const handleSelectedAddress = (address) => {
+    const handleSelectedAddress = (address : IAddress) => {
         setLocalSelectedAddress(address);
         setSelectedAddress({ name: address.name });
     };
@@ -55,7 +56,7 @@ function ChangeAddress() {
     }
 
     return (
-        <div className="px-8 my-4 flex flex-col">
+        <div className="px-8 pb-10 my-4 flex flex-col">
             <h2 className="text-xl font-semibold">Select Shipping Address</h2>
 
             {mode === "view" ? (
@@ -105,7 +106,7 @@ function ChangeAddress() {
                     </div>
                 </>
             ) : (
-                <div className="my-4">
+                <div className="my-8">
                     <h3 className="text-lg font-semibold">Add New Address</h3>
                     <form className="flex flex-col gap-4">
                         <input
@@ -144,7 +145,7 @@ function ChangeAddress() {
             )}
 
             { mode == 'view' ?<Link to={`/checkout`}>
-                <div className="w-full h-[50px] rounded-3xl bg-black text-white font-semibold text-xl flex items-center justify-center">
+                <div className="w-[450px] h-[50px] rounded-3xl bg-black ml-[-10px] text-white font-semibold text-xl flex items-center justify-center fixed bottom-2">
                     Apply
                 </div>
             </Link> : <></>}

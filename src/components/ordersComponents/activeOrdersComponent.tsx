@@ -1,7 +1,7 @@
 import { useOrders } from '../../customHooks/useFetchData';
 import { VscLoading } from 'react-icons/vsc';
 import { BiError } from 'react-icons/bi';
-import { Product } from '../../types/types';
+import { OrderItem } from '../../types/types';
 import { Link } from 'react-router';
 
 function ActiveOrdersComponent() {
@@ -56,7 +56,7 @@ function ActiveOrdersComponent() {
     return (
         <div>
             <ul>
-                {products.map((product: Product) => (
+                {products.map((product: OrderItem) => (
                     <li key={product.productId} className="w-5/6 mx-auto my-8 rounded-3xl shadow-md p-2 flex flex-row gap-8">
                         <div className="size-32 rounded-2xl overflow-hidden">
                             <img className="size-fit" src={`${product.images[0]}`} />

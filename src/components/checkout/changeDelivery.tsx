@@ -48,7 +48,7 @@ function ChangeDelivery() {
       </div>
 
       <Link to={`/checkout`}>
-        <div className="w-full h-[50px] rounded-3xl bg-black text-white font-semibold text-xl flex items-center justify-center">
+        <div className="w-[450px] h-[50px] rounded-3xl bg-black mx-4 text-white font-semibold text-xl flex items-center justify-center absolute bottom-2">
           Apply
         </div>
       </Link>
