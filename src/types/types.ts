@@ -41,12 +41,12 @@ interface CartItemState {
 }
 interface DeleteModalProps {
   item: {
-    id: string;
-    title: string;
+    productId: string;
+    name: string;
     price: number;
     images: string;
-    selectedColor: string;
-    selectedSize: string;
+    color: string;
+    size: string;
   };
   isOpen: boolean;
   onClose: () => void;

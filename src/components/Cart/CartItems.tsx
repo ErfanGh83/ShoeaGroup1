@@ -1,5 +1,10 @@
-import { useCart, useUpdateCart } from "../../customHooks/useFetchData";
-
+import { useState } from "react";
+import {
+  useCart,
+  useDeleteCart,
+  useUpdateCart,
+} from "../../customHooks/useFetchData";
+import DeleteModal, { deleteModal } from "../Cart/DeleteModal";
 import { BiTrash } from "react-icons/bi";
 import { BiPlus } from "react-icons/bi";
 import { BiMinus } from "react-icons/bi";
@@ -87,8 +92,11 @@ import { BiMinus } from "react-icons/bi";
 
 const CartItems = () => {
   const { data, isError, isLoading } = useCart();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const updateCart = useUpdateCart();
+  const deleteCart = useDeleteCart();
 
   if (isError) {
     return <div> ... error fetching data</div>;
@@ -106,11 +114,20 @@ const CartItems = () => {
 
     updateCart.mutate({ ...updateItem, count });
   };
+  const handleOpenModal = (item: any) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
+  const handleDelete = (id: string) => deleteCart.mutate(id);
   return (
     <div className="h-[510px] overflow-y-scroll">
       {data?.map((item) => (
-        <div className="flex flex-1 flex-col gap-4 h-40">
+        <div className="flex flex-1 flex-col gap-4 h-40" key={item.productId}>
           <div className="flex items-center justify-between shadow-md rounded-2xl p-4 relative h-auto">
             <img
               src={item.images![0]}
@@ -146,10 +163,21 @@ const CartItems = () => {
                 <BiPlus size={18} />
               </button>
             </div>
-            <button className="absolute top-6 right-2">
+            <button
+              className="absolute top-6 right-2"
+              onClick={() => handleOpenModal(item)}
+            >
               <BiTrash size={20} />
             </button>
           </div>
+          {isModalOpen && selectedItem && (
+            <DeleteModal
+              item={selectedItem}
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              onDelete={() => handleDelete(item.productId)}
+            />
+          )}
         </div>
       ))}
     </div>

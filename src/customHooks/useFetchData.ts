@@ -53,6 +53,10 @@ const fetchOrders = async (
   const { data } = await HTTPPrivate.get<Product[]>(`/api/orders`, { params });
   return data;
 };
+const deleteCart = async (id: number) => {
+  const { data } = await HTTPPrivate.delete("/api/cart/" + id);
+  return data;
+};
 
 export const toggleWishlist = async (
   data: object
@@ -111,6 +115,18 @@ const useCart = (): UseQueryResult<CartItem[], Error> => {
     queryFn: fetchCart,
   });
 };
+const useDeleteCart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["cart"],
+      });
+    },
+  });
+};
 
 const useUpdateCart = () => {
   const queryClient = useQueryClient();
@@ -144,4 +160,5 @@ export {
   useCart,
   useOrders,
   useUpdateCart,
+  useDeleteCart,
 };

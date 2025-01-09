@@ -19,14 +19,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         </h2>
         <div className="flex items-center gap-4 mb-6">
           <img
-            src={item.images[1]}
-            alt={item.title}
+            src={item.images[0]}
+            alt={item.name}
             className="w-24 h-24 rounded-md object-cover"
           />
           <div className="flex flex-col gap-2">
-            <h3 className="text-gray-800 font-bold text-xl">{item.title}</h3>
+            <h3 className="text-gray-800 font-bold text-xl">{item.name}</h3>
             <p className="text-gray-600 text-lg">
-              {item.selectedColor} | Size: {item.selectedSize}
+              {item.color} | Size: {item.size}
             </p>
             <span className="text-gray-900 font-bold">${item.price}</span>
           </div>
@@ -39,7 +39,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
             Cancel
           </button>
           <button
-            onClick={() => onDelete(item.id)}
+            onClick={() => onDelete(item.productId)}
             className="w-full py-3 rounded-full bg-black text-white font-semibold"
           >
             Yes, Remove
