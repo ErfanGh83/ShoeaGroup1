@@ -25,7 +25,7 @@ interface CartItem {
   brand?: string;
   images?: string;
   price?: number;
-  quantity?: number;
+  count?: number;
   color?: string;
   size?: number;
 }

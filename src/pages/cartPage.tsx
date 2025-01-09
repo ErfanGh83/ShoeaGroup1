@@ -1,7 +1,8 @@
 import { BiSearch } from "react-icons/bi";
-import CartItems from "../components/Cart/CartItem";
+import CartItems from "../components/Cart/CartItems";
+import CartSummary from "../components/Cart/CartSummary";
 
-const CartPage: React.FC = () => {
+const CartPage = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-100 p-4 pt-6">
       <header className="flex justify-between items-center p-4 bg-gray-100  mb-4">
@@ -14,6 +15,9 @@ const CartPage: React.FC = () => {
         </button>
       </header>
       <CartItems />
+      <div className="flex flex-1 pb-10">
+        <CartSummary />
+      </div>
     </div>
   );
 };
