@@ -73,10 +73,8 @@ const fetchSearchHistory = async (
   const { data } = await HTTPPrivate.get<[]>(`/api/search`, { params });
   return data;
 };
-const fetchDiscount = async (code: string): Promise<DiscountType[]> => {
-  const { data } = await HTTPPrivate.get<DiscountType[]>(
-    `/api/discount/` + code
-  );
+const fetchDiscount = async (code: string): Promise<DiscountType> => {
+  const { data } = await HTTPPrivate.get<DiscountType>(`/api/discount/` + code);
   return data;
 };
 
@@ -216,10 +214,11 @@ const useAddress = (
     refetchOnMount: true,
   });
 };
-const useDiscount = (code: string): UseQueryResult<DiscountType[], Error> => {
-  return useQuery<DiscountType[], Error>({
+const useDiscount = (code: string): UseQueryResult<DiscountType, Error> => {
+  return useQuery<DiscountType, Error>({
     queryKey: ["discount"],
     queryFn: async () => fetchDiscount(code),
+    enabled: !!code,
   });
 };
 

@@ -20,7 +20,7 @@ function CheckoutPage() {
   }
 
   return (
-    <div>
+    <div className="h-screen overflow-y-scroll">
       <Link to={`/home`}>
         <button className="size-12 mx-4">
           <BiArrowBack size={30} />
