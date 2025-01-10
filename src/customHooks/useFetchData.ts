@@ -13,9 +13,15 @@ import {
 import { HTTP, HTTPPrivate } from "../services/http.service";
 import { BASE_URL } from "../config/api.config";
 import { AxiosResponse } from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const baseURL = BASE_URL;
 
+const fetchProducts = async (
+  params?: Record<string, string>
+): Promise<Product[]> => {
+  const { data } = await HTTP.get<Product[]>("/api/products", { params });
+  return data;
 const fetchProducts = async (
   params?: Record<string, string>
 ): Promise<Product[]> => {
@@ -30,14 +36,26 @@ const fetchWishlist = async (
     params,
   });
   return data;
+const fetchWishlist = async (
+  params?: Record<string, string>
+): Promise<Product[]> => {
+  const { data } = await HTTPPrivate.get<Product[]>("/api/wishlist", {
+    params,
+  });
+  return data;
 };
 
 const fetchUser = async (): Promise<User> => {
   const { data } = await HTTPPrivate.get<User>(`/auth/whoami`);
   return data;
+  const { data } = await HTTPPrivate.get<User>(`/auth/whoami`);
+  return data;
 };
 
 const fetchProduct = async (productId: string): Promise<Product> => {
+  if (!productId) throw new Error("Product ID is required");
+  const { data } = await HTTP.get<Product>(`/api/products/${productId}`);
+  return data;
   if (!productId) throw new Error("Product ID is required");
   const { data } = await HTTP.get<Product>(`/api/products/${productId}`);
   return data;
@@ -65,6 +83,17 @@ const fetchAddress = async (
     { params }
   );
   return data;
+const fetchCart = async (): Promise<CartItem[]> => {
+  const { data } = await HTTPPrivate.get<CartItem[]>(`/api/cart`);
+  return data;
+};
+
+const updateCart = async (cart: CartItem): Promise<CartItem> => {
+  const { data } = await HTTPPrivate.put<CartItem>(
+    "/api/cart/" + cart.productId,
+    cart
+  );
+  return data;
 };
 
 const fetchSearchHistory = async (
@@ -75,6 +104,10 @@ const fetchSearchHistory = async (
 };
 const fetchDiscount = async (code: string): Promise<DiscountType> => {
   const { data } = await HTTPPrivate.get<DiscountType>(`/api/discount/` + code);
+  return data;
+};
+const deleteCart = async (id: number) => {
+  const { data } = await HTTPPrivate.delete("/api/cart/" + id);
   return data;
 };
 
@@ -190,15 +223,40 @@ const useCart = (): UseQueryResult<CartItem[], Error> => {
     retry: 0,
   });
 };
+const useDeleteCart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["cart"],
+      });
+    },
+  });
+};
+
+const useUpdateCart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["cart"],
+      });
+    },
+  });
+};
 
 const useOrders = (
   params?: Record<string, string>
-): UseQueryResult<OrderItem[], Error> => {
-  return useQuery<OrderItem[], Error>({
+): UseQueryResult<Product[], Error> => {
+  return useQuery<Product[], Error>({
     queryKey: ["orders", params],
     queryFn: () => fetchOrders(params),
     staleTime: 60 * 1000,
-    retry: 0,
+    retry: 1,
   });
 };
 

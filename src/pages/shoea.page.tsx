@@ -23,19 +23,20 @@ import ChangeDelivery from "../components/checkout/changeDelivery";
 import MostPopularPage from "./mostPopularPage";
 import PaymentComponent from "../components/checkout/paymentComponent";
 
-
 const Shoea = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoadingPage/>}/>
-        <Route path="/welcomepage" element={<WelcomePage/>}/>
-        <Route path="/onboarding" element={<Onboarding/>}/>
-        <Route path="/login" element={<SignInPage/>}/>
-        <Route path="/signUp" element={<SigneUpPage/>}/>
-        <Route path="/ForgotPassForm" element={<ForgetPassPage/>}/>
-        <Route path="/resetPassForm" element={<ResetPassPage/>}/>
+        <Route path="/" element={<LoadingPage />} />
+        <Route path="/welcomepage" element={<WelcomePage />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/login" element={<SignInPage />} />
+        <Route path="/signUp" element={<SigneUpPage />} />
+        <Route path="/ForgotPassForm" element={<ForgetPassPage />} />
+        <Route path="/resetPassForm" element={<ResetPassPage />} />
         <Route path="/" element={<Layout />}>
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/cart" element={<CartPage />} />
 
           <Route path="/home" element={<HomePage/>} />
           <Route path="/cart" element={<CartPage/>} />
@@ -46,8 +47,8 @@ const Shoea = () => {
             <Route path="completed" element={<CompletedOrdersComponent/>}/>
           </Route>
 
-          <Route path="/wallet" element={<WalletPage/>} />
-          <Route path="/profile" element={<ProfilePage/>} />
+          <Route path="/wallet" element={<WalletPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
 
         <Route path="/products/:id" element={<ProductPage />} />

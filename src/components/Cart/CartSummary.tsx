@@ -1,13 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store.redux";
-import { Link } from "react-router";
+import { useMemo } from "react";
+import { useCart } from "../../customHooks/useFetchData";
 
-const CartSummary: React.FC = () => {
-  const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
-
+const CartSummary = () => {
+  const { data } = useCart();
+  const totalPrice = useMemo(() => {
+    return data?.reduce(
+      (acc, item) => acc + (item.price || 0) * (item.count || 0),
+      0
+    );
+  }, [data]);
   return (
-    <div className="p-4 bg-white rounded-t-2xl min-h-28 w-screen flex gap-10 items-center mt-4">
+    <div className="p-4 bg-white rounded-t-2xl max-h-28  w-full flex gap-10 items-center mt-4">
       <div>
         <h2 className="text-lg font-bold">Total price:</h2>
         <p className="text-lg font-bold text-gray-800">${totalPrice}</p>

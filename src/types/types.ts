@@ -68,18 +68,23 @@ interface SelectAddressParam {
   name: string;
 }
 
+export interface DiscountType {
+  code: string;
+  discount: number;
+}
+
 interface CartItemState {
   item: CartItem[];
   totalPrice: number;
 }
 interface DeleteModalProps {
   item: {
-    id: string;
-    title: string;
+    productId: string;
+    name: string;
     price: number;
     images: string;
-    selectedColor: string;
-    selectedSize: string;
+    color: string;
+    size: string;
   };
   isOpen: boolean;
   onClose: () => void;
