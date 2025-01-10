@@ -22,12 +22,7 @@ const fetchProducts = async (
 ): Promise<Product[]> => {
   const { data } = await HTTP.get<Product[]>("/api/products", { params });
   return data;
-const fetchProducts = async (
-  params?: Record<string, string>
-): Promise<Product[]> => {
-  const { data } = await HTTP.get<Product[]>("/api/products", { params });
-  return data;
-};
+}
 
 const fetchWishlist = async (
   params?: Record<string, string>
@@ -36,26 +31,14 @@ const fetchWishlist = async (
     params,
   });
   return data;
-const fetchWishlist = async (
-  params?: Record<string, string>
-): Promise<Product[]> => {
-  const { data } = await HTTPPrivate.get<Product[]>("/api/wishlist", {
-    params,
-  });
-  return data;
-};
+}
 
 const fetchUser = async (): Promise<User> => {
-  const { data } = await HTTPPrivate.get<User>(`/auth/whoami`);
-  return data;
   const { data } = await HTTPPrivate.get<User>(`/auth/whoami`);
   return data;
 };
 
 const fetchProduct = async (productId: string): Promise<Product> => {
-  if (!productId) throw new Error("Product ID is required");
-  const { data } = await HTTP.get<Product>(`/api/products/${productId}`);
-  return data;
   if (!productId) throw new Error("Product ID is required");
   const { data } = await HTTP.get<Product>(`/api/products/${productId}`);
   return data;
@@ -83,10 +66,7 @@ const fetchAddress = async (
     { params }
   );
   return data;
-const fetchCart = async (): Promise<CartItem[]> => {
-  const { data } = await HTTPPrivate.get<CartItem[]>(`/api/cart`);
-  return data;
-};
+}
 
 const updateCart = async (cart: CartItem): Promise<CartItem> => {
   const { data } = await HTTPPrivate.put<CartItem>(
@@ -290,4 +270,6 @@ export {
   useAddress,
   useHistory,
   useDiscount,
+  useDeleteCart,
+  useUpdateCart
 };

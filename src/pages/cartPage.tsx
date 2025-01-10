@@ -15,7 +15,7 @@ const CartPage = () => {
         </button>
       </header>
       <CartItems />
-      <div className="w-fit flex pb-10 mt-16 mx-auto">
+      <div className="w-fit flex mx-auto fixed bottom-16">
         <CartSummary />
       </div>
     </div>

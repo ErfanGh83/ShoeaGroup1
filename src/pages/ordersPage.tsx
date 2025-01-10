@@ -18,7 +18,7 @@ function OrdersPage() {
     }
 
     return (
-        <div>
+        <div className='pb-10'>
             <header className='w-full flex flex-col'>
                 <div className='w-full h-fit p-4 justify-between flex flex-row items-center'>
                     <div className='size-fit p-2 flex flex-row gap-4'>

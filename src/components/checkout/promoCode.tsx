@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart, useDiscount } from "../../customHooks/useFetchData";
 import { BiPlus } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store.redux";
 
 const PromoCode = () => {
+  
   const [promoCode, setPromoCode] = useState<string>("");
   const [isApplied, setIsApplied] = useState<boolean>(false);
   const { data: discount, isFetching } = useDiscount(promoCode);
   const { data: cart } = useCart();
+  const activeDelivery = useSelector((state: RootState) => state.delivery.activeDelivery);
 
-  const amount = 500;
-  const shipping = 30;
+  const [amount, setAmount] = useState(0)
+
+  useEffect(()=>{
+    if(cart){
+      setAmount(cart.reduce(
+      (acc, item) => acc + (item.price || 0) * (item.count || 0),
+      0
+    ));
+    }
+  }, [cart])
+
+  const shipping = activeDelivery == 'Regular'? 10 : 30;
   const promoDiscount =
     isApplied && discount ? (amount * discount.discount) / 100 : 0;
   const total = amount + shipping - promoDiscount;

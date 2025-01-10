@@ -39,9 +39,6 @@ function PaymentComponent() {
 
                 <div className="w-full flex flex-row gap-2 overflow-hidden justify-between">
                     <h3 className="w-fit mx-2 font-bold">Wallet</h3>
-                    <p className="w-fit mx-6 text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
-                        { activePayment == 'Wallet'? '$100' : ''}
-                    </p>
                 </div>
             </div>
 
@@ -56,9 +53,6 @@ function PaymentComponent() {
 
                 <div className="w-full flex flex-row gap-2 overflow-hidden justify-between">
                     <h3 className="w-fit mx-2 font-bold">PayPal</h3>
-                    <p className="w-fit mx-6 text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
-                        { activePayment == 'PayPal'? '$100' : ''}
-                    </p>
                 </div>
             </div>
 
@@ -73,9 +67,6 @@ function PaymentComponent() {
 
                 <div className="w-full flex flex-row gap-2 overflow-hidden justify-between">
                     <h3 className="w-fit mx-2 font-bold">Google Play</h3>
-                    <p className="w-fit mx-6 text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
-                        { activePayment == 'Google'? '$100' : ''}
-                    </p>
                 </div>
             </div>
 
@@ -90,9 +81,6 @@ function PaymentComponent() {
 
                 <div className="w-full flex flex-row gap-2 overflow-hidden justify-between">
                     <h3 className="w-fit mx-2 font-bold">Credit Card</h3>
-                    <p className="w-fit mx-6 text-lg font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
-                        { activePayment == 'CreditCard'? '$100' : ''}
-                    </p>
                 </div>
             </div>
 

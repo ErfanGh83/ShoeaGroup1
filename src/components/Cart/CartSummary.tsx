@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useCart } from "../../customHooks/useFetchData";
+import { Link } from "react-router";
 
 const CartSummary = () => {
   const { data } = useCart();
