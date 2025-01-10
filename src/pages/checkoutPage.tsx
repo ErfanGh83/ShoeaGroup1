@@ -4,11 +4,10 @@ import CheckoutCart from "../components/checkout/checkoutCart";
 import DeliveryComponent from "../components/checkout/deliveryComponent";
 import { useUser } from "../customHooks/useFetchData";
 import { BiArrowBack } from "react-icons/bi";
+import PromoCode from "../components/checkout/promoCode";
 
 function CheckoutPage() {
-
-  const { data: user } = useUser()
-
+  const { data: user } = useUser();
 
   if (!user) {
     return (
@@ -17,13 +16,13 @@ function CheckoutPage() {
           please login.
         </div>
       </Link>
-    )
+    );
   }
 
   return (
     <div>
       <Link to={`/home`}>
-        <button className='size-12 mx-4'>
+        <button className="size-12 mx-4">
           <BiArrowBack size={30} />
         </button>
       </Link>
@@ -31,6 +30,7 @@ function CheckoutPage() {
       <AddressComponent />
       <CheckoutCart />
       <DeliveryComponent />
+      <PromoCode />
 
       <Link to={`payment`}>
         <div className="w-[450px] h-[50px] rounded-3xl bg-black mx-4 text-white font-semibold text-xl flex items-center justify-center absolute bottom-2">
@@ -38,7 +38,7 @@ function CheckoutPage() {
         </div>
       </Link>
     </div>
-  )
+  );
 }
 
-export default CheckoutPage
+export default CheckoutPage;

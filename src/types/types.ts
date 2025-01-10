@@ -65,9 +65,8 @@ interface IAddress {
 }
 
 interface SelectAddressParam {
-  name: string
+  name: string;
 }
-
 
 interface CartItemState {
   item: CartItem[];
@@ -86,6 +85,10 @@ interface DeleteModalProps {
   onClose: () => void;
   onDelete: (id: string) => void;
 }
+interface DiscountType {
+  code: string;
+  discount: number;
+}
 interface User {
   firstName: string;
   lastName: string;
@@ -95,4 +98,16 @@ interface User {
   username: string;
 }
 
-export type { Product, CartItem, CartData, User, CartItemState, DeleteModalProps, IAddress, SelectAddressParam, OrderItem, Order };
+export type {
+  Product,
+  CartItem,
+  CartData,
+  User,
+  CartItemState,
+  DeleteModalProps,
+  IAddress,
+  SelectAddressParam,
+  OrderItem,
+  Order,
+  DiscountType,
+};
