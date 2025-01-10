@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useProducts } from "../../customHooks/useFetchData";
 import { VscLoading } from "react-icons/vsc";
 
@@ -9,7 +9,6 @@ const HomeSearchBar = () => {
     const [search, setSearch] = useState('')
     const { data: products, isLoading, error } = useProducts()
     const [searchResult, setSearchResult] = useState('invisible')
-    const navigate = useNavigate()
 
     if (isLoading) return(
         <div className="size-36 flex items-center justify-center m-auto animate-spin">
@@ -48,11 +47,14 @@ const HomeSearchBar = () => {
                     ? product 
                     : product.name.toLowerCase().includes(search);
                 } ).map((product)=>(
-                    <li onClick={() => navigate(`/product/${product.id}`)} key={product.id} className="w-full h-fit p-4 flex flex-row items-center justify-between border-b-2 border-b-gray-100">
+                  <Link to={`/products/${product.id}`}>
+                    <li key={product.id} className="w-full h-fit p-4 flex flex-row items-center justify-between border-b-2 border-b-gray-100">
                         <img className="size-12" src={product.images[0]} />
                         <p>{product.name}</p>
                         <p>${product.price}</p>
                     </li>
+                  </Link>
+                    
                 ))}
             </ul> : ''}
         </div>
